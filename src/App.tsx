@@ -10,6 +10,7 @@ import Alerts from "./pages/Alerts";
 import Settings from "./pages/Settings";
 import Login from "./pages/auth/Login";
 import PatientPortal from "./pages/patient/PatientPortal";
+import PatientDetails from "./pages/PatientDetails";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/patient-portal" element={<PatientPortal />} />
           <Route path="/" element={<Index />} />
           <Route path="/patients" element={<Patients />} />
+          <Route path="/patients/:id" element={<PatientDetails />} />
           <Route path="/records" element={<Records />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/settings" element={<Settings />} />
