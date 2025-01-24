@@ -8,6 +8,8 @@ import Patients from "./pages/Patients";
 import Records from "./pages/Records";
 import Alerts from "./pages/Alerts";
 import Settings from "./pages/Settings";
+import Login from "./pages/auth/Login";
+import PatientPortal from "./pages/patient/PatientPortal";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +20,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/patient-portal" element={<PatientPortal />} />
           <Route path="/" element={<Index />} />
           <Route path="/patients" element={<Patients />} />
           <Route path="/records" element={<Records />} />
