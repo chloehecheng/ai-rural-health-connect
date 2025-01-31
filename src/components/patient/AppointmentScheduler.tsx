@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import { addDays, format, isSameDay } from "date-fns";
 
 export const AppointmentScheduler = () => {
   const [date, setDate] = React.useState<Date>();
@@ -17,13 +18,10 @@ export const AppointmentScheduler = () => {
   const [doctor, setDoctor] = React.useState<string>();
   const { toast } = useToast();
 
-  const availableTimeSlots = [
-    "09:00 AM",
-    "10:00 AM",
-    "11:00 AM",
-    "02:00 PM",
-    "03:00 PM",
-    "04:00 PM",
+  // Simulated existing appointments
+  const existingAppointments = [
+    { date: new Date(2024, 2, 20), time: "10:00 AM", doctor: "Dr. Smith - General Practice" },
+    { date: new Date(2024, 2, 20), time: "02:00 PM", doctor: "Dr. Johnson - Cardiology" },
   ];
 
   const availableDoctors = [
@@ -31,6 +29,26 @@ export const AppointmentScheduler = () => {
     "Dr. Johnson - Cardiology",
     "Dr. Williams - Pediatrics",
   ];
+
+  // Generate available time slots based on date and existing appointments
+  const getAvailableTimeSlots = (selectedDate: Date | undefined) => {
+    const baseTimeSlots = [
+      "09:00 AM", "10:00 AM", "11:00 AM",
+      "02:00 PM", "03:00 PM", "04:00 PM"
+    ];
+
+    if (!selectedDate) return baseTimeSlots;
+
+    // Filter out time slots that are already booked for the selected date
+    return baseTimeSlots.filter(slot => {
+      const isBooked = existingAppointments.some(appointment => 
+        isSameDay(appointment.date, selectedDate) && 
+        appointment.time === slot &&
+        (!doctor || appointment.doctor === doctor)
+      );
+      return !isBooked;
+    });
+  };
 
   const handleSchedule = () => {
     if (!date || !timeSlot || !doctor) {
@@ -42,10 +60,37 @@ export const AppointmentScheduler = () => {
       return;
     }
 
+    // Check for overlapping appointments
+    const hasOverlap = existingAppointments.some(
+      appointment => 
+        isSameDay(appointment.date, date) && 
+        appointment.time === timeSlot && 
+        appointment.doctor === doctor
+    );
+
+    if (hasOverlap) {
+      toast({
+        title: "Time Slot Unavailable",
+        description: "This time slot is already booked. Please select another time.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Schedule the appointment
     toast({
       title: "Appointment Scheduled",
-      description: `Your appointment has been scheduled for ${date.toLocaleDateString()} at ${timeSlot} with ${doctor}.`,
+      description: `Your appointment has been scheduled for ${format(date, 'MMMM do, yyyy')} at ${timeSlot} with ${doctor}.`,
     });
+
+    // Simulate sending automated reminders
+    const reminderDate = addDays(date, -1);
+    console.log(`Reminder scheduled for: ${format(reminderDate, 'MMMM do, yyyy')}`);
+
+    // Reset form
+    setDate(undefined);
+    setTimeSlot(undefined);
+    setDoctor(undefined);
   };
 
   return (
@@ -61,29 +106,17 @@ export const AppointmentScheduler = () => {
             selected={date}
             onSelect={setDate}
             className="rounded-md border"
-            disabled={(date) => date < new Date() || date.getDay() === 0 || date.getDay() === 6}
+            disabled={(date) => 
+              date < new Date() || 
+              date.getDay() === 0 || 
+              date.getDay() === 6
+            }
           />
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Select Time</label>
-          <Select onValueChange={setTimeSlot}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select time slot" />
-            </SelectTrigger>
-            <SelectContent>
-              {availableTimeSlots.map((slot) => (
-                <SelectItem key={slot} value={slot}>
-                  {slot}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-2">
           <label className="text-sm font-medium">Select Doctor</label>
-          <Select onValueChange={setDoctor}>
+          <Select onValueChange={setDoctor} value={doctor}>
             <SelectTrigger>
               <SelectValue placeholder="Select doctor" />
             </SelectTrigger>
@@ -91,6 +124,26 @@ export const AppointmentScheduler = () => {
               {availableDoctors.map((doc) => (
                 <SelectItem key={doc} value={doc}>
                   {doc}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Select Time</label>
+          <Select 
+            onValueChange={setTimeSlot} 
+            value={timeSlot}
+            disabled={!date}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={date ? "Select time slot" : "Please select a date first"} />
+            </SelectTrigger>
+            <SelectContent>
+              {getAvailableTimeSlots(date).map((slot) => (
+                <SelectItem key={slot} value={slot}>
+                  {slot}
                 </SelectItem>
               ))}
             </SelectContent>
