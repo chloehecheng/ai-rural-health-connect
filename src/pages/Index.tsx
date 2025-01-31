@@ -1,6 +1,8 @@
 import { Header } from "@/components/Layout/Header";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { AIAssistant } from "@/components/Dashboard/AIAssistant";
+import { StructuredTemplates } from "@/components/Dashboard/StructuredTemplates";
+import { SearchBar } from "@/components/Dashboard/SearchBar";
 import {
   SidebarProvider,
   Sidebar,
@@ -16,14 +18,44 @@ import {
   Bell,
   Settings,
   LogOut,
+  Pill,
+  AlertCircle,
+  ClipboardList,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const mockPatientData = [
-  { id: 1, name: "John Doe", lastVisit: "2024-02-15", nextAppointment: "2024-03-01", condition: "Diabetes" },
-  { id: 2, name: "Jane Smith", lastVisit: "2024-02-14", nextAppointment: "2024-03-05", condition: "Hypertension" },
-  { id: 3, name: "Mike Johnson", lastVisit: "2024-02-10", nextAppointment: "2024-02-28", condition: "Asthma" },
+  { 
+    id: 1, 
+    name: "John Doe", 
+    lastVisit: "2024-02-15", 
+    nextAppointment: "2024-03-01", 
+    condition: "Diabetes",
+    medications: ["Metformin 500mg", "Lisinopril 10mg"],
+    alerts: ["Blood sugar trending high", "Missed last appointment"],
+    lastNote: "Patient reported improved glucose control..."
+  },
+  { 
+    id: 2, 
+    name: "Jane Smith", 
+    lastVisit: "2024-02-14", 
+    nextAppointment: "2024-03-05", 
+    condition: "Hypertension",
+    medications: ["Amlodipine 5mg", "Hydrochlorothiazide 25mg"],
+    alerts: ["BP readings above target"],
+    lastNote: "Medication adjusted due to persistent high BP..."
+  },
+  { 
+    id: 3, 
+    name: "Mike Johnson", 
+    lastVisit: "2024-02-10", 
+    nextAppointment: "2024-02-28", 
+    condition: "Asthma",
+    medications: ["Albuterol inhaler", "Fluticasone inhaler"],
+    alerts: [],
+    lastNote: "Seasonal allergies well controlled..."
+  },
 ];
 
 const mockAppointmentData = [
@@ -100,6 +132,10 @@ const Index = () => {
         <div className="flex-1">
           <Header />
           <main className="container mx-auto px-4 pt-20 pb-8">
+            <div className="mb-6">
+              <SearchBar />
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               <DashboardCard title="Recent Patients">
                 <div className="space-y-4">
@@ -109,13 +145,52 @@ const Index = () => {
                       className="p-4 bg-primary/5 rounded-lg cursor-pointer hover:bg-primary/10"
                       onClick={() => navigate(`/patients/${patient.id}`)}
                     >
-                      <p className="font-medium">{patient.name}</p>
+                      <div className="flex justify-between items-start mb-2">
+                        <p className="font-medium">{patient.name}</p>
+                        {patient.alerts.length > 0 && (
+                          <AlertCircle className="h-4 w-4 text-red-500" />
+                        )}
+                      </div>
                       <p className="text-sm text-gray-600">
                         Next Appointment: {patient.nextAppointment}
                       </p>
                       <p className="text-sm text-gray-600">
                         Condition: {patient.condition}
                       </p>
+                      <div className="mt-2 flex gap-2 flex-wrap">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/patients/${patient.id}/notes`);
+                          }}
+                          className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full hover:bg-blue-200"
+                        >
+                          <ClipboardList className="h-3 w-3 inline mr-1" />
+                          Notes
+                        </button>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/patients/${patient.id}/medications`);
+                          }}
+                          className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full hover:bg-green-200"
+                        >
+                          <Pill className="h-3 w-3 inline mr-1" />
+                          Meds ({patient.medications.length})
+                        </button>
+                        {patient.alerts.length > 0 && (
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/patients/${patient.id}/alerts`);
+                            }}
+                            className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full hover:bg-red-200"
+                          >
+                            <AlertCircle className="h-3 w-3 inline mr-1" />
+                            Alerts ({patient.alerts.length})
+                          </button>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -165,7 +240,12 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-6">
-              <AIAssistant />
+              <DashboardCard title="AI Documentation">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <StructuredTemplates />
+                  <AIAssistant />
+                </div>
+              </DashboardCard>
             </div>
           </main>
         </div>
