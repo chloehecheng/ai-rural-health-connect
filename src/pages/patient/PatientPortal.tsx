@@ -24,6 +24,7 @@ import { AccessibilitySettings } from "@/components/patient/AccessibilitySetting
 import { HealthMetricsCard } from "@/components/patient/HealthMetricsCard";
 import { TelehealthOptions } from "@/components/patient/TelehealthOptions";
 import { AppointmentScheduler } from "@/components/patient/AppointmentScheduler";
+import { HealthMetricsOverview } from "@/components/patient/HealthMetricsOverview";
 
 const mockBloodSugarData = [
   { date: "Mon", level: 120 },
@@ -58,30 +59,18 @@ const PatientDetails = {
 const PatientPortal = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<MenuSection>("dashboard");
-  
   const [fontSize, setFontSize] = useState(16);
   const [voiceAssistant, setVoiceAssistant] = useState(false);
   const [showTooltips, setShowTooltips] = useState(true);
-
-  const getBloodSugarInterpretation = (data: typeof mockBloodSugarData) => {
-    const lastReading = data[data.length - 1].level;
-    if (lastReading < 70) return "Your blood sugar is below normal range. Please eat something sweet.";
-    if (lastReading > 180) return "Your blood sugar is high. Consider checking with your provider.";
-    return "Your blood sugar is within normal range.";
-  };
 
   const renderContent = () => {
     switch (activeSection) {
       case "health-metrics":
         return (
           <div className="space-y-6">
-            <HealthMetricsCard
-              data={mockBloodSugarData}
-              title="Blood Sugar Levels"
-              interpretation={getBloodSugarInterpretation(mockBloodSugarData)}
-              normalRange={{ min: 70, max: 180 }}
-              showTooltips={showTooltips}
+            <HealthMetricsOverview
               fontSize={fontSize}
+              showTooltips={showTooltips}
             />
             <TelehealthOptions />
           </div>
@@ -106,13 +95,9 @@ const PatientPortal = () => {
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Quick Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <HealthMetricsCard
-                    data={mockBloodSugarData}
-                    title="Blood Sugar Levels"
-                    interpretation={getBloodSugarInterpretation(mockBloodSugarData)}
-                    normalRange={{ min: 70, max: 180 }}
-                    showTooltips={showTooltips}
+                  <HealthMetricsOverview
                     fontSize={fontSize}
+                    showTooltips={showTooltips}
                   />
                   <TelehealthOptions />
                 </div>
