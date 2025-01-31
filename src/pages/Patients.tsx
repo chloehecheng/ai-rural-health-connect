@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { Header } from "@/components/Layout/Header";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { SidebarProvider, Sidebar } from "@/components/ui/sidebar";
 import { PatientSidebar } from "@/components/patient/PatientSidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CircleCheck, CircleAlert, CircleX, Eye, ArrowRight } from "lucide-react";
+import { CircleCheck, CircleAlert, CircleX, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { MenuSection } from "@/pages/patient/PatientPortal";
 
 // Mock data - would come from API in real app
 const activePatients = [
@@ -101,9 +103,9 @@ const getUrgencyColor = (urgency: string) => {
     case "high":
       return "destructive";
     case "medium":
-      return "warning";
+      return "secondary";  // Changed from "warning" to "secondary"
     case "low":
-      return "success";
+      return "outline";    // Changed from "success" to "outline"
     default:
       return "default";
   }
@@ -111,18 +113,25 @@ const getUrgencyColor = (urgency: string) => {
 
 const Patients = () => {
   const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState<MenuSection>("patients");
+  const [fontSize, setFontSize] = useState(16);
 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         <Sidebar>
-          <PatientSidebar />
+          <PatientSidebar
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+            fontSize={fontSize}
+          />
         </Sidebar>
         
         <div className="flex-1">
           <Header />
           <main className="container mx-auto px-4 pt-20 pb-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Active Patients Card */}
               <DashboardCard title="Active Patients">
                 <div className="space-y-4">
                   {activePatients.map((patient) => (
@@ -152,6 +161,7 @@ const Patients = () => {
                 </div>
               </DashboardCard>
 
+              {/* Recent Records Card */}
               <DashboardCard title="Recent Records">
                 <div className="space-y-4">
                   {recentRecords.map((record) => (
@@ -176,6 +186,7 @@ const Patients = () => {
                 </div>
               </DashboardCard>
 
+              {/* Recent Alerts Card */}
               <DashboardCard title="Recent Alerts">
                 <div className="space-y-4">
                   {recentAlerts.map((alert) => (
