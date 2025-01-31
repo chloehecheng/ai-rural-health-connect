@@ -36,11 +36,28 @@ const mockBloodSugarData = [
 
 type MenuSection = "dashboard" | "appointments" | "medical-history" | "health-metrics" | "profile" | "settings";
 
+const PatientDetails = {
+  appointments: [
+    { date: "2024-03-15", time: "10:00 AM", doctor: "Dr. Smith", type: "Check-up" },
+    { date: "2024-03-28", time: "2:30 PM", doctor: "Dr. Johnson", type: "Follow-up" },
+  ],
+  medicalHistory: [
+    { date: "2024-02-01", type: "Annual Physical", notes: "All vitals normal" },
+    { date: "2024-01-15", type: "Blood Work", notes: "Cholesterol slightly elevated" },
+  ],
+  profile: {
+    name: "John Doe",
+    dob: "1979-05-15",
+    email: "john.doe@email.com",
+    phone: "(555) 123-4567",
+    emergencyContact: "Jane Doe - (555) 987-6543",
+  },
+};
+
 const PatientPortal = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<MenuSection>("dashboard");
   
-  // Accessibility settings
   const [fontSize, setFontSize] = useState(16);
   const [voiceAssistant, setVoiceAssistant] = useState(false);
   const [showTooltips, setShowTooltips] = useState(true);
@@ -97,6 +114,82 @@ const PatientPortal = () => {
                     fontSize={fontSize}
                   />
                   <TelehealthOptions />
+                </div>
+              </div>
+            </DashboardCard>
+          </div>
+        );
+      case "appointments":
+        return (
+          <div className="space-y-6">
+            <DashboardCard title="Your Appointments">
+              <div className="grid gap-4">
+                {PatientDetails.appointments.map((appointment, index) => (
+                  <div 
+                    key={index}
+                    className="p-4 bg-primary/5 rounded-lg space-y-2"
+                  >
+                    <div className="flex justify-between items-center flex-wrap gap-2">
+                      <h3 className="font-medium">{appointment.doctor}</h3>
+                      <span className="text-sm text-muted-foreground">{appointment.type}</span>
+                    </div>
+                    <div className="flex gap-4 text-sm">
+                      <span>{appointment.date}</span>
+                      <span>{appointment.time}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </DashboardCard>
+          </div>
+        );
+      case "medical-history":
+        return (
+          <div className="space-y-6">
+            <DashboardCard title="Medical History">
+              <div className="grid gap-4">
+                {PatientDetails.medicalHistory.map((record, index) => (
+                  <div 
+                    key={index}
+                    className="p-4 bg-primary/5 rounded-lg space-y-2"
+                  >
+                    <div className="flex justify-between items-center flex-wrap gap-2">
+                      <h3 className="font-medium">{record.type}</h3>
+                      <span className="text-sm text-muted-foreground">{record.date}</span>
+                    </div>
+                    <p className="text-sm">{record.notes}</p>
+                  </div>
+                ))}
+              </div>
+            </DashboardCard>
+          </div>
+        );
+      case "profile":
+        return (
+          <div className="space-y-6">
+            <DashboardCard title="Profile Information">
+              <div className="grid gap-6">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <h3 className="font-medium">Name</h3>
+                    <p className="text-sm">{PatientDetails.profile.name}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium">Date of Birth</h3>
+                    <p className="text-sm">{PatientDetails.profile.dob}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium">Email</h3>
+                    <p className="text-sm">{PatientDetails.profile.email}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium">Phone</h3>
+                    <p className="text-sm">{PatientDetails.profile.phone}</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-medium">Emergency Contact</h3>
+                  <p className="text-sm">{PatientDetails.profile.emergencyContact}</p>
                 </div>
               </div>
             </DashboardCard>
