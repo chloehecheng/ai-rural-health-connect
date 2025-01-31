@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { AccessibilitySettings } from "@/components/patient/AccessibilitySettings";
 import { HealthMetricsCard } from "@/components/patient/HealthMetricsCard";
 import { TelehealthOptions } from "@/components/patient/TelehealthOptions";
+import { AppointmentScheduler } from "@/components/patient/AppointmentScheduler";
 
 const mockBloodSugarData = [
   { date: "Mon", level: 120 },
@@ -122,6 +123,7 @@ const PatientPortal = () => {
       case "appointments":
         return (
           <div className="space-y-6">
+            <AppointmentScheduler />
             <DashboardCard title="Your Appointments">
               <div className="grid gap-4">
                 {PatientDetails.appointments.map((appointment, index) => (
