@@ -4,6 +4,7 @@ import { AccessibilitySettings } from "./AccessibilitySettings";
 import { HealthMetricsOverview } from "./HealthMetricsOverview";
 import { TelehealthOptions } from "./TelehealthOptions";
 import { AppointmentScheduler } from "./AppointmentScheduler";
+import { MedicalHistory } from "./MedicalHistory";
 
 interface PatientContentProps {
   activeSection: string;
@@ -51,6 +52,8 @@ export const PatientContent = ({
         );
       case "appointments":
         return <AppointmentScheduler />;
+      case "medical-history":
+        return <MedicalHistory />;
       case "dashboard":
         return (
           <div className="space-y-6">
