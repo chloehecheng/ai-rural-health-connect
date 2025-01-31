@@ -16,10 +16,11 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+import { MenuSection } from "@/pages/patient/PatientPortal";
 
 interface PatientSidebarProps {
-  activeSection: string;
-  setActiveSection: (section: string) => void;
+  activeSection: MenuSection;
+  setActiveSection: React.Dispatch<React.SetStateAction<MenuSection>>;
   fontSize: number;
 }
 
@@ -31,12 +32,12 @@ export const PatientSidebar = ({
   const navigate = useNavigate();
 
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", value: "dashboard" },
-    { icon: Activity, label: "Health Metrics", value: "health-metrics" },
-    { icon: Calendar, label: "Appointments", value: "appointments" },
-    { icon: FileText, label: "Medical History", value: "medical-history" },
-    { icon: User, label: "Profile", value: "profile" },
-    { icon: Settings, label: "Settings", value: "settings" },
+    { icon: LayoutDashboard, label: "Dashboard", value: "dashboard" as MenuSection },
+    { icon: Activity, label: "Health Metrics", value: "health-metrics" as MenuSection },
+    { icon: Calendar, label: "Appointments", value: "appointments" as MenuSection },
+    { icon: FileText, label: "Medical History", value: "medical-history" as MenuSection },
+    { icon: User, label: "Profile", value: "profile" as MenuSection },
+    { icon: Settings, label: "Settings", value: "settings" as MenuSection },
   ];
 
   return (

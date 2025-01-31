@@ -5,9 +5,10 @@ import { HealthMetricsOverview } from "./HealthMetricsOverview";
 import { TelehealthOptions } from "./TelehealthOptions";
 import { AppointmentScheduler } from "./AppointmentScheduler";
 import { MedicalHistory } from "./MedicalHistory";
+import { MenuSection } from "@/pages/patient/PatientPortal";
 
 interface PatientContentProps {
-  activeSection: string;
+  activeSection: MenuSection;
   fontSize: number;
   showTooltips: boolean;
   voiceAssistant: boolean;
