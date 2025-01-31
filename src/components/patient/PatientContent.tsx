@@ -3,7 +3,6 @@ import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { AccessibilitySettings } from "./AccessibilitySettings";
 import { HealthMetricsOverview } from "./HealthMetricsOverview";
 import { TelehealthOptions } from "./TelehealthOptions";
-import { AppointmentScheduler } from "./AppointmentScheduler";
 import { MedicalHistory } from "./MedicalHistory";
 import { MenuSection } from "@/pages/patient/PatientPortal";
 
@@ -28,33 +27,6 @@ export const PatientContent = ({
 }: PatientContentProps) => {
   const renderContent = () => {
     switch (activeSection) {
-      case "health-metrics":
-        return (
-          <div className="space-y-6">
-            <HealthMetricsOverview
-              fontSize={fontSize}
-              showTooltips={showTooltips}
-            />
-            <TelehealthOptions />
-          </div>
-        );
-      case "settings":
-        return (
-          <DashboardCard title="Accessibility Settings">
-            <AccessibilitySettings
-              fontSize={fontSize}
-              setFontSize={setFontSize}
-              voiceAssistant={voiceAssistant}
-              setVoiceAssistant={setVoiceAssistant}
-              showTooltips={showTooltips}
-              setShowTooltips={setShowTooltips}
-            />
-          </DashboardCard>
-        );
-      case "appointments":
-        return <AppointmentScheduler />;
-      case "medical-history":
-        return <MedicalHistory />;
       case "dashboard":
         return (
           <div className="space-y-6">
@@ -71,6 +43,37 @@ export const PatientContent = ({
               </div>
             </DashboardCard>
           </div>
+        );
+      case "settings":
+        return (
+          <DashboardCard title="Accessibility Settings">
+            <AccessibilitySettings
+              fontSize={fontSize}
+              setFontSize={setFontSize}
+              voiceAssistant={voiceAssistant}
+              setVoiceAssistant={setVoiceAssistant}
+              showTooltips={showTooltips}
+              setShowTooltips={setShowTooltips}
+            />
+          </DashboardCard>
+        );
+      case "records":
+        return <MedicalHistory />;
+      case "patients":
+        return (
+          <DashboardCard title="Patient Management">
+            <div className="space-y-4">
+              <p>Patient management content will be displayed here.</p>
+            </div>
+          </DashboardCard>
+        );
+      case "alerts":
+        return (
+          <DashboardCard title="Alerts">
+            <div className="space-y-4">
+              <p>Alerts and notifications will be displayed here.</p>
+            </div>
+          </DashboardCard>
         );
       default:
         return <div>Section under development</div>;
