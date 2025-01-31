@@ -73,8 +73,8 @@ const Index = () => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gray-50">
-        <Sidebar>
+      <div className="min-h-screen flex flex-col md:flex-row w-full bg-gray-50">
+        <Sidebar className="md:w-64 w-full">
           <SidebarHeader className="p-4">
             <h2 className="text-lg font-semibold">Provider Dashboard</h2>
           </SidebarHeader>
@@ -129,32 +129,32 @@ const Index = () => {
           </SidebarContent>
         </Sidebar>
 
-        <div className="flex-1">
+        <div className="flex-1 min-h-screen">
           <Header />
           <main className="container mx-auto px-4 pt-20 pb-8">
-            <div className="mb-6">
+            <div className="mb-6 w-full flex justify-center md:justify-start">
               <SearchBar />
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              <DashboardCard title="Recent Patients">
-                <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
+              <DashboardCard title="Recent Patients" className="min-h-[400px] overflow-y-auto">
+                <div className="space-y-3">
                   {mockPatientData.slice(0, 3).map((patient) => (
                     <div
                       key={patient.id}
-                      className="p-4 bg-primary/5 rounded-lg cursor-pointer hover:bg-primary/10"
+                      className="p-3 md:p-4 bg-primary/5 rounded-lg cursor-pointer hover:bg-primary/10 transition-colors"
                       onClick={() => navigate(`/patients/${patient.id}`)}
                     >
                       <div className="flex justify-between items-start mb-2">
-                        <p className="font-medium">{patient.name}</p>
+                        <p className="font-medium text-sm md:text-base">{patient.name}</p>
                         {patient.alerts.length > 0 && (
-                          <AlertCircle className="h-4 w-4 text-red-500" />
+                          <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
                         )}
                       </div>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs md:text-sm text-gray-600">
                         Next Appointment: {patient.nextAppointment}
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs md:text-sm text-gray-600">
                         Condition: {patient.condition}
                       </p>
                       <div className="mt-2 flex gap-2 flex-wrap">
@@ -163,7 +163,7 @@ const Index = () => {
                             e.stopPropagation();
                             navigate(`/patients/${patient.id}/notes`);
                           }}
-                          className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full hover:bg-blue-200"
+                          className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full hover:bg-blue-200 transition-colors"
                         >
                           <ClipboardList className="h-3 w-3 inline mr-1" />
                           Notes
@@ -173,7 +173,7 @@ const Index = () => {
                             e.stopPropagation();
                             navigate(`/patients/${patient.id}/medications`);
                           }}
-                          className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full hover:bg-green-200"
+                          className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full hover:bg-green-200 transition-colors"
                         >
                           <Pill className="h-3 w-3 inline mr-1" />
                           Meds ({patient.medications.length})
@@ -184,7 +184,7 @@ const Index = () => {
                               e.stopPropagation();
                               navigate(`/patients/${patient.id}/alerts`);
                             }}
-                            className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full hover:bg-red-200"
+                            className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full hover:bg-red-200 transition-colors"
                           >
                             <AlertCircle className="h-3 w-3 inline mr-1" />
                             Alerts ({patient.alerts.length})
@@ -196,13 +196,20 @@ const Index = () => {
                 </div>
               </DashboardCard>
 
-              <DashboardCard title="Weekly Appointments">
-                <div className="h-[200px]">
+              <DashboardCard title="Weekly Appointments" className="min-h-[400px]">
+                <div className="h-[300px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={mockAppointmentData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="date" />
-                      <YAxis />
+                      <XAxis 
+                        dataKey="date" 
+                        tick={{ fontSize: 12 }}
+                        interval="preserveStartEnd"
+                      />
+                      <YAxis 
+                        tick={{ fontSize: 12 }}
+                        width={30}
+                      />
                       <Tooltip />
                       <Line
                         type="monotone"
@@ -215,23 +222,23 @@ const Index = () => {
                 </div>
               </DashboardCard>
 
-              <DashboardCard title="Quick Actions">
-                <div className="space-y-4">
+              <DashboardCard title="Quick Actions" className="min-h-[400px]">
+                <div className="space-y-3 md:space-y-4">
                   <button
                     onClick={() => navigate("/patients/new")}
-                    className="w-full p-3 text-left bg-primary/5 rounded-lg hover:bg-primary/10"
+                    className="w-full p-3 md:p-4 text-left bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors"
                   >
                     Add New Patient
                   </button>
                   <button
                     onClick={() => navigate("/records/new")}
-                    className="w-full p-3 text-left bg-primary/5 rounded-lg hover:bg-primary/10"
+                    className="w-full p-3 md:p-4 text-left bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors"
                   >
                     Create Medical Record
                   </button>
                   <button
                     onClick={() => navigate("/alerts")}
-                    className="w-full p-3 text-left bg-primary/5 rounded-lg hover:bg-primary/10"
+                    className="w-full p-3 md:p-4 text-left bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors"
                   >
                     View Patient Alerts
                   </button>
@@ -239,12 +246,12 @@ const Index = () => {
               </DashboardCard>
             </div>
 
-            <div className="grid grid-cols-1 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <DashboardCard title="AI Documentation">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <StructuredTemplates />
-                  <AIAssistant />
-                </div>
+                <AIAssistant />
+              </DashboardCard>
+              <DashboardCard title="Structured Templates">
+                <StructuredTemplates />
               </DashboardCard>
             </div>
           </main>
