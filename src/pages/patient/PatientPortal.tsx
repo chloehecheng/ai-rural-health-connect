@@ -17,6 +17,7 @@ import {
   User,
   LogOut,
   Settings,
+  LayoutDashboard,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AccessibilitySettings } from "@/components/patient/AccessibilitySettings";
@@ -80,20 +81,29 @@ const PatientPortal = () => {
             />
           </DashboardCard>
         );
-      case "appointments":
+      case "dashboard":
         return (
-          <div> {/* Placeholder for appointments content */} </div>
-        );
-      case "medical-history":
-        return (
-          <div> {/* Placeholder for medical history content */} </div>
-        );
-      case "profile":
-        return (
-          <div> {/* Placeholder for profile content */} </div>
+          <div className="space-y-6">
+            <DashboardCard title="Welcome to Your Dashboard">
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Quick Overview</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <HealthMetricsCard
+                    data={mockBloodSugarData}
+                    title="Blood Sugar Levels"
+                    interpretation={getBloodSugarInterpretation(mockBloodSugarData)}
+                    normalRange={{ min: 70, max: 180 }}
+                    showTooltips={showTooltips}
+                    fontSize={fontSize}
+                  />
+                  <TelehealthOptions />
+                </div>
+              </div>
+            </DashboardCard>
+          </div>
         );
       default:
-        return <div> {/* Placeholder for default content */} </div>;
+        return <div> {/* Placeholder for other sections */} </div>;
     }
   };
 
@@ -109,6 +119,7 @@ const PatientPortal = () => {
           <SidebarContent>
             <SidebarMenu>
               {[
+                { icon: LayoutDashboard, label: "Dashboard", value: "dashboard" },
                 { icon: Activity, label: "Health Metrics", value: "health-metrics" },
                 { icon: Calendar, label: "Appointments", value: "appointments" },
                 { icon: FileText, label: "Medical History", value: "medical-history" },
