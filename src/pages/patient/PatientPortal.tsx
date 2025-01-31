@@ -4,7 +4,7 @@ import { SidebarProvider, Sidebar } from "@/components/ui/sidebar";
 import { PatientSidebar } from "@/components/patient/PatientSidebar";
 import { PatientContent } from "@/components/patient/PatientContent";
 
-export type MenuSection = "dashboard" | "appointments" | "medical-history" | "health-metrics" | "profile" | "settings";
+export type MenuSection = "dashboard" | "patients" | "records" | "alerts" | "settings";
 
 const PatientPortal = () => {
   const [activeSection, setActiveSection] = useState<MenuSection>("dashboard");
