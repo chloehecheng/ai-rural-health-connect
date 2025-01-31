@@ -15,11 +15,9 @@ import PatientDetails from "./pages/PatientDetails";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
         <Routes>
           <Route path="/auth/login" element={<Login />} />
           <Route path="/patient-portal" element={<PatientPortal />} />
@@ -30,9 +28,11 @@ const App = () => (
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+        <Toaster />
+        <Sonner />
+      </TooltipProvider>
+    </QueryClientProvider>
+  </BrowserRouter>
 );
 
 export default App;
