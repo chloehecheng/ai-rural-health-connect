@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Index from "./pages/Index";
 import Patients from "./pages/Patients";
@@ -22,9 +22,10 @@ const App = () => (
         <SidebarProvider>
           <div className="min-h-screen flex w-full">
             <Routes>
+              <Route path="/" element={<Navigate to="/auth/login" replace />} />
               <Route path="/auth/login" element={<Login />} />
               <Route path="/patient-portal" element={<PatientPortal />} />
-              <Route path="/" element={<Index />} />
+              <Route path="/dashboard" element={<Index />} />
               <Route path="/patients" element={<Patients />} />
               <Route path="/patients/:id" element={<PatientDetails />} />
               <Route path="/records" element={<Records />} />
