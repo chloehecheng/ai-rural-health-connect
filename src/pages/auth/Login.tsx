@@ -83,10 +83,11 @@ const Login = () => {
                     maxLength={6}
                     render={({ slots }) => (
                       <InputOTPGroup className="gap-2">
-                        {slots.map((slot, index) => (
+                        {slots.map((slot, idx) => (
                           <InputOTPSlot
-                            key={index}
+                            key={idx}
                             {...slot}
+                            index={idx}
                             className="h-12 w-12 text-lg"
                           />
                         ))}
