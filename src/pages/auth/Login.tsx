@@ -5,15 +5,29 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [showOTP, setShowOTP] = useState(false);
   const [otp, setOTP] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSendOTP = (e: React.FormEvent) => {
+  // Simulated OTP verification - replace with actual API calls
+  const verifyOTP = async (otpValue: string) => {
+    // This is a mock verification - replace with actual API call
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // For demo purposes, consider "123456" as valid OTP
+        resolve(otpValue === "123456");
+      }, 1500);
+    });
+  };
+
+  const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     if (phoneNumber.length < 10) {
       toast({
@@ -23,14 +37,48 @@ const Login = () => {
       });
       return;
     }
-    setShowOTP(true);
-    toast({
-      title: "OTP Sent",
-      description: "Please check your phone for the OTP",
-    });
+
+    setIsLoading(true);
+    try {
+      // Simulate API call to send OTP
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      setShowOTP(true);
+      toast({
+        title: "OTP Sent",
+        description: "Please check your phone for the OTP",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Failed to send OTP",
+        description: "Please try again later",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleVerifyOTP = (e: React.FormEvent) => {
+  const handleResendOTP = async () => {
+    setIsResending(true);
+    try {
+      // Simulate API call to resend OTP
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      toast({
+        title: "OTP Resent",
+        description: "Please check your phone for the new OTP",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Failed to resend OTP",
+        description: "Please try again later",
+      });
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     if (otp.length !== 6) {
       toast({
@@ -40,11 +88,33 @@ const Login = () => {
       });
       return;
     }
-    navigate("/patient-portal");
-    toast({
-      title: "Login Successful",
-      description: "Welcome to RuralCare AI",
-    });
+
+    setIsLoading(true);
+    try {
+      const isValid = await verifyOTP(otp);
+      if (isValid) {
+        toast({
+          title: "Login Successful",
+          description: "Welcome to RuralCare AI",
+        });
+        navigate("/patient-portal");
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Invalid OTP",
+          description: "The code you entered is incorrect. Please try again.",
+        });
+        setOTP("");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Verification Failed",
+        description: "Please try again later",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -53,7 +123,10 @@ const Login = () => {
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-2xl font-bold tracking-tight">RuralCare AI</CardTitle>
           <CardDescription>
-            Enter your phone number to receive a one-time password
+            {!showOTP 
+              ? "Enter your phone number to receive a one-time password"
+              : "Enter the 6-digit code sent to your phone"
+            }
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -67,10 +140,22 @@ const Login = () => {
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   className="h-12 text-lg"
                   maxLength={10}
+                  disabled={isLoading}
                 />
               </div>
-              <Button type="submit" className="w-full h-12 text-lg">
-                Send OTP
+              <Button 
+                type="submit" 
+                className="w-full h-12 text-lg"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Sending OTP...
+                  </>
+                ) : (
+                  "Send OTP"
+                )}
               </Button>
             </form>
           ) : (
@@ -81,6 +166,7 @@ const Login = () => {
                     value={otp}
                     onChange={setOTP}
                     maxLength={6}
+                    disabled={isLoading}
                     render={({ slots }) => (
                       <InputOTPGroup className="gap-2">
                         {slots.map((slot, idx) => (
@@ -99,21 +185,27 @@ const Login = () => {
                   Didn't receive the code?{" "}
                   <button
                     type="button"
-                    onClick={() => {
-                      setShowOTP(false);
-                      toast({
-                        title: "OTP Resent",
-                        description: "Please check your phone for the new OTP",
-                      });
-                    }}
-                    className="text-primary hover:underline"
+                    onClick={handleResendOTP}
+                    disabled={isResending}
+                    className="text-primary hover:underline disabled:opacity-50"
                   >
-                    Resend OTP
+                    {isResending ? "Resending..." : "Resend OTP"}
                   </button>
                 </div>
               </div>
-              <Button type="submit" className="w-full h-12 text-lg">
-                Verify & Login
+              <Button 
+                type="submit" 
+                className="w-full h-12 text-lg"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Verifying...
+                  </>
+                ) : (
+                  "Verify & Login"
+                )}
               </Button>
             </form>
           )}
