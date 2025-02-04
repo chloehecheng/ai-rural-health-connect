@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Phone } from "lucide-react";
+import { Phone, Lock, Loader2 } from "lucide-react";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { OTPVerification } from "@/components/auth/OTPVerification";
 import { PasswordLogin } from "@/components/auth/PasswordLogin";
