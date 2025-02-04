@@ -1,39 +1,62 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { Loader2 } from "lucide-react";
+import { Loader2, Phone } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const RESEND_DELAY = 30; // seconds
+const countryCodes = [
+  { value: "+1", label: "USA (+1)" },
+  { value: "+91", label: "India (+91)" },
+  { value: "+44", label: "UK (+44)" },
+  // Add more country codes as needed
+];
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("+1");
   const [showOTP, setShowOTP] = useState(false);
   const [otp, setOTP] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isResending, setIsResending] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Simulated OTP verification - replace with actual API calls
-  const verifyOTP = async (otpValue: string) => {
-    // This is a mock verification - replace with actual API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // For demo purposes, consider "123456" as valid OTP
-        resolve(otpValue === "123456");
-      }, 1500);
-    });
+  useEffect(() => {
+    let timer: number;
+    if (resendTimer > 0) {
+      timer = window.setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [resendTimer]);
+
+  const validatePhoneNumber = (number: string) => {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(number);
   };
 
   const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (phoneNumber.length < 10) {
+    if (!validatePhoneNumber(phoneNumber)) {
       toast({
         variant: "destructive",
         title: "Invalid phone number",
-        description: "Please enter a valid phone number",
+        description: "Please enter a valid 10-digit phone number",
       });
       return;
     }
@@ -43,9 +66,10 @@ const Login = () => {
       // Simulate API call to send OTP
       await new Promise(resolve => setTimeout(resolve, 1500));
       setShowOTP(true);
+      setResendTimer(RESEND_DELAY);
       toast({
         title: "OTP Sent",
-        description: "Please check your phone for the OTP",
+        description: "Please check your phone for the verification code",
       });
     } catch (error) {
       toast({
@@ -63,9 +87,10 @@ const Login = () => {
     try {
       // Simulate API call to resend OTP
       await new Promise(resolve => setTimeout(resolve, 1500));
+      setResendTimer(RESEND_DELAY);
       toast({
         title: "OTP Resent",
-        description: "Please check your phone for the new OTP",
+        description: "Please check your phone for the new verification code",
       });
     } catch (error) {
       toast({
@@ -84,25 +109,30 @@ const Login = () => {
       toast({
         variant: "destructive",
         title: "Invalid OTP",
-        description: "Please enter a valid 6-digit OTP",
+        description: "Please enter a valid 6-digit verification code",
       });
       return;
     }
 
     setIsLoading(true);
     try {
-      const isValid = await verifyOTP(otp);
+      // Simulate API call to verify OTP
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      const isValid = otp === "123456"; // Mock validation - replace with actual API call
+      
       if (isValid) {
         toast({
           title: "Login Successful",
           description: "Welcome to RuralCare AI",
         });
-        navigate("/patient-portal");
+        // Mock user type check - replace with actual user type verification
+        const isProvider = Math.random() > 0.5;
+        navigate(isProvider ? "/" : "/patient-portal");
       } else {
         toast({
           variant: "destructive",
-          title: "Invalid OTP",
-          description: "The code you entered is incorrect. Please try again.",
+          title: "Invalid Code",
+          description: "The verification code you entered is incorrect",
         });
         setOTP("");
       }
@@ -124,7 +154,7 @@ const Login = () => {
           <CardTitle className="text-2xl font-bold tracking-tight">RuralCare AI</CardTitle>
           <CardDescription>
             {!showOTP 
-              ? "Enter your phone number to receive a one-time password"
+              ? "Enter your phone number to receive a verification code"
               : "Enter the 6-digit code sent to your phone"
             }
           </CardDescription>
@@ -132,13 +162,29 @@ const Login = () => {
         <CardContent>
           {!showOTP ? (
             <form onSubmit={handleSendOTP} className="space-y-6">
-              <div className="space-y-2">
+              <div className="flex gap-2">
+                <Select
+                  value={countryCode}
+                  onValueChange={setCountryCode}
+                  disabled={isLoading}
+                >
+                  <SelectTrigger className="w-[140px]">
+                    <SelectValue placeholder="Country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {countryCodes.map((code) => (
+                      <SelectItem key={code.value} value={code.value}>
+                        {code.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <Input
                   type="tel"
-                  placeholder="Enter your phone number"
+                  placeholder="Enter your mobile number"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="h-12 text-lg"
+                  onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ""))}
+                  className="flex-1"
                   maxLength={10}
                   disabled={isLoading}
                 />
@@ -151,10 +197,13 @@ const Login = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending OTP...
+                    Sending Code...
                   </>
                 ) : (
-                  "Send OTP"
+                  <>
+                    <Phone className="mr-2 h-4 w-4" />
+                    Send Code
+                  </>
                 )}
               </Button>
             </form>
@@ -183,14 +232,18 @@ const Login = () => {
                 </div>
                 <div className="text-center text-sm text-muted-foreground">
                   Didn't receive the code?{" "}
-                  <button
-                    type="button"
-                    onClick={handleResendOTP}
-                    disabled={isResending}
-                    className="text-primary hover:underline disabled:opacity-50"
-                  >
-                    {isResending ? "Resending..." : "Resend OTP"}
-                  </button>
+                  {resendTimer > 0 ? (
+                    <span>Resend in {resendTimer}s</span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleResendOTP}
+                      disabled={isResending || resendTimer > 0}
+                      className="text-primary hover:underline disabled:opacity-50"
+                    >
+                      {isResending ? "Resending..." : "Resend Code"}
+                    </button>
+                  )}
                 </div>
               </div>
               <Button 
