@@ -1,24 +1,22 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { Loader2, Phone, Lock } from "lucide-react";
+import { Phone } from "lucide-react";
 import { PhoneInput } from "@/components/auth/PhoneInput";
-import { Input } from "@/components/ui/input";
+import { OTPVerification } from "@/components/auth/OTPVerification";
+import { PasswordLogin } from "@/components/auth/PasswordLogin";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("+1");
   const [showOTP, setShowOTP] = useState(false);
-  const [otp, setOTP] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -52,19 +50,58 @@ const Login = () => {
 
     setIsLoading(true);
     try {
-      // Simulate API call to send OTP
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { error } = await supabase.auth.signInWithOtp({
+        phone: `${countryCode}${phoneNumber}`,
+      });
+
+      if (error) throw error;
+
       setShowOTP(true);
       setResendTimer(30);
       toast({
         title: "OTP Sent",
         description: "Please check your phone for the verification code",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Failed to send OTP",
-        description: "Please try again later",
+        description: error.message || "Please try again later",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOTP = async (otp: string) => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        phone: `${countryCode}${phoneNumber}`,
+        token: otp,
+        type: 'sms'
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Login Successful",
+        description: "Welcome to RuralCare AI",
+      });
+
+      // Check user role and redirect accordingly
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user?.id)
+        .single();
+
+      navigate(profile?.role === 'provider' ? '/dashboard' : '/patient-portal');
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Verification Failed",
+        description: error.message || "Please try again later",
       });
     } finally {
       setIsLoading(false);
@@ -74,101 +111,56 @@ const Login = () => {
   const handleResendOTP = async () => {
     setIsResending(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { error } = await supabase.auth.signInWithOtp({
+        phone: `${countryCode}${phoneNumber}`,
+      });
+
+      if (error) throw error;
+
       setResendTimer(30);
       toast({
         title: "OTP Resent",
         description: "Please check your phone for the new verification code",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Failed to resend OTP",
-        description: "Please try again later",
+        description: error.message || "Please try again later",
       });
     } finally {
       setIsResending(false);
     }
   };
 
-  const handleVerifyOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (otp.length !== 6) {
-      toast({
-        variant: "destructive",
-        title: "Invalid OTP",
-        description: "Please enter a valid 6-digit verification code",
-      });
-      return;
-    }
-
+  const handlePasswordLogin = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      const isValid = otp === "123456"; // Mock validation
-      
-      if (isValid) {
-        toast({
-          title: "Login Successful",
-          description: "Welcome to RuralCare AI",
-        });
-        const isProvider = Math.random() > 0.5; // Mock user type check
-        navigate(isProvider ? "/" : "/patient-portal");
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Invalid Code",
-          description: "The verification code you entered is incorrect",
-        });
-        setOTP("");
-      }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Verification Failed",
-        description: "Please try again later",
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
-  const handlePasswordLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
+      if (error) throw error;
+
       toast({
-        variant: "destructive",
-        title: "Invalid input",
-        description: "Please enter both email and password",
+        title: "Login Successful",
+        description: "Welcome to RuralCare AI",
       });
-      return;
-    }
 
-    setIsLoading(true);
-    try {
-      // Simulate API call for password-based authentication
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      const isValid = email === "test@example.com" && password === "password"; // Mock validation
-      
-      if (isValid) {
-        toast({
-          title: "Login Successful",
-          description: "Welcome to RuralCare AI",
-        });
-        const isProvider = Math.random() > 0.5; // Mock user type check
-        navigate(isProvider ? "/" : "/patient-portal");
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Invalid Credentials",
-          description: "The email or password you entered is incorrect",
-        });
-      }
-    } catch (error) {
+      // Check user role and redirect accordingly
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user?.id)
+        .single();
+
+      navigate(profile?.role === 'provider' ? '/dashboard' : '/patient-portal');
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Login Failed",
-        description: "Please try again later",
+        description: error.message || "Please try again later",
       });
     } finally {
       setIsLoading(false);
@@ -220,102 +212,21 @@ const Login = () => {
                   </Button>
                 </form>
               ) : (
-                <form onSubmit={handleVerifyOTP} className="space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex justify-center">
-                      <InputOTP
-                        value={otp}
-                        onChange={setOTP}
-                        maxLength={6}
-                        disabled={isLoading}
-                        render={({ slots }) => (
-                          <InputOTPGroup className="gap-2">
-                            {slots.map((slot, idx) => (
-                              <InputOTPSlot
-                                key={idx}
-                                {...slot}
-                                index={idx}
-                                className="h-12 w-12 text-lg"
-                              />
-                            ))}
-                          </InputOTPGroup>
-                        )}
-                      />
-                    </div>
-                    <div className="text-center text-sm text-muted-foreground">
-                      Didn't receive the code?{" "}
-                      {resendTimer > 0 ? (
-                        <span>Resend in {resendTimer}s</span>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={handleResendOTP}
-                          disabled={isResending || resendTimer > 0}
-                          className="text-primary hover:underline disabled:opacity-50"
-                        >
-                          {isResending ? "Resending..." : "Resend Code"}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <Button 
-                    type="submit" 
-                    className="w-full h-12 text-lg"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Verifying...
-                      </>
-                    ) : (
-                      "Verify & Login"
-                    )}
-                  </Button>
-                </form>
+                <OTPVerification
+                  isLoading={isLoading}
+                  onVerify={handleVerifyOTP}
+                  onResend={handleResendOTP}
+                  resendTimer={resendTimer}
+                  isResending={isResending}
+                />
               )}
             </TabsContent>
 
             <TabsContent value="password">
-              <form onSubmit={handlePasswordLogin} className="space-y-6">
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Input
-                      type="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      disabled={isLoading}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Input
-                      type="password"
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      disabled={isLoading}
-                    />
-                  </div>
-                </div>
-                <Button 
-                  type="submit" 
-                  className="w-full h-12 text-lg"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Logging in...
-                    </>
-                  ) : (
-                    <>
-                      <Lock className="mr-2 h-4 w-4" />
-                      Login with Password
-                    </>
-                  )}
-                </Button>
-              </form>
+              <PasswordLogin
+                isLoading={isLoading}
+                onSubmit={handlePasswordLogin}
+              />
             </TabsContent>
           </Tabs>
         </CardContent>
