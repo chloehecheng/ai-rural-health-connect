@@ -1,26 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Loader2, Phone } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { PhoneInput } from "@/components/auth/PhoneInput";
 
 const RESEND_DELAY = 30; // seconds
-const countryCodes = [
-  { value: "+1", label: "USA (+1)" },
-  { value: "+91", label: "India (+91)" },
-  { value: "+44", label: "UK (+44)" },
-  // Add more country codes as needed
-];
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -85,7 +72,6 @@ const Login = () => {
   const handleResendOTP = async () => {
     setIsResending(true);
     try {
-      // Simulate API call to resend OTP
       await new Promise(resolve => setTimeout(resolve, 1500));
       setResendTimer(RESEND_DELAY);
       toast({
@@ -116,17 +102,15 @@ const Login = () => {
 
     setIsLoading(true);
     try {
-      // Simulate API call to verify OTP
       await new Promise(resolve => setTimeout(resolve, 1500));
-      const isValid = otp === "123456"; // Mock validation - replace with actual API call
+      const isValid = otp === "123456"; // Mock validation
       
       if (isValid) {
         toast({
           title: "Login Successful",
           description: "Welcome to RuralCare AI",
         });
-        // Mock user type check - replace with actual user type verification
-        const isProvider = Math.random() > 0.5;
+        const isProvider = Math.random() > 0.5; // Mock user type check
         navigate(isProvider ? "/" : "/patient-portal");
       } else {
         toast({
@@ -162,33 +146,13 @@ const Login = () => {
         <CardContent>
           {!showOTP ? (
             <form onSubmit={handleSendOTP} className="space-y-6">
-              <div className="flex gap-2">
-                <Select
-                  value={countryCode}
-                  onValueChange={setCountryCode}
-                  disabled={isLoading}
-                >
-                  <SelectTrigger className="w-[140px]">
-                    <SelectValue placeholder="Country" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {countryCodes.map((code) => (
-                      <SelectItem key={code.value} value={code.value}>
-                        {code.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Input
-                  type="tel"
-                  placeholder="Enter your mobile number"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ""))}
-                  className="flex-1"
-                  maxLength={10}
-                  disabled={isLoading}
-                />
-              </div>
+              <PhoneInput
+                phoneNumber={phoneNumber}
+                countryCode={countryCode}
+                setPhoneNumber={setPhoneNumber}
+                setCountryCode={setCountryCode}
+                disabled={isLoading}
+              />
               <Button 
                 type="submit" 
                 className="w-full h-12 text-lg"
