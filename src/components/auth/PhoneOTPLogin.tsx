@@ -32,16 +32,19 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
   };
 
   const formatPhoneNumber = (phone: string) => {
-    // Remove any non-digit characters
+    // Remove any non-digit characters including spaces
     const cleaned = phone.replace(/\D/g, "");
-    // Ensure the country code is included
-    return `${countryCode}${cleaned}`;
+    // Remove any leading zeros
+    const trimmed = cleaned.replace(/^0+/, "");
+    // Ensure the country code is included without any spaces
+    return `${countryCode.replace(/\s+/g, '')}${trimmed}`;
   };
 
   const handleSendOTP = async () => {
     setIsLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
+      console.log("Sending OTP to:", formattedPhone); // Debug log
       
       const { error } = await supabase.auth.signInWithOtp({
         phone: formattedPhone,
@@ -72,6 +75,7 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
     setIsLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
+      console.log("Verifying OTP for:", formattedPhone); // Debug log
       
       const { error } = await supabase.auth.verifyOtp({
         phone: formattedPhone,
