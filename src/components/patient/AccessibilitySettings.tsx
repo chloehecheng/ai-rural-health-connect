@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import {
   Tooltip,
@@ -9,13 +8,6 @@ import {
 } from "@/components/ui/tooltip";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useTranslation } from "react-i18next";
 
 interface AccessibilitySettingsProps {
@@ -35,11 +27,7 @@ export const AccessibilitySettings = ({
   showTooltips,
   setShowTooltips,
 }: AccessibilitySettingsProps) => {
-  const { t, i18n } = useTranslation();
-
-  const handleLanguageChange = (value: string) => {
-    i18n.changeLanguage(value);
-  };
+  const { t } = useTranslation();
 
   return (
     <div className="space-y-6">
@@ -73,26 +61,6 @@ export const AccessibilitySettings = ({
           onCheckedChange={setShowTooltips}
         />
         <Label htmlFor="show-tooltips">{t("accessibility.showTooltips")}</Label>
-      </div>
-
-      <div className="space-y-2">
-        <Label>{t("accessibility.language")}</Label>
-        <Select
-          value={i18n.language}
-          onValueChange={handleLanguageChange}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder={t("accessibility.language")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="en">{t("languages.en")}</SelectItem>
-            <SelectItem value="es">{t("languages.es")}</SelectItem>
-            <SelectItem value="ru">{t("languages.ru")}</SelectItem>
-            <SelectItem value="it">{t("languages.it")}</SelectItem>
-            <SelectItem value="ko">{t("languages.ko")}</SelectItem>
-            <SelectItem value="zh">{t("languages.zh")}</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
     </div>
   );
