@@ -65,19 +65,36 @@ export const PatientContent = ({
         );
       case "records":
         return <MedicalHistory />;
-      case "patients":
+      case "health-metrics":
         return (
-          <DashboardCard title="Patient Management">
-            <div className="space-y-4">
-              <p>Patient management content will be displayed here.</p>
+          <DashboardCard title="Health Metrics">
+            <HealthMetricsInput />
+            <div className="mt-6">
+              <HealthMetricsOverview fontSize={fontSize} showTooltips={showTooltips} />
             </div>
           </DashboardCard>
         );
-      case "alerts":
+      case "appointments":
         return (
-          <DashboardCard title="Alerts">
+          <DashboardCard title="Appointments">
             <div className="space-y-4">
-              <p>Alerts and notifications will be displayed here.</p>
+              <p>Appointment scheduling will be available soon.</p>
+            </div>
+          </DashboardCard>
+        );
+      case "medications":
+        return (
+          <DashboardCard title="Medications">
+            <div className="space-y-4">
+              <p>Medication management will be available soon.</p>
+            </div>
+          </DashboardCard>
+        );
+      case "messages":
+        return (
+          <DashboardCard title="Messages">
+            <div className="space-y-4">
+              <p>Messaging feature will be available soon.</p>
             </div>
           </DashboardCard>
         );

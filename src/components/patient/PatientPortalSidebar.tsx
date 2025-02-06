@@ -15,7 +15,7 @@ import {
   Settings,
   LogOut,
   MessageSquare,
-  Pills,
+  Pill,
 } from "lucide-react";
 import { MenuSection } from "@/pages/patient/PatientPortal";
 
@@ -58,7 +58,7 @@ export const PatientPortalSidebar = ({
       description: "View your medical records"
     },
     { 
-      icon: Pills, 
+      icon: Pill, 
       label: "Medications", 
       value: "medications" as MenuSection,
       description: "Manage your medications"
