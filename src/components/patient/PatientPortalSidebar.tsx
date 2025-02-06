@@ -79,7 +79,7 @@ export const PatientPortalSidebar = ({
 
   return (
     <>
-      <SidebarHeader className="p-4">
+      <SidebarHeader className="p-4 bg-white">
         <h2 
           className="text-lg font-semibold" 
           style={{ fontSize: `${fontSize}px` }}
@@ -87,7 +87,7 @@ export const PatientPortalSidebar = ({
           Patient Portal
         </h2>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-white">
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.value}>
