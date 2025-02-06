@@ -5,6 +5,7 @@ import { HealthMetricsOverview } from "./HealthMetricsOverview";
 import { TelehealthOptions } from "./TelehealthOptions";
 import { MedicalHistory } from "./MedicalHistory";
 import { MenuSection } from "@/pages/patient/PatientPortal";
+import { HealthMetricsInput } from "./HealthMetricsInput";
 
 interface PatientContentProps {
   activeSection: MenuSection;
@@ -38,7 +39,12 @@ export const PatientContent = ({
                     fontSize={fontSize}
                     showTooltips={showTooltips}
                   />
-                  <TelehealthOptions />
+                  <div className="space-y-4">
+                    <DashboardCard title="Record New Health Metric">
+                      <HealthMetricsInput />
+                    </DashboardCard>
+                    <TelehealthOptions />
+                  </div>
                 </div>
               </div>
             </DashboardCard>

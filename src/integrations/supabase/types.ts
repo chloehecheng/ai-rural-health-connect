@@ -9,6 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      health_metrics: {
+        Row: {
+          id: string
+          metric_type: string
+          notes: string | null
+          recorded_at: string | null
+          unit: string
+          user_id: string
+          value: number
+        }
+        Insert: {
+          id?: string
+          metric_type: string
+          notes?: string | null
+          recorded_at?: string | null
+          unit: string
+          user_id: string
+          value: number
+        }
+        Update: {
+          id?: string
+          metric_type?: string
+          notes?: string | null
+          recorded_at?: string | null
+          unit?: string
+          user_id?: string
+          value?: number
+        }
+        Relationships: []
+      }
       otp: {
         Row: {
           id: number
