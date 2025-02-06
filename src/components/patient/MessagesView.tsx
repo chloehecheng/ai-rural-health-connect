@@ -23,7 +23,7 @@ interface Message {
   created_at: string;
   is_read: boolean;
   provider: {
-    full_name: string;
+    full_name: string | null;
   };
 }
 
@@ -39,8 +39,12 @@ export const MessagesView = () => {
       const { data, error } = await supabase
         .from("messages")
         .select(`
-          *,
-          provider:provider_id(full_name)
+          id,
+          subject,
+          content,
+          created_at,
+          is_read,
+          provider:profiles!fk_provider (full_name)
         `)
         .order("created_at", { ascending: false });
 
