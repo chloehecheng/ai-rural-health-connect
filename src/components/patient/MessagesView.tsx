@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { PaperPlane, Plus } from "lucide-react";
+import { SendHorizontal, Plus } from "lucide-react";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -38,7 +38,10 @@ export const MessagesView = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("messages")
-        .select(`*, provider:profiles(full_name)`)
+        .select(`
+          *,
+          provider:provider_id(full_name)
+        `)
         .order("created_at", { ascending: false });
 
       if (error) {
@@ -117,7 +120,7 @@ export const MessagesView = () => {
                 className="w-full flex items-center gap-2"
                 onClick={handleSendMessage}
               >
-                <PaperPlane className="h-4 w-4" />
+                <SendHorizontal className="h-4 w-4" />
                 Send Message
               </Button>
             </div>
