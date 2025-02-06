@@ -1,0 +1,30 @@
+{
+  "common": {
+    "dashboard": "Панель",
+    "patients": "Пациенты",
+    "records": "Записи",
+    "alerts": "Оповещения",
+    "settings": "Настройки",
+    "logout": "Выход"
+  },
+  "health": {
+    "bloodPressure": "Кровяное давление",
+    "glucose": "Уровень глюкозы",
+    "heartRate": "Пульс",
+    "normalRange": "Нормальный диапазон"
+  },
+  "accessibility": {
+    "fontSize": "Размер текста",
+    "voiceAssistant": "Голосовой помощник",
+    "showTooltips": "Показывать подсказки",
+    "language": "Язык"
+  },
+  "languages": {
+    "en": "Английский",
+    "es": "Испанский",
+    "ru": "Русский",
+    "it": "Итальянский",
+    "ko": "Корейский",
+    "zh": "Мандаринский"
+  }
+}

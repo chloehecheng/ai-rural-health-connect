@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import Login from "./pages/auth/Login";
 import PatientPortal from "./pages/patient/PatientPortal";
 import PatientDetails from "./pages/PatientDetails";
+import "./i18n"; // Import i18n configuration
 
 const queryClient = new QueryClient();
 

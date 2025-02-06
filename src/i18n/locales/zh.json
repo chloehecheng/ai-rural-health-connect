@@ -1,0 +1,30 @@
+{
+  "common": {
+    "dashboard": "仪表板",
+    "patients": "患者",
+    "records": "记录",
+    "alerts": "提醒",
+    "settings": "设置",
+    "logout": "登出"
+  },
+  "health": {
+    "bloodPressure": "血压",
+    "glucose": "血糖水平",
+    "heartRate": "心率",
+    "normalRange": "正常范围"
+  },
+  "accessibility": {
+    "fontSize": "字体大小",
+    "voiceAssistant": "语音助手",
+    "showTooltips": "显示提示",
+    "language": "语言"
+  },
+  "languages": {
+    "en": "英语",
+    "es": "西班牙语",
+    "ru": "俄语",
+    "it": "意大利语",
+    "ko": "韩语",
+    "zh": "中文"
+  }
+}

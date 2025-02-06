@@ -1,0 +1,30 @@
+{
+  "common": {
+    "dashboard": "대시보드",
+    "patients": "환자",
+    "records": "기록",
+    "alerts": "알림",
+    "settings": "설정",
+    "logout": "로그아웃"
+  },
+  "health": {
+    "bloodPressure": "혈압",
+    "glucose": "혈당 수치",
+    "heartRate": "심박수",
+    "normalRange": "정상 범위"
+  },
+  "accessibility": {
+    "fontSize": "글자 크기",
+    "voiceAssistant": "음성 도우미",
+    "showTooltips": "도움말 표시",
+    "language": "언어"
+  },
+  "languages": {
+    "en": "영어",
+    "es": "스페인어",
+    "ru": "러시아어",
+    "it": "이탈리아어",
+    "ko": "한국어",
+    "zh": "중국어"
+  }
+}

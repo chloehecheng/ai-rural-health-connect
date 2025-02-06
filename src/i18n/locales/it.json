@@ -1,0 +1,30 @@
+{
+  "common": {
+    "dashboard": "Dashboard",
+    "patients": "Pazienti",
+    "records": "Registri",
+    "alerts": "Avvisi",
+    "settings": "Impostazioni",
+    "logout": "Esci"
+  },
+  "health": {
+    "bloodPressure": "Pressione Sanguigna",
+    "glucose": "Livelli di Glucosio",
+    "heartRate": "Frequenza Cardiaca",
+    "normalRange": "Intervallo normale"
+  },
+  "accessibility": {
+    "fontSize": "Dimensione Testo",
+    "voiceAssistant": "Assistente Vocale",
+    "showTooltips": "Mostra Suggerimenti",
+    "language": "Lingua"
+  },
+  "languages": {
+    "en": "Inglese",
+    "es": "Spagnolo",
+    "ru": "Russo",
+    "it": "Italiano",
+    "ko": "Coreano",
+    "zh": "Mandarino"
+  }
+}

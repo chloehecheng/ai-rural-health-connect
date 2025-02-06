@@ -1,0 +1,30 @@
+{
+  "common": {
+    "dashboard": "Dashboard",
+    "patients": "Patients",
+    "records": "Records",
+    "alerts": "Alerts",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "health": {
+    "bloodPressure": "Blood Pressure",
+    "glucose": "Glucose Levels",
+    "heartRate": "Heart Rate",
+    "normalRange": "Normal range"
+  },
+  "accessibility": {
+    "fontSize": "Text Size",
+    "voiceAssistant": "Voice Assistant",
+    "showTooltips": "Show Tooltips",
+    "language": "Language"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Spanish",
+    "ru": "Russian",
+    "it": "Italian",
+    "ko": "Korean",
+    "zh": "Mandarin"
+  }
+}
