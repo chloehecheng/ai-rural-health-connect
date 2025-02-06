@@ -10,10 +10,14 @@ interface PasswordLoginProps {
   onSuccess: () => void;
 }
 
+// Test credentials for development
+const TEST_PHONE = "9496683172";
+const TEST_PASSWORD = "testpass123";
+
 export const PasswordLogin = ({ onSuccess }: PasswordLoginProps) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(TEST_PHONE);
   const [countryCode, setCountryCode] = useState("+1");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(TEST_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -61,6 +65,9 @@ export const PasswordLogin = ({ onSuccess }: PasswordLoginProps) => {
             disabled={isLoading}
           />
         </div>
+        <p className="text-sm text-muted-foreground text-center">
+          Test credentials: {countryCode}{TEST_PHONE} / {TEST_PASSWORD}
+        </p>
       </div>
       <Button 
         type="submit" 

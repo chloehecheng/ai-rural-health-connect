@@ -10,6 +10,9 @@ interface PhoneOTPLoginProps {
   onSuccess: () => void;
 }
 
+const TEST_MODE = true; // Enable test mode for development
+const TEST_OTP = "123456"; // Test OTP code
+
 export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("+1");
@@ -32,11 +35,8 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
   };
 
   const formatPhoneNumber = (phone: string) => {
-    // Remove any non-digit characters including spaces
     const cleaned = phone.replace(/\D/g, "");
-    // Remove any leading zeros
     const trimmed = cleaned.replace(/^0+/, "");
-    // Ensure the country code is included without any spaces
     return `${countryCode.replace(/\s+/g, '')}${trimmed}`;
   };
 
@@ -44,8 +44,17 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
     setIsLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
-      console.log("Sending OTP to:", formattedPhone); // Debug log
+      console.log("Sending OTP to:", formattedPhone);
       
+      if (TEST_MODE) {
+        // In test mode, skip actual OTP sending
+        setShowOTP(true);
+        startResendTimer();
+        toast.success("Test mode: Use code 123456");
+        setIsLoading(false);
+        return;
+      }
+
       const { error } = await supabase.auth.signInWithOtp({
         phone: formattedPhone,
       });
@@ -75,7 +84,14 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
     setIsLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
-      console.log("Verifying OTP for:", formattedPhone); // Debug log
+      console.log("Verifying OTP for:", formattedPhone);
+
+      if (TEST_MODE && otp === TEST_OTP) {
+        // In test mode, auto-verify the test OTP
+        toast.success("Test mode: Login successful!");
+        onSuccess();
+        return;
+      }
       
       const { error } = await supabase.auth.verifyOtp({
         phone: formattedPhone,
@@ -135,10 +151,15 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
             ) : (
               <>
                 <Phone className="mr-2 h-4 w-4" />
-                Send Verification Code
+                {TEST_MODE ? "Send Test Code" : "Send Verification Code"}
               </>
             )}
           </Button>
+          {TEST_MODE && (
+            <p className="text-sm text-muted-foreground text-center">
+              Test mode enabled. Use code: {TEST_OTP}
+            </p>
+          )}
         </div>
       ) : (
         <OTPVerification
