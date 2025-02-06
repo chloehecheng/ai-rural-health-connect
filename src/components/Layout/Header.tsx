@@ -18,11 +18,11 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 fixed w-full z-50">
+    <header className="bg-gradient-primary border-b border-white/20 fixed w-full z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <SidebarTrigger />
-          <h1 className="text-xl font-semibold text-primary">{t("common.appName", "RuralCare AI")}</h1>
+          <SidebarTrigger className="text-white hover:text-white/80" />
+          <h1 className="text-xl font-semibold text-white">{t("common.appName", "RuralCare AI")}</h1>
         </div>
         
         <div className="flex items-center space-x-4">
@@ -30,7 +30,7 @@ export const Header = () => {
             value={i18n.language}
             onValueChange={handleLanguageChange}
           >
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-[140px] bg-white/10 border-white/20 text-white">
               <SelectValue placeholder={t("accessibility.language")} />
             </SelectTrigger>
             <SelectContent>
@@ -42,10 +42,12 @@ export const Header = () => {
               <SelectItem value="zh">{t("languages.zh")}</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="text-white hover:text-white/80">
             <Bell className="h-5 w-5" />
           </Button>
-          <Button variant="outline">{t("common.signIn", "Sign In")}</Button>
+          <Button variant="secondary" className="bg-white/10 hover:bg-white/20 text-white border-white/20">
+            {t("common.signIn", "Sign In")}
+          </Button>
         </div>
       </div>
     </header>
