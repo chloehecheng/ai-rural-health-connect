@@ -53,7 +53,7 @@ export const MedicationList = () => {
   return (
     <div className="space-y-4">
       {medications?.map((medication) => (
-        <DashboardCard key={medication.id}>
+        <DashboardCard key={medication.id} title={medication.medication_name}>
           <div className="flex items-start justify-between">
             <div className="space-y-2">
               <div className="flex items-center gap-2">

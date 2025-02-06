@@ -65,7 +65,7 @@ export const DeliveryStatus = () => {
   return (
     <div className="space-y-4">
       {deliveries?.map((delivery) => (
-        <DashboardCard key={delivery.id}>
+        <DashboardCard key={delivery.id} title={`Delivery for ${delivery.medication.medication_name}`}>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
