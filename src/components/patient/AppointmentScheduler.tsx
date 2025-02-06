@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -16,6 +17,7 @@ export const AppointmentScheduler = () => {
   const [date, setDate] = React.useState<Date>();
   const [timeSlot, setTimeSlot] = React.useState<string>();
   const [doctor, setDoctor] = React.useState<string>();
+  const [visitType, setVisitType] = React.useState<'in-person' | 'telemedicine'>();
   const { toast } = useToast();
 
   // Simulated existing appointments
@@ -39,7 +41,6 @@ export const AppointmentScheduler = () => {
 
     if (!selectedDate) return baseTimeSlots;
 
-    // Filter out time slots that are already booked for the selected date
     return baseTimeSlots.filter(slot => {
       const isBooked = existingAppointments.some(appointment => 
         isSameDay(appointment.date, selectedDate) && 
@@ -51,10 +52,10 @@ export const AppointmentScheduler = () => {
   };
 
   const handleSchedule = () => {
-    if (!date || !timeSlot || !doctor) {
+    if (!date || !timeSlot || !doctor || !visitType) {
       toast({
         title: "Missing Information",
-        description: "Please select a date, time, and doctor.",
+        description: "Please select a date, time, doctor, and visit type.",
         variant: "destructive",
       });
       return;
@@ -80,7 +81,7 @@ export const AppointmentScheduler = () => {
     // Schedule the appointment
     toast({
       title: "Appointment Scheduled",
-      description: `Your appointment has been scheduled for ${format(date, 'MMMM do, yyyy')} at ${timeSlot} with ${doctor}.`,
+      description: `Your ${visitType} appointment has been scheduled for ${format(date, 'MMMM do, yyyy')} at ${timeSlot} with ${doctor}.`,
     });
 
     // Simulate sending automated reminders
@@ -91,6 +92,7 @@ export const AppointmentScheduler = () => {
     setDate(undefined);
     setTimeSlot(undefined);
     setDoctor(undefined);
+    setVisitType(undefined);
   };
 
   return (
@@ -99,6 +101,19 @@ export const AppointmentScheduler = () => {
         <CardTitle>Schedule New Appointment</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Select Visit Type</label>
+          <Select onValueChange={(value: 'in-person' | 'telemedicine') => setVisitType(value)} value={visitType}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select visit type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="in-person">In-Person Visit</SelectItem>
+              <SelectItem value="telemedicine">Telemedicine</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         <div className="space-y-2">
           <label className="text-sm font-medium">Select Date</label>
           <Calendar
@@ -153,7 +168,7 @@ export const AppointmentScheduler = () => {
         <Button 
           onClick={handleSchedule} 
           className="w-full"
-          disabled={!date || !timeSlot || !doctor}
+          disabled={!date || !timeSlot || !doctor || !visitType}
         >
           Schedule Appointment
         </Button>
