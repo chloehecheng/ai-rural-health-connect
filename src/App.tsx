@@ -12,14 +12,14 @@ import Settings from "./pages/Settings";
 import Login from "./pages/auth/Login";
 import PatientPortal from "./pages/patient/PatientPortal";
 import PatientDetails from "./pages/PatientDetails";
-import "./i18n"; // Import i18n configuration
+import "./i18n";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <BrowserRouter>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <BrowserRouter>
         <SidebarProvider>
           <div className="min-h-screen flex w-full">
             <Routes>
@@ -37,9 +37,9 @@ const App = () => (
             <Sonner />
           </div>
         </SidebarProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </BrowserRouter>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
 
 export default App;
