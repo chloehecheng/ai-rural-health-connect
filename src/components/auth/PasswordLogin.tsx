@@ -1,31 +1,54 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { PhoneInput } from "@/components/auth/PhoneInput";
 import { Input } from "@/components/ui/input";
 import { Lock, Loader2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/hooks/use-toast";
 
 interface PasswordLoginProps {
-  isLoading: boolean;
-  onSubmit: (email: string, password: string) => void;
+  onSuccess: () => void;
 }
 
-export const PasswordLogin = ({ isLoading, onSubmit }: PasswordLoginProps) => {
-  const [email, setEmail] = useState("");
+export const PasswordLogin = ({ onSuccess }: PasswordLoginProps) => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("+1");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(email, password);
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        phone: `${countryCode}${phoneNumber}`,
+        password,
+      });
+
+      if (error) throw error;
+
+      onSuccess();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: error.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div className="space-y-2">
-          <Input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+          <PhoneInput
+            phoneNumber={phoneNumber}
+            countryCode={countryCode}
+            setPhoneNumber={setPhoneNumber}
+            setCountryCode={setCountryCode}
             disabled={isLoading}
           />
         </div>
@@ -42,7 +65,7 @@ export const PasswordLogin = ({ isLoading, onSubmit }: PasswordLoginProps) => {
       <Button 
         type="submit" 
         className="w-full h-12 text-lg"
-        disabled={isLoading || !email || !password}
+        disabled={isLoading || !phoneNumber || !password}
       >
         {isLoading ? (
           <>

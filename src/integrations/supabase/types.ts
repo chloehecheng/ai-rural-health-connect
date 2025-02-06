@@ -9,6 +9,21 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      otp: {
+        Row: {
+          id: number
+          phone: number
+        }
+        Insert: {
+          id?: number
+          phone: number
+        }
+        Update: {
+          id?: number
+          phone?: number
+        }
+        Relationships: []
+      }
       "rural health": {
         Row: {
           created_at: string
