@@ -31,31 +31,38 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
     }, 1000);
   };
 
+  const formatPhoneNumber = (phone: string) => {
+    // Remove any non-digit characters
+    const cleaned = phone.replace(/\D/g, "");
+    // Ensure the country code is included
+    return `${countryCode}${cleaned}`;
+  };
+
   const handleSendOTP = async () => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.auth.signInWithOtp({
-        phone: `${countryCode}${phoneNumber}`,
+      const formattedPhone = formatPhoneNumber(phoneNumber);
+      
+      const { error } = await supabase.auth.signInWithOtp({
+        phone: formattedPhone,
       });
 
       if (error) {
-        if (error.message.includes("Invalid From Number")) {
-          toast.error(
-            "Phone authentication is not configured. Please contact support."
-          );
-        } else if (error.message.includes("Invalid phone number")) {
-          toast.error("Please enter a valid phone number.");
+        if (error.message.includes("Invalid phone number")) {
+          toast.error("Please enter a valid phone number");
         } else {
-          toast.error(error.message);
+          toast.error("Failed to send verification code. Please try again.");
         }
-        throw error;
+        console.error("OTP Error:", error);
+        return;
       }
 
       setShowOTP(true);
       startResendTimer();
       toast.success("Verification code sent successfully!");
     } catch (error: any) {
-      console.error("Error sending OTP:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+      console.error("Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -64,8 +71,10 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
   const handleVerifyOTP = async (otp: string) => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        phone: `${countryCode}${phoneNumber}`,
+      const formattedPhone = formatPhoneNumber(phoneNumber);
+      
+      const { error } = await supabase.auth.verifyOtp({
+        phone: formattedPhone,
         token: otp,
         type: "sms",
       });
@@ -76,13 +85,14 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
         } else {
           toast.error(error.message);
         }
-        throw error;
+        return;
       }
 
       toast.success("Phone number verified successfully!");
       onSuccess();
     } catch (error: any) {
-      console.error("Error verifying OTP:", error);
+      toast.error("Failed to verify code. Please try again.");
+      console.error("Verification Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -92,7 +102,6 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
     setIsResending(true);
     try {
       await handleSendOTP();
-      startResendTimer();
     } finally {
       setIsResending(false);
     }
