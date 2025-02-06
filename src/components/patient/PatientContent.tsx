@@ -58,3 +58,28 @@ export const PatientContent = ({
               setVoiceAssistant={setVoiceAssistant}
               showTooltips={showTooltips}
               setShowTooltips={setShowTooltips}
+            />
+          </DashboardCard>
+        );
+      case "medications":
+        return (
+          <div className="space-y-6">
+            <DashboardCard title="Your Medications">
+              <MedicationList />
+            </DashboardCard>
+            <DashboardCard title="Delivery Status">
+              <DeliveryStatus />
+            </DashboardCard>
+          </div>
+        );
+      default:
+        return <div>Select a section from the menu</div>;
+    }
+  };
+
+  return (
+    <main className="container mx-auto p-6">
+      {renderContent()}
+    </main>
+  );
+};
