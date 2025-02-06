@@ -9,6 +9,7 @@ import { HealthMetricsOverview } from "./HealthMetricsOverview";
 import { HealthMetricsInput } from "./HealthMetricsInput";
 import { MedicationList } from "./MedicationList";
 import { DeliveryStatus } from "./DeliveryStatus";
+import { MessagesView } from "./MessagesView";
 
 interface PatientContentProps {
   activeSection: MenuSection;
@@ -72,6 +73,8 @@ export const PatientContent = ({
             </DashboardCard>
           </div>
         );
+      case "messages":
+        return <MessagesView />;
       default:
         return <div>Select a section from the menu</div>;
     }
