@@ -1,3 +1,4 @@
+
 import React from "react";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { AccessibilitySettings } from "./AccessibilitySettings";
@@ -6,6 +7,8 @@ import { MenuSection } from "@/pages/patient/PatientPortal";
 import { AppointmentScheduler } from "./AppointmentScheduler";
 import { HealthMetricsOverview } from "./HealthMetricsOverview";
 import { HealthMetricsInput } from "./HealthMetricsInput";
+import { MedicationList } from "./MedicationList";
+import { DeliveryStatus } from "./DeliveryStatus";
 
 interface PatientContentProps {
   activeSection: MenuSection;
@@ -55,62 +58,3 @@ export const PatientContent = ({
               setVoiceAssistant={setVoiceAssistant}
               showTooltips={showTooltips}
               setShowTooltips={setShowTooltips}
-            />
-          </DashboardCard>
-        );
-      case "records":
-        return (
-          <DashboardCard title="Medical Records">
-            <div className="space-y-4">
-              <p>Medical records will be available soon.</p>
-            </div>
-          </DashboardCard>
-        );
-      case "health-metrics":
-        return (
-          <div className="space-y-6">
-            <DashboardCard title="Health Metrics">
-              <HealthMetricsInput />
-              <div className="mt-6">
-                <HealthMetricsOverview 
-                  fontSize={fontSize} 
-                  showTooltips={showTooltips} 
-                />
-              </div>
-            </DashboardCard>
-          </div>
-        );
-      case "appointments":
-        return (
-          <DashboardCard title="Appointments">
-            <AppointmentScheduler />
-          </DashboardCard>
-        );
-      case "medications":
-        return (
-          <DashboardCard title="Medications">
-            <div className="space-y-4">
-              <p>Medication management will be available soon.</p>
-            </div>
-          </DashboardCard>
-        );
-      case "messages":
-        return (
-          <DashboardCard title="Messages">
-            <TelehealthOptions />
-          </DashboardCard>
-        );
-      default:
-        return <div>Section under development</div>;
-    }
-  };
-
-  return (
-    <main 
-      className="container mx-auto px-4 pt-20 pb-8"
-      style={{ fontSize: `${fontSize}px` }}
-    >
-      {renderContent()}
-    </main>
-  );
-};

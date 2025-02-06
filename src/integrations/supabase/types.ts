@@ -39,6 +39,86 @@ export type Database = {
         }
         Relationships: []
       }
+      medication_deliveries: {
+        Row: {
+          actual_delivery_time: string | null
+          created_at: string | null
+          delivery_address: string
+          delivery_status: string | null
+          id: string
+          medication_id: string
+          preferred_delivery_time: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          actual_delivery_time?: string | null
+          created_at?: string | null
+          delivery_address: string
+          delivery_status?: string | null
+          id?: string
+          medication_id: string
+          preferred_delivery_time?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          actual_delivery_time?: string | null
+          created_at?: string | null
+          delivery_address?: string
+          delivery_status?: string | null
+          id?: string
+          medication_id?: string
+          preferred_delivery_time?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_deliveries_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medications: {
+        Row: {
+          created_at: string | null
+          dosage: string
+          frequency: string
+          id: string
+          medication_name: string
+          prescribed_date: string | null
+          refill_date: string | null
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          dosage: string
+          frequency: string
+          id?: string
+          medication_name: string
+          prescribed_date?: string | null
+          refill_date?: string | null
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          dosage?: string
+          frequency?: string
+          id?: string
+          medication_name?: string
+          prescribed_date?: string | null
+          refill_date?: string | null
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       otp: {
         Row: {
           id: number
