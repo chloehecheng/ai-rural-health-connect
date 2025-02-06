@@ -40,6 +40,7 @@ export const OTPVerification = ({
                   <InputOTPSlot
                     key={idx}
                     {...slot}
+                    index={idx}
                     className="h-12 w-12 text-lg border-2 border-input"
                   />
                 ))}
