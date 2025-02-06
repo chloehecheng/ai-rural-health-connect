@@ -1,11 +1,9 @@
 import React from "react";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { AccessibilitySettings } from "./AccessibilitySettings";
-import { HealthMetricsOverview } from "./HealthMetricsOverview";
 import { TelehealthOptions } from "./TelehealthOptions";
-import { MedicalHistory } from "./MedicalHistory";
 import { MenuSection } from "@/pages/patient/PatientPortal";
-import { HealthMetricsInput } from "./HealthMetricsInput";
+import { AppointmentScheduler } from "./AppointmentScheduler";
 
 interface PatientContentProps {
   activeSection: MenuSection;
@@ -33,16 +31,11 @@ export const PatientContent = ({
           <div className="space-y-6">
             <DashboardCard title="Welcome to Your Dashboard">
               <div className="space-y-4">
-                <h3 className="text-lg font-medium">Quick Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <HealthMetricsOverview
-                    fontSize={fontSize}
-                    showTooltips={showTooltips}
-                  />
+                  <DashboardCard title="Schedule Appointment">
+                    <AppointmentScheduler />
+                  </DashboardCard>
                   <div className="space-y-4">
-                    <DashboardCard title="Record New Health Metric">
-                      <HealthMetricsInput />
-                    </DashboardCard>
                     <TelehealthOptions />
                   </div>
                 </div>
@@ -64,22 +57,17 @@ export const PatientContent = ({
           </DashboardCard>
         );
       case "records":
-        return <MedicalHistory />;
-      case "health-metrics":
         return (
-          <DashboardCard title="Health Metrics">
-            <HealthMetricsInput />
-            <div className="mt-6">
-              <HealthMetricsOverview fontSize={fontSize} showTooltips={showTooltips} />
+          <DashboardCard title="Medical Records">
+            <div className="space-y-4">
+              <p>Medical records will be available soon.</p>
             </div>
           </DashboardCard>
         );
       case "appointments":
         return (
           <DashboardCard title="Appointments">
-            <div className="space-y-4">
-              <p>Appointment scheduling will be available soon.</p>
-            </div>
+            <AppointmentScheduler />
           </DashboardCard>
         );
       case "medications":
@@ -93,9 +81,7 @@ export const PatientContent = ({
       case "messages":
         return (
           <DashboardCard title="Messages">
-            <div className="space-y-4">
-              <p>Messaging feature will be available soon.</p>
-            </div>
+            <TelehealthOptions />
           </DashboardCard>
         );
       default:
