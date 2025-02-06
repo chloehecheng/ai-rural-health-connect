@@ -113,15 +113,21 @@ export const MessagesView = () => {
             <p className="text-gray-500 text-center mb-4 max-w-sm">
               Start a conversation with your healthcare provider about your medical inquiries, prescription refills, or appointment scheduling.
             </p>
-            <DialogTrigger asChild>
-              <Button 
-                onClick={() => setIsOpen(true)}
-                className="flex items-center gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                Send Your First Message
-              </Button>
-            </DialogTrigger>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Send Your First Message
+                </Button>
+              </DialogTrigger>
+              <NewMessageDialog
+                templates={templates}
+                onClose={() => setIsOpen(false)}
+                onMessageSent={refetch}
+              />
+            </Dialog>
           </div>
         )}
       </div>
