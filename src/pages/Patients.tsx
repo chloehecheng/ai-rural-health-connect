@@ -113,7 +113,7 @@ const getUrgencyColor = (urgency: string) => {
 
 const Patients = () => {
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState<MenuSection>("patients");
+  const [activeSection, setActiveSection] = useState<MenuSection>("dashboard");
   const [fontSize, setFontSize] = useState(16);
 
   return (
