@@ -4,6 +4,7 @@ import { PhoneInput } from "@/components/auth/PhoneInput";
 import { OTPVerification } from "@/components/auth/OTPVerification";
 import { Phone, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 interface PhoneOTPLoginProps {
   onSuccess: () => void;
@@ -37,13 +38,24 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
         phone: `${countryCode}${phoneNumber}`,
       });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes("Invalid From Number")) {
+          toast.error(
+            "Phone authentication is not configured. Please contact support."
+          );
+        } else if (error.message.includes("Invalid phone number")) {
+          toast.error("Please enter a valid phone number.");
+        } else {
+          toast.error(error.message);
+        }
+        throw error;
+      }
 
       setShowOTP(true);
       startResendTimer();
+      toast.success("Verification code sent successfully!");
     } catch (error: any) {
       console.error("Error sending OTP:", error);
-      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -58,12 +70,19 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
         type: "sms",
       });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes("Invalid token")) {
+          toast.error("Invalid verification code. Please try again.");
+        } else {
+          toast.error(error.message);
+        }
+        throw error;
+      }
 
+      toast.success("Phone number verified successfully!");
       onSuccess();
     } catch (error: any) {
       console.error("Error verifying OTP:", error);
-      throw error;
     } finally {
       setIsLoading(false);
     }
