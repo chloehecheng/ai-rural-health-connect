@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Header } from "@/components/Layout/Header";
 import { SidebarProvider, Sidebar } from "@/components/ui/sidebar";
-import { PatientSidebar } from "@/components/patient/PatientSidebar";
+import { PatientPortalSidebar } from "@/components/patient/PatientPortalSidebar";
 import { PatientContent } from "@/components/patient/PatientContent";
 
-export type MenuSection = "dashboard" | "patients" | "records" | "alerts" | "settings";
+export type MenuSection = "dashboard" | "health-metrics" | "appointments" | "records" | "medications" | "messages" | "settings";
 
 const PatientPortal = () => {
   const [activeSection, setActiveSection] = useState<MenuSection>("dashboard");
@@ -16,7 +16,7 @@ const PatientPortal = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         <Sidebar>
-          <PatientSidebar
+          <PatientPortalSidebar
             activeSection={activeSection}
             setActiveSection={setActiveSection}
             fontSize={fontSize}
