@@ -119,35 +119,112 @@ export type Database = {
         }
         Relationships: []
       }
-      messages: {
+      message_attachments: {
         Row: {
-          attachment_url: string | null
+          created_at: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          message_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id?: string
+          message_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          message_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_attachments_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      message_templates: {
+        Row: {
+          category: Database["public"]["Enums"]["message_category"]
           content: string
           created_at: string | null
           id: string
+          title: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["message_category"]
+          content: string
+          created_at?: string | null
+          id?: string
+          title: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["message_category"]
+          content?: string
+          created_at?: string | null
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          attachment_url: string | null
+          category: Database["public"]["Enums"]["message_category"] | null
+          content: string
+          created_at: string | null
+          estimated_response_time: string | null
+          id: string
           is_read: boolean | null
           provider_id: string
+          read_at: string | null
+          responded_at: string | null
           subject: string | null
+          urgency: Database["public"]["Enums"]["message_urgency"] | null
           user_id: string
         }
         Insert: {
           attachment_url?: string | null
+          category?: Database["public"]["Enums"]["message_category"] | null
           content: string
           created_at?: string | null
+          estimated_response_time?: string | null
           id?: string
           is_read?: boolean | null
           provider_id: string
+          read_at?: string | null
+          responded_at?: string | null
           subject?: string | null
+          urgency?: Database["public"]["Enums"]["message_urgency"] | null
           user_id: string
         }
         Update: {
           attachment_url?: string | null
+          category?: Database["public"]["Enums"]["message_category"] | null
           content?: string
           created_at?: string | null
+          estimated_response_time?: string | null
           id?: string
           is_read?: boolean | null
           provider_id?: string
+          read_at?: string | null
+          responded_at?: string | null
           subject?: string | null
+          urgency?: Database["public"]["Enums"]["message_urgency"] | null
           user_id?: string
         }
         Relationships: [
@@ -229,7 +306,13 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      message_category:
+        | "medical_inquiry"
+        | "prescription_refill"
+        | "appointment_scheduling"
+        | "billing"
+        | "other"
+      message_urgency: "low" | "medium" | "high"
     }
     CompositeTypes: {
       [_ in never]: never
