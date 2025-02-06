@@ -10,6 +10,7 @@ import { HealthMetricsInput } from "./HealthMetricsInput";
 import { MedicationList } from "./MedicationList";
 import { DeliveryStatus } from "./DeliveryStatus";
 import { MessagesView } from "./MessagesView";
+import { MedicalHistory } from "./MedicalHistory";
 
 interface PatientContentProps {
   activeSection: MenuSection;
@@ -49,6 +50,26 @@ export const PatientContent = ({
             </DashboardCard>
           </div>
         );
+      case "health-metrics":
+        return (
+          <div className="space-y-6">
+            <HealthMetricsOverview 
+              fontSize={fontSize}
+              showTooltips={showTooltips}
+            />
+            <DashboardCard title="Record New Metric">
+              <HealthMetricsInput />
+            </DashboardCard>
+          </div>
+        );
+      case "appointments":
+        return (
+          <DashboardCard title="Appointments">
+            <AppointmentScheduler />
+          </DashboardCard>
+        );
+      case "records":
+        return <MedicalHistory />;
       case "settings":
         return (
           <DashboardCard title="Accessibility Settings">
