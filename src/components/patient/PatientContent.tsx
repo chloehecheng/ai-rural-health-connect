@@ -4,6 +4,8 @@ import { AccessibilitySettings } from "./AccessibilitySettings";
 import { TelehealthOptions } from "./TelehealthOptions";
 import { MenuSection } from "@/pages/patient/PatientPortal";
 import { AppointmentScheduler } from "./AppointmentScheduler";
+import { HealthMetricsOverview } from "./HealthMetricsOverview";
+import { HealthMetricsInput } from "./HealthMetricsInput";
 
 interface PatientContentProps {
   activeSection: MenuSection;
@@ -63,6 +65,20 @@ export const PatientContent = ({
               <p>Medical records will be available soon.</p>
             </div>
           </DashboardCard>
+        );
+      case "health-metrics":
+        return (
+          <div className="space-y-6">
+            <DashboardCard title="Health Metrics">
+              <HealthMetricsInput />
+              <div className="mt-6">
+                <HealthMetricsOverview 
+                  fontSize={fontSize} 
+                  showTooltips={showTooltips} 
+                />
+              </div>
+            </DashboardCard>
+          </div>
         );
       case "appointments":
         return (
