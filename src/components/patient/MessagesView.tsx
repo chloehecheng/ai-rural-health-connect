@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, MessageSquare } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { NewMessageDialog } from "./NewMessageDialog";
 import { MessageCard } from "./MessageCard";
@@ -107,8 +107,21 @@ export const MessagesView = () => {
           <MessageCard key={message.id} {...message} />
         ))}
         {(!messages || messages.length === 0) && (
-          <div className="text-center py-8 text-muted-foreground">
-            No messages yet
+          <div className="flex flex-col items-center justify-center py-12 px-4 border-2 border-dashed rounded-lg bg-gray-50">
+            <MessageSquare className="h-12 w-12 text-gray-400 mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No messages yet</h3>
+            <p className="text-gray-500 text-center mb-4 max-w-sm">
+              Start a conversation with your healthcare provider about your medical inquiries, prescription refills, or appointment scheduling.
+            </p>
+            <DialogTrigger asChild>
+              <Button 
+                onClick={() => setIsOpen(true)}
+                className="flex items-center gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Send Your First Message
+              </Button>
+            </DialogTrigger>
           </div>
         )}
       </div>
