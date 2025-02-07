@@ -1,5 +1,5 @@
 
-import { MessagesView } from "@/components/patient/MessagesView";
+import { MessagesView } from "src/pages/MessageView.tsx";
 import { Header } from "@/components/Layout/Header";
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 import { Home, Users, FileText, Bell, Settings, LogOut, MessageSquare } from "lucide-react";
