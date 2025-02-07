@@ -1,3 +1,4 @@
+
 import { Mic, Send, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -101,7 +102,7 @@ export const AIAssistant = () => {
   };
 
   return (
-    <div className="p-4 bg-accent rounded-lg space-y-4">
+    <div className="p-4 bg-card rounded-lg space-y-4">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-semibold">AI Documentation Assistant</h3>
