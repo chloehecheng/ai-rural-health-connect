@@ -31,7 +31,7 @@ serve(async (req) => {
     const filePath = `${crypto.randomUUID()}.${fileExt}`
 
     const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('provider_message_attachments')
+      .from('message_attachments')
       .upload(filePath, file)
 
     if (uploadError) throw uploadError
