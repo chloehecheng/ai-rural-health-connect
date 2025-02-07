@@ -115,7 +115,7 @@ export const PatientSidebar = ({
   };
 
   return (
-    <>
+    <div className="bg-white h-full">
       <SidebarHeader className="p-4">
         <h2 
           className="text-lg font-semibold" 
@@ -230,6 +230,6 @@ export const PatientSidebar = ({
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
-    </>
+    </div>
   );
 };
