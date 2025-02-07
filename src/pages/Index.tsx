@@ -86,7 +86,7 @@ const Index = () => {
                   onClick={() => navigate("/dashboard")}
                 >
                   <FileText className="mr-2" />
-                  <span>Dashboard</span>\
+                  <span>Dashboard</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -104,7 +104,7 @@ const Index = () => {
                   onClick={() => navigate("/messages")}
                 >
                   <FileText className="mr-2" />
-                  <span>Messages</span>\
+                  <span>Messages</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

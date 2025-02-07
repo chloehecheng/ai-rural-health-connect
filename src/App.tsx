@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import Login from "./pages/auth/Login";
 import PatientPortal from "./pages/patient/PatientPortal";
 import PatientDetails from "./pages/PatientDetails";
+//import Messages from './pages/messages';
 import "./i18n";
 
 const queryClient = new QueryClient();

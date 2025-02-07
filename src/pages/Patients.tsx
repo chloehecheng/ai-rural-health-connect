@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Header } from "@/components/Layout/Header";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
-import { SidebarProvider, Sidebar } from "@/components/ui/sidebar";
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CircleCheck, CircleAlert, CircleX, Eye } from "lucide-react";
+import { CircleCheck, CircleAlert, CircleX, Eye, FileText, Users, Bell, Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { MenuSection } from "@/pages/patient/PatientPortal";
 
@@ -116,8 +116,81 @@ const Patients = () => {
   const [fontSize, setFontSize] = useState(16);
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gray-50">
+      <SidebarProvider>
+        <div className="min-h-screen flex flex-col md:flex-row w-full bg-gray-50">
+          <Sidebar className="md:w-64 w-full">
+            <SidebarHeader className="p-4">
+              <h2 className="text-lg font-semibold">Provider Dashboard</h2>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarMenu>
+              <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="flex items-center"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    <FileText className="mr-2" />
+                    <span>Dashboard</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="flex items-center"
+                    onClick={() => navigate("/patients")}
+                  >
+                    <Users className="mr-2" />
+                    <span>Patients</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="flex items-center"
+                    onClick={() => navigate("/messages")}
+                  >
+                    <FileText className="mr-2" />
+                    <span>Messages</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="flex items-center"
+                    onClick={() => navigate("/records")}
+                  >
+                    <FileText className="mr-2" />
+                    <span>Records</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="flex items-center"
+                    onClick={() => navigate("/alerts")}
+                  >
+                    <Bell className="mr-2" />
+                    <span>Alerts</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="flex items-center"
+                    onClick={() => navigate("/settings")}
+                  >
+                    <Settings className="mr-2" />
+                    <span>Settings</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="flex items-center text-red-500"
+                    onClick={() => navigate("/auth/login")}
+                  >
+                    <LogOut className="mr-2" />
+                    <span>Logout</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarContent>
+          </Sidebar>
+
         <div className="flex-1">
           <Header />
           <main className="container mx-auto px-4 pt-20 pb-8">

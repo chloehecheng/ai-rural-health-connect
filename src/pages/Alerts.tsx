@@ -1,9 +1,11 @@
 import { Header } from "@/components/Layout/Header";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
-import { Home, Users, FileText, Bell, Settings } from "lucide-react";
+import { Home, Users, FileText, Bell, Settings, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Alerts = () => {
+  const navigate = useNavigate();
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -13,50 +15,73 @@ const Alerts = () => {
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/" className="flex items-center">
-                    <Home className="mr-2" />
-                    <span>Dashboard</span>
-                  </a>
+            <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="flex items-center"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  <FileText className="mr-2" />
+                  <span>Dashboard</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/patients" className="flex items-center">
-                    <Users className="mr-2" />
-                    <span>Patients</span>
-                  </a>
+                <SidebarMenuButton
+                  className="flex items-center"
+                  onClick={() => navigate("/patients")}
+                >
+                  <Users className="mr-2" />
+                  <span>Patients</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/records" className="flex items-center">
-                    <FileText className="mr-2" />
-                    <span>Records</span>
-                  </a>
+                <SidebarMenuButton
+                  className="flex items-center"
+                  onClick={() => navigate("/messages")}
+                >
+                  <FileText className="mr-2" />
+                  <span>Messages</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/alerts" className="flex items-center">
-                    <Bell className="mr-2" />
-                    <span>Alerts</span>
-                  </a>
+                <SidebarMenuButton
+                  className="flex items-center"
+                  onClick={() => navigate("/records")}
+                >
+                  <FileText className="mr-2" />
+                  <span>Records</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/settings" className="flex items-center">
-                    <Settings className="mr-2" />
-                    <span>Settings</span>
-                  </a>
+                <SidebarMenuButton
+                  className="flex items-center"
+                  onClick={() => navigate("/alerts")}
+                >
+                  <Bell className="mr-2" />
+                  <span>Alerts</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="flex items-center"
+                  onClick={() => navigate("/settings")}
+                >
+                  <Settings className="mr-2" />
+                  <span>Settings</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="flex items-center text-red-500"
+                  onClick={() => navigate("/auth/login")}
+                >
+                  <LogOut className="mr-2" />
+                  <span>Logout</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
-        
+
         <div className="flex-1">
           <Header />
           <main className="container mx-auto px-4 pt-20 pb-8">
