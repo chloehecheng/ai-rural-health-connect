@@ -8,7 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Paperclip } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { Database } from "@/integrations/supabase/types";
+
+type MessageCategory = Database["public"]["Enums"]["message_category"];
+type MessageUrgency = Database["public"]["Enums"]["message_urgency"];
 
 interface NewProviderMessageDialogProps {
   providerId: string;
@@ -19,8 +23,8 @@ interface NewProviderMessageDialogProps {
 export const NewProviderMessageDialog = ({ providerId, patientId, onMessageSent }: NewProviderMessageDialogProps) => {
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
-  const [category, setCategory] = useState<string>("medical_inquiry");
-  const [urgency, setUrgency] = useState<string>("low");
+  const [category, setCategory] = useState<MessageCategory>("medical_inquiry");
+  const [urgency, setUrgency] = useState<MessageUrgency>("low");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { toast } = useToast();
