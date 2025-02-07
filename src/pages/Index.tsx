@@ -83,7 +83,7 @@ const Index = () => {
             <SidebarMenuItem>
                 <SidebarMenuButton
                   className="flex items-center"
-                  onClick={() => navigate("/Index")}
+                  onClick={() => navigate("/dashboard")}
                 >
                   <FileText className="mr-2" />
                   <span>Dashboard</span>\
