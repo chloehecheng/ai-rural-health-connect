@@ -3,15 +3,12 @@ import { Button } from "@/components/ui/button";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { OTPVerification } from "@/components/auth/OTPVerification";
 import { Phone, Loader2 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
+import { sendVerificationCode, verifyCode } from "@/lib/twilio";
 
 interface PhoneOTPLoginProps {
   onSuccess: () => void;
 }
-
-const TEST_MODE = true; // Enable test mode for development
-const TEST_OTP = "123456"; // Test OTP code
 
 export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -46,26 +43,11 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
       const formattedPhone = formatPhoneNumber(phoneNumber);
       console.log("Sending OTP to:", formattedPhone);
       
-      if (TEST_MODE) {
-        // In test mode, skip actual OTP sending
-        setShowOTP(true);
-        startResendTimer();
-        toast.success("Test mode: Use code 123456");
-        setIsLoading(false);
-        return;
-      }
+      const { data, error } = await sendVerificationCode(formattedPhone);
 
-      const { error } = await supabase.auth.signInWithOtp({
-        phone: formattedPhone,
-      });
-
-      if (error) {
-        if (error.message.includes("Invalid phone number")) {
-          toast.error("Please enter a valid phone number");
-        } else {
-          toast.error("Failed to send verification code. Please try again.");
-        }
-        console.error("OTP Error:", error);
+      if (error || (data && data.status === 'error')) {
+        toast.error(error?.message || 'Failed to send verification code');
+        console.error('Verification Error:', error || data);
         return;
       }
 
@@ -85,34 +67,31 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
       console.log("Verifying OTP for:", formattedPhone);
-
-      if (TEST_MODE && otp === TEST_OTP) {
-        // In test mode, auto-verify the test OTP
-        toast.success("Test mode: Login successful!");
-        onSuccess();
-        return;
-      }
       
-      const { error } = await supabase.auth.verifyOtp({
-        phone: formattedPhone,
-        token: otp,
-        type: "sms",
-      });
+      const { data, error } = await verifyCode(formattedPhone, otp);
+      console.log("Twilio verification response:", data);
 
-      if (error) {
-        if (error.message.includes("Invalid token")) {
-          toast.error("Invalid verification code. Please try again.");
-        } else {
-          toast.error(error.message);
-        }
+      if (error || !data) {
+        console.error("Twilio verification error:", error);
+        toast.error("Failed to verify code with Twilio");
         return;
       }
+
+      if (!data.valid) {
+        console.error("Invalid verification code. Status:", data.status);
+        toast.error("Invalid verification code. Please check and try again.");
+        return;
+      }
+
+      // Store the verified phone number in localStorage
+      localStorage.setItem('phoneNumber', formattedPhone);
+      localStorage.setItem('verifiedAt', new Date().toISOString());
 
       toast.success("Phone number verified successfully!");
       onSuccess();
     } catch (error: any) {
-      toast.error("Failed to verify code. Please try again.");
-      console.error("Verification Error:", error);
+      console.error("Unexpected error:", error);
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -151,15 +130,10 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
             ) : (
               <>
                 <Phone className="mr-2 h-4 w-4" />
-                {TEST_MODE ? "Send Test Code" : "Send Verification Code"}
+                Send Verification Code
               </>
             )}
           </Button>
-          {TEST_MODE && (
-            <p className="text-sm text-muted-foreground text-center">
-              Test mode enabled. Use code: {TEST_OTP}
-            </p>
-          )}
         </div>
       ) : (
         <OTPVerification

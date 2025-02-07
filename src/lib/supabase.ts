@@ -1,6 +1,38 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://lsspifbdaqwclzutcpck.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzc3BpZmJkYXF3Y2x6dXRjcGNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg3MDkzNDEsImV4cCI6MjA1NDI4NTM0MX0.DLyD3vfyxptthl_L-W3rG_R0mW4ELOyX4iZbp4Cfxos';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables');
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+    flowType: 'pkce'
+  }
+});
+
+// Function to sign in with phone
+export const signInWithPhone = async (phoneNumber: string) => {
+  console.log('Attempting to sign in with phone:', phoneNumber);
+  return await supabase.auth.signInWithOtp({
+    phone: phoneNumber,
+    options: {
+      channel: 'sms'
+    }
+  });
+};
+
+// Function to verify phone OTP
+export const verifyPhoneOTP = async (phoneNumber: string, token: string) => {
+  console.log('Attempting to verify OTP for:', phoneNumber);
+  return await supabase.auth.verifyOtp({
+    phone: phoneNumber,
+    token,
+    type: 'sms'
+  });
+};
