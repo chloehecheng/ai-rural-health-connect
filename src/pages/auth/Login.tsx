@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -18,7 +19,8 @@ const Login = () => {
       title: "Login Successful",
       description: `Welcome back! You are logged in as a ${userRole}.`,
     });
-    navigate(userRole === "patient" ? "/patient-portal" : "/dashboard");
+    // Direct providers to dashboard, patients to patient portal
+    navigate(userRole === "provider" ? "/dashboard" : "/patient-portal");
   };
 
   return (
