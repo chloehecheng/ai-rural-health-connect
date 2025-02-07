@@ -1,5 +1,6 @@
 
-import React from "react";
+import React,  { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,12 +14,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { addDays, format, isSameDay } from "date-fns";
 
-export const AppointmentScheduler = () => {
+export const AppointmentScheduler = ({patientId, onAppointmentScheduled }:{
+  patientId: number;
+  onAppointmentScheduled: () => void;
+}) => {
   const [date, setDate] = React.useState<Date>();
   const [timeSlot, setTimeSlot] = React.useState<string>();
   const [doctor, setDoctor] = React.useState<string>();
   const [visitType, setVisitType] = React.useState<'in-person' | 'telemedicine'>();
   const { toast } = useToast();
+  const [doctors, setDoctors] = useState<{ id: number; name: string }[]>([]);
+  const [visitTypes, setVisitTypes] = useState<{ id: number; type: string }[]>([]);
+
 
   // Simulated existing appointments
   const existingAppointments = [
@@ -32,6 +39,24 @@ export const AppointmentScheduler = () => {
     "Dr. Williams - Pediatrics",
   ];
 
+  // Fetch doctors from Supabase
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      const { data, error } = await supabase.from("doctors").select("id, first_name, last_name");
+      if (error) console.error("Error fetching doctors:", error);
+      else setDoctors(data.map(doc => ({ id: doc.id, name: `Dr. ${doc.first_name} ${doc.last_name}` })));
+    };
+
+    const fetchVisitTypes = async () => {
+      const { data, error } = await supabase.from("appointment_types").select("id, type");
+      if (error) console.error("Error fetching visit types:", error);
+      else setVisitTypes(data);
+    };
+
+    fetchDoctors();
+    fetchVisitTypes();
+  }, []);
+  
   // Generate available time slots based on date and existing appointments
   const getAvailableTimeSlots = (selectedDate: Date | undefined) => {
     const baseTimeSlots = [
@@ -51,7 +76,7 @@ export const AppointmentScheduler = () => {
     });
   };
 
-  const handleSchedule = () => {
+/*   const handleSchedule = () => {
     if (!date || !timeSlot || !doctor || !visitType) {
       toast({
         title: "Missing Information",
@@ -76,13 +101,45 @@ export const AppointmentScheduler = () => {
         variant: "destructive",
       });
       return;
-    }
+    } */
+
+      const handleSchedule = async () => {
+        if (!date || !timeSlot || !doctor || !visitType) {
+          toast({ title: "Missing Information", description: "Please select all fields.", variant: "destructive" });
+          return;
+        }
+    
+        const formattedDate = format(date, "yyyy-MM-dd");
+    
+        const { error } = await supabase.from("appointments").insert([
+          {
+            patient_id: 1,
+            doctor_id: doctor,
+            appointment_type_id: visitType,
+            appointment_date: formattedDate,
+            appointment_time: timeSlot,
+            status: "Scheduled",
+          },
+        ]);
+    
+        if (error) {
+          console.error("Error scheduling appointment:", error);
+          toast({ title: "Error", description: "Could not schedule appointment.", variant: "destructive" });
+          return;
+        }
+    
+        toast({
+          title: "Appointment Scheduled",
+          description: `Your appointment has been scheduled for ${format(date, "MMMM do, yyyy")} at ${timeSlot}.`,
+        });
 
     // Schedule the appointment
     toast({
       title: "Appointment Scheduled",
       description: `Your ${visitType} appointment has been scheduled for ${format(date, 'MMMM do, yyyy')} at ${timeSlot} with ${doctor}.`,
     });
+
+    onAppointmentScheduled();
 
     // Simulate sending automated reminders
     const reminderDate = addDays(date, -1);
@@ -103,13 +160,14 @@ export const AppointmentScheduler = () => {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <label className="text-sm font-medium">Select Visit Type</label>
-          <Select onValueChange={(value: 'in-person' | 'telemedicine') => setVisitType(value)} value={visitType}>
+          <Select onValueChange={(value) => setVisitType(Number(value))} value={visitType?.toString()}>
             <SelectTrigger>
               <SelectValue placeholder="Select visit type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="in-person">In-Person Visit</SelectItem>
-              <SelectItem value="telemedicine">Telemedicine</SelectItem>
+              {visitTypes.map((type) => (
+                <SelectItem key={type.id} value={type.id.toString()}>{type.type}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -131,15 +189,11 @@ export const AppointmentScheduler = () => {
 
         <div className="space-y-2">
           <label className="text-sm font-medium">Select Doctor</label>
-          <Select onValueChange={setDoctor} value={doctor}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select doctor" />
-            </SelectTrigger>
+          <Select onValueChange={(value) => setDoctor(Number(value))} value={doctor?.toString()}>
+            <SelectTrigger><SelectValue placeholder="Select doctor" /></SelectTrigger>
             <SelectContent>
-              {availableDoctors.map((doc) => (
-                <SelectItem key={doc} value={doc}>
-                  {doc}
-                </SelectItem>
+              {doctors.map((doc) => (
+                <SelectItem key={doc.id} value={doc.id.toString()}>{doc.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>

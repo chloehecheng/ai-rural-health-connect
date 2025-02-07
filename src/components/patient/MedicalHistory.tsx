@@ -66,6 +66,7 @@ export const MedicalHistory = () => {
 
   return (
     <div className="space-y-6">
+      <br />
       <DashboardCard title="Medical History">
         <div className="relative mb-4">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />

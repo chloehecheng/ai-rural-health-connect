@@ -1,5 +1,6 @@
 
-import React from "react";
+import { useState, useEffect } from "react";
+import { fetchUpcomingAppointments } from "@/api/appointments";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { AccessibilitySettings } from "./AccessibilitySettings";
 import { TelehealthOptions } from "./TelehealthOptions";
@@ -11,6 +12,7 @@ import { MedicationList } from "./MedicationList";
 import { DeliveryStatus } from "./DeliveryStatus";
 import { MessagesView } from "./MessagesView";
 import { MedicalHistory } from "./MedicalHistory";
+import { UpcomingAppointments } from "./UpcomingAppointments";
 
 interface PatientContentProps {
   activeSection: MenuSection;
@@ -20,6 +22,7 @@ interface PatientContentProps {
   setFontSize: (size: number) => void;
   setVoiceAssistant: (enabled: boolean) => void;
   setShowTooltips: (show: boolean) => void;
+  patientId: number;
 }
 
 export const PatientContent = ({
@@ -30,20 +33,41 @@ export const PatientContent = ({
   setFontSize,
   setVoiceAssistant,
   setShowTooltips,
+  patientId,
 }: PatientContentProps) => {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+
+  // Function to refresh appointments after scheduling
+  const refreshAppointments = async () => {
+    const data = await fetchUpcomingAppointments(1);
+    setAppointments(data);
+  };
+
+  // Fetch upcoming appointments when component mounts
+  useEffect(() => {
+    refreshAppointments();
+  }, [patientId]); 
+
   const renderContent = () => {
     switch (activeSection) {
       case "dashboard":
         return (
           <div className="space-y-6">
+            <br />
             <DashboardCard title="Welcome to Your Dashboard">
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <DashboardCard title="Schedule Appointment">
-                    <AppointmentScheduler />
+                    <AppointmentScheduler
+                      patientId={1}
+                      onAppointmentScheduled={refreshAppointments} />
                   </DashboardCard>
                   <div className="space-y-4">
                     <TelehealthOptions />
+                    <UpcomingAppointments 
+                      patientId={1}
+                      appointments={appointments}
+                     />
                   </div>
                 </div>
               </div>
@@ -53,6 +77,7 @@ export const PatientContent = ({
       case "health-metrics":
         return (
           <div className="space-y-6">
+            <br />
             <HealthMetricsOverview 
               fontSize={fontSize}
               showTooltips={showTooltips}
@@ -86,6 +111,7 @@ export const PatientContent = ({
       case "medications":
         return (
           <div className="space-y-6">
+            <br />
             <DashboardCard title="Your Medications">
               <MedicationList />
             </DashboardCard>
