@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,6 +17,7 @@ import {
   LogOut,
   AlertCircle,
   ChevronRight,
+  MessageSquare,
 } from "lucide-react";
 import { MenuSection } from "@/pages/patient/PatientPortal";
 import {
@@ -72,6 +74,12 @@ export const PatientSidebar = ({
       value: "patients" as MenuSection,
       description: "Patient management",
       hasDropdown: true
+    },
+    { 
+      icon: MessageSquare, 
+      label: "Messages", 
+      value: "messages" as MenuSection,
+      description: "Patient communications"
     },
     { 
       icon: FileText, 
