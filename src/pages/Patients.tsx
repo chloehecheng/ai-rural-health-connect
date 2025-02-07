@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Header } from "@/components/Layout/Header";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { SidebarProvider, Sidebar } from "@/components/ui/sidebar";
-import { PatientSidebar } from "@/components/patient/PatientSidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CircleCheck, CircleAlert, CircleX, Eye } from "lucide-react";
@@ -119,14 +118,6 @@ const Patients = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
-        <Sidebar>
-          <PatientSidebar
-            activeSection={activeSection}
-            setActiveSection={setActiveSection}
-            fontSize={fontSize}
-          />
-        </Sidebar>
-        
         <div className="flex-1">
           <Header />
           <main className="container mx-auto px-4 pt-20 pb-8">

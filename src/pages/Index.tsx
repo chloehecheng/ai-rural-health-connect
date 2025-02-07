@@ -26,31 +26,31 @@ import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const mockPatientData = [
-  { 
-    id: 1, 
-    name: "John Doe", 
-    lastVisit: "2024-02-15", 
-    nextAppointment: "2024-03-01", 
+  {
+    id: 1,
+    name: "John Doe",
+    lastVisit: "2024-02-15",
+    nextAppointment: "2024-03-01",
     condition: "Diabetes",
     medications: ["Metformin 500mg", "Lisinopril 10mg"],
     alerts: ["Blood sugar trending high", "Missed last appointment"],
     lastNote: "Patient reported improved glucose control..."
   },
-  { 
-    id: 2, 
-    name: "Jane Smith", 
-    lastVisit: "2024-02-14", 
-    nextAppointment: "2024-03-05", 
+  {
+    id: 2,
+    name: "Jane Smith",
+    lastVisit: "2024-02-14",
+    nextAppointment: "2024-03-05",
     condition: "Hypertension",
     medications: ["Amlodipine 5mg", "Hydrochlorothiazide 25mg"],
     alerts: ["BP readings above target"],
     lastNote: "Medication adjusted due to persistent high BP..."
   },
-  { 
-    id: 3, 
-    name: "Mike Johnson", 
-    lastVisit: "2024-02-10", 
-    nextAppointment: "2024-02-28", 
+  {
+    id: 3,
+    name: "Mike Johnson",
+    lastVisit: "2024-02-10",
+    nextAppointment: "2024-02-28",
     condition: "Asthma",
     medications: ["Albuterol inhaler", "Fluticasone inhaler"],
     alerts: [],
@@ -80,6 +80,15 @@ const Index = () => {
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
+            <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="flex items-center"
+                  onClick={() => navigate("/Index")}
+                >
+                  <FileText className="mr-2" />
+                  <span>Dashboard</span>\
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   className="flex items-center"
@@ -87,6 +96,15 @@ const Index = () => {
                 >
                   <Users className="mr-2" />
                   <span>Patients</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="flex items-center"
+                  onClick={() => navigate("/messages")}
+                >
+                  <FileText className="mr-2" />
+                  <span>Messages</span>\
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -135,7 +153,7 @@ const Index = () => {
             <div className="mb-6 w-full flex justify-center md:justify-start">
               <SearchBar />
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
               <DashboardCard title="Recent Patients" className="min-h-[400px] overflow-y-auto">
                 <div className="space-y-3">
@@ -158,8 +176,8 @@ const Index = () => {
                         Condition: {patient.condition}
                       </p>
                       <div className="mt-2 flex gap-2 flex-wrap">
-                        <button 
-                          onClick={(e) => {
+                        <button
+                          onClick={(e: { stopPropagation: () => void; }) => {
                             e.stopPropagation();
                             navigate(`/patients/${patient.id}/notes`);
                           }}
@@ -168,8 +186,8 @@ const Index = () => {
                           <ClipboardList className="h-3 w-3 inline mr-1" />
                           Notes
                         </button>
-                        <button 
-                          onClick={(e) => {
+                        <button
+                          onClick={(e: { stopPropagation: () => void; }) => {
                             e.stopPropagation();
                             navigate(`/patients/${patient.id}/medications`);
                           }}
@@ -179,8 +197,8 @@ const Index = () => {
                           Meds ({patient.medications.length})
                         </button>
                         {patient.alerts.length > 0 && (
-                          <button 
-                            onClick={(e) => {
+                          <button
+                            onClick={(e: { stopPropagation: () => void; }) => {
                               e.stopPropagation();
                               navigate(`/patients/${patient.id}/alerts`);
                             }}
@@ -201,12 +219,12 @@ const Index = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={mockAppointmentData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis 
-                        dataKey="date" 
+                      <XAxis
+                        dataKey="date"
                         tick={{ fontSize: 12 }}
                         interval="preserveStartEnd"
                       />
-                      <YAxis 
+                      <YAxis
                         tick={{ fontSize: 12 }}
                         width={30}
                       />
