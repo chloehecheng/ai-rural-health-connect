@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 
 interface OTPVerificationProps {
@@ -29,29 +29,26 @@ export const OTPVerification = ({
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div className="flex justify-center">
-          <InputOTP
-            value={otp}
-            onChange={setOTP}
+          <Input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             maxLength={6}
+            placeholder="Enter 6-digit code"
+            value={otp}
+            onChange={(e) => {
+              const value = e.target.value.replace(/[^0-9]/g, "");
+              if (value.length <= 6) {
+                setOTP(value);
+              }
+            }}
+            className="text-center text-lg tracking-widest w-48"
             disabled={isLoading}
-            render={({ slots }) => (
-              <InputOTPGroup className="gap-2">
-                {slots.map((slot, idx) => (
-                  <InputOTPSlot
-                    key={idx}
-                    {...slot}
-                    index={idx}
-                    className="h-12 w-12 text-lg border-2 border-input"
-                  />
-                ))}
-              </InputOTPGroup>
-            )}
           />
         </div>
         <div className="text-center text-sm text-muted-foreground">
-          Didn't receive the code?{" "}
           {resendTimer > 0 ? (
-            <span>Resend in {resendTimer}s</span>
+            <span>Resend code in {resendTimer}s</span>
           ) : (
             <button
               type="button"
@@ -59,7 +56,7 @@ export const OTPVerification = ({
               disabled={isResending || resendTimer > 0}
               className="text-primary hover:underline disabled:opacity-50"
             >
-              {isResending ? "Resending..." : "Resend Code"}
+              Didn't receive the code? Resend
             </button>
           )}
         </div>
