@@ -31,7 +31,7 @@ serve(async (req) => {
     const filePath = `${crypto.randomUUID()}.${fileExt}`
 
     const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('message_attachments')
+      .from('provider_message_attachments')
       .upload(filePath, file)
 
     if (uploadError) throw uploadError
@@ -47,6 +47,17 @@ serve(async (req) => {
       })
 
     if (dbError) throw dbError
+
+    // Create notification for new message with attachment
+    const { error: notificationError } = await supabase
+      .from('message_notifications')
+      .insert({
+        message_id: messageId,
+        type: 'read',
+        recipient_id: (await supabase.from('messages').select('user_id').eq('id', messageId).single()).data?.user_id,
+      })
+
+    if (notificationError) throw notificationError
 
     return new Response(
       JSON.stringify({ success: true, filePath }),
