@@ -88,6 +88,14 @@ export const NewProviderMessageDialog = ({ providerId, patientId, onMessageSent 
     }
   };
 
+  const handleCategoryChange = (value: string) => {
+    setCategory(value as MessageCategory);
+  };
+
+  const handleUrgencyChange = (value: string) => {
+    setUrgency(value as MessageUrgency);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -110,7 +118,7 @@ export const NewProviderMessageDialog = ({ providerId, patientId, onMessageSent 
           
           <div className="grid w-full gap-1.5">
             <Label htmlFor="category">Category</Label>
-            <Select value={category} onValueChange={setCategory}>
+            <Select value={category} onValueChange={handleCategoryChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
@@ -126,7 +134,7 @@ export const NewProviderMessageDialog = ({ providerId, patientId, onMessageSent 
 
           <div className="grid w-full gap-1.5">
             <Label htmlFor="urgency">Urgency</Label>
-            <Select value={urgency} onValueChange={setUrgency}>
+            <Select value={urgency} onValueChange={handleUrgencyChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select urgency" />
               </SelectTrigger>
