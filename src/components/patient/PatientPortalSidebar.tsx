@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   SidebarContent,
   SidebarHeader,
@@ -31,47 +32,48 @@ export const PatientPortalSidebar = ({
   fontSize,
 }: PatientPortalSidebarProps) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const menuItems = [
     { 
       icon: LayoutDashboard, 
-      label: "Dashboard", 
+      label: t("sidebar.dashboard"),
       value: "dashboard" as MenuSection,
       description: "Your health overview"
     },
     { 
       icon: Activity, 
-      label: "Health Metrics", 
+      label: t("sidebar.healthMetrics"), 
       value: "health-metrics" as MenuSection,
       description: "Track your vital signs"
     },
     { 
       icon: Calendar, 
-      label: "Appointments", 
+      label: t("sidebar.appointments"), 
       value: "appointments" as MenuSection,
       description: "Schedule and manage appointments"
     },
     { 
       icon: FileText, 
-      label: "Records", 
+      label: t("sidebar.records"),
       value: "records" as MenuSection,
       description: "View your medical records"
     },
     { 
       icon: Pill, 
-      label: "Medications", 
+      label: t("sidebar.medications"),
       value: "medications" as MenuSection,
       description: "Manage your medications"
     },
     { 
       icon: MessageSquare, 
-      label: "Messages", 
+      label: t("sidebar.messages"), 
       value: "messages" as MenuSection,
       description: "Contact your healthcare team"
     },
     { 
       icon: Settings, 
-      label: "Settings", 
+      label: t("sidebar.settings"), 
       value: "settings" as MenuSection,
       description: "Manage your preferences"
     },
@@ -82,9 +84,8 @@ export const PatientPortalSidebar = ({
       <SidebarHeader className="p-4 bg-white">
         <h2 
           className="text-lg font-semibold" 
-          style={{ fontSize: `${fontSize}px` }}
-        >
-          Patient Portal
+          style={{ fontSize: `${fontSize}px` }}>
+           {t("sidebar.patientPortal")}
         </h2>
       </SidebarHeader>
       <SidebarContent className="bg-white">
@@ -118,7 +119,7 @@ export const PatientPortalSidebar = ({
                 className="truncate"
                 style={{ fontSize: `${fontSize - 2}px` }}
               >
-                Logout
+                {t("sidebar.logout")}
               </span>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -26,5 +26,43 @@
     "it": "Italiano",
     "ko": "Coreano",
     "zh": "Mandarín"
+  },
+  "dashboard": {
+    "welcome": "Bienvenido a tu Panel"
+  },
+  "appointments": {
+    "title": "Citas",
+    "schedule": "Programar Cita"
+  },
+  "healthMetrics": {
+    "record": "Registrar Nueva Métrica"
+  },
+  "medications": {
+    "yourMedications": "Tus Medicamentos",
+    "deliveryStatus": "Estado de Entrega"
+  },
+  "settings": {
+    "accessibility": "Configuración de Accesibilidad"
+  },
+  "common": {
+    "selectSection": "Selecciona una sección del menú"
+  },
+  "sidebar": {
+    "patientPortal": "Portal del Paciente",
+    "dashboard": "Tablero",
+    "dashboardDescription": "Tu resumen de salud",
+    "healthMetrics": "Métricas de Salud",
+    "healthMetricsDescription": "Monitorea tus signos vitales",
+    "appointments": "Citas",
+    "appointmentsDescription": "Agenda y gestiona tus citas",
+    "records": "Registros",
+    "recordsDescription": "Ver tus registros médicos",
+    "medications": "Medicamentos",
+    "medicationsDescription": "Gestiona tus medicamentos",
+    "messages": "Mensajes",
+    "messagesDescription": "Contacta a tu equipo médico",
+    "settings": "Configuración",
+    "settingsDescription": "Administra tus preferencias",
+    "logout": "Cerrar sesión"
   }
 }

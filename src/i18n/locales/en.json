@@ -26,5 +26,43 @@
     "it": "Italian",
     "ko": "Korean",
     "zh": "Mandarin"
+  },
+  "dashboard": {
+    "welcome": "Welcome to Your Dashboard"
+  },
+  "appointments": {
+    "title": "Appointments",
+    "schedule": "Schedule Appointment"
+  },
+  "healthMetrics": {
+    "record": "Record New Metric"
+  },
+  "medications": {
+    "yourMedications": "Your Medications",
+    "deliveryStatus": "Delivery Status"
+  },
+  "settings": {
+    "accessibility": "Accessibility Settings"
+  },
+  "common": {
+    "selectSection": "Select a section from the menu"
+  },
+  "sidebar": {
+    "patientPortal": "Patient Portal",
+    "dashboard": "Dashboard",
+    "dashboardDescription": "Your health overview",
+    "healthMetrics": "Health Metrics",
+    "healthMetricsDescription": "Track your vital signs",
+    "appointments": "Appointments",
+    "appointmentsDescription": "Schedule and manage appointments",
+    "records": "Records",
+    "recordsDescription": "View your medical records",
+    "medications": "Medications",
+    "medicationsDescription": "Manage your medications",
+    "messages": "Messages",
+    "messagesDescription": "Contact your healthcare team",
+    "settings": "Settings",
+    "settingsDescription": "Manage your preferences",
+    "logout": "Logout"
   }
 }

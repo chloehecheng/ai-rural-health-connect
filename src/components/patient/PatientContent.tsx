@@ -13,6 +13,7 @@ import { DeliveryStatus } from "./DeliveryStatus";
 import { MessagesView } from "./MessagesView";
 import { MedicalHistory } from "./MedicalHistory";
 import { UpcomingAppointments } from "./UpcomingAppointments";
+import { useTranslation } from "react-i18next";
 
 interface PatientContentProps {
   activeSection: MenuSection;
@@ -35,6 +36,7 @@ export const PatientContent = ({
   setShowTooltips,
   patientId,
 }: PatientContentProps) => {
+  const { t } = useTranslation();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   // Function to refresh appointments after scheduling
@@ -54,10 +56,10 @@ export const PatientContent = ({
         return (
           <div className="space-y-6">
             <br />
-            <DashboardCard title="Welcome to Your Dashboard">
+            <DashboardCard title={t("dashboard.welcome")}>
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <DashboardCard title="Schedule Appointment">
+                  <DashboardCard title={t("appointments.schedule")}>
                     <AppointmentScheduler
                       patientId={1}
                       onAppointmentScheduled={refreshAppointments} />
@@ -82,14 +84,14 @@ export const PatientContent = ({
               fontSize={fontSize}
               showTooltips={showTooltips}
             />
-            <DashboardCard title="Record New Metric">
+            <DashboardCard title={t("healthMetrics.record")}>
               <HealthMetricsInput />
             </DashboardCard>
           </div>
         );
       case "appointments":
         return (
-          <DashboardCard title="Appointments">
+          <DashboardCard title={t("appointments.title")}>
             <AppointmentScheduler />
           </DashboardCard>
         );
@@ -97,7 +99,7 @@ export const PatientContent = ({
         return <MedicalHistory />;
       case "settings":
         return (
-          <DashboardCard title="Accessibility Settings">
+          <DashboardCard title={t("settings.accessibility")}>
             <AccessibilitySettings
               fontSize={fontSize}
               setFontSize={setFontSize}
@@ -112,10 +114,10 @@ export const PatientContent = ({
         return (
           <div className="space-y-6">
             <br />
-            <DashboardCard title="Your Medications">
+            <DashboardCard title={t("medications.yourMedications")}>
               <MedicationList />
             </DashboardCard>
-            <DashboardCard title="Delivery Status">
+            <DashboardCard title={t("medications.deliveryStatus")}>
               <DeliveryStatus />
             </DashboardCard>
           </div>
@@ -123,7 +125,7 @@ export const PatientContent = ({
       case "messages":
         return <MessagesView />;
       default:
-        return <div>Select a section from the menu</div>;
+        return <div>{t("common.selectSection")}</div>;
     }
   };
 

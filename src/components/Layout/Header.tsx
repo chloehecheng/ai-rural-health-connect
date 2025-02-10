@@ -15,6 +15,7 @@ export const Header = () => {
 
   const handleLanguageChange = (value: string) => {
     i18n.changeLanguage(value);
+    localStorage.setItem("language", value);
   };
 
   return (
