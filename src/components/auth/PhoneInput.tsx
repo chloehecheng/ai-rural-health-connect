@@ -7,12 +7,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface PhoneInputProps {
   phoneNumber: string;
   countryCode: string;
-  setPhoneNumber: (value: string) => void;
-  setCountryCode: (value: string) => void;
+  onPhoneChange: (value: string) => void;
+  onCountryCodeChange: (value: string) => void;
   disabled?: boolean;
 }
 
@@ -27,37 +28,47 @@ const countryCodes = [
 export const PhoneInput = ({
   phoneNumber,
   countryCode,
-  setPhoneNumber,
-  setCountryCode,
+  onPhoneChange,
+  onCountryCodeChange,
   disabled = false,
 }: PhoneInputProps) => {
   return (
-    <div className="flex gap-2">
-      <Select
-        value={countryCode}
-        onValueChange={setCountryCode}
-        disabled={disabled}
-      >
-        <SelectTrigger className="w-[140px]">
-          <SelectValue placeholder="Country" />
-        </SelectTrigger>
-        <SelectContent>
-          {countryCodes.map((code) => (
-            <SelectItem key={code.value} value={code.value}>
-              {code.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Input
-        type="tel"
-        placeholder="Enter your mobile number"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ""))}
-        className="flex-1"
-        maxLength={10}
-        disabled={disabled}
-      />
+    <div className="space-y-6">
+      <Label className="text-3xl font-medium">Phone Number</Label>
+      <div className="flex gap-4">
+        <Select
+          value={countryCode}
+          onValueChange={onCountryCodeChange}
+          disabled={disabled}
+        >
+          <SelectTrigger className="w-[160px] text-2xl h-20 border-2">
+            <SelectValue placeholder="Select country" />
+          </SelectTrigger>
+          <SelectContent>
+            {countryCodes.map((code) => (
+              <SelectItem key={code.value} value={code.value} className="text-2xl">
+                {code.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Input
+          type="tel"
+          placeholder="Please enter your phone number"
+          value={phoneNumber}
+          onChange={(e) => onPhoneChange(e.target.value)}
+          className="flex-1 h-20 border-2 text-3xl text-left placeholder:text-3xl placeholder:text-muted-foreground/50"
+          style={{
+            fontSize: '2.5rem',
+            fontWeight: '600',
+            lineHeight: '5rem',
+            paddingTop: '0',
+            paddingBottom: '0',
+            paddingLeft: '1rem'
+          }}
+          disabled={disabled}
+        />
+      </div>
     </div>
   );
 };

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { PhoneInput } from "@/components/auth/PhoneInput";
 import { OTPVerification } from "@/components/auth/OTPVerification";
 import { Phone, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 import { sendVerificationCode, verifyCode } from "@/lib/twilio";
 
 interface PhoneOTPLoginProps {
@@ -17,9 +17,22 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
   const [showOTP, setShowOTP] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
   const [isResending, setIsResending] = useState(false);
+  const [attemptCount, setAttemptCount] = useState(0);
+  const MAX_ATTEMPTS = 3;
+  const ATTEMPT_RESET_TIME = 15 * 60 * 1000; // 15 minutes
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Reset attempt count after ATTEMPT_RESET_TIME
+    const resetTimer = setTimeout(() => {
+      setAttemptCount(0);
+    }, ATTEMPT_RESET_TIME);
+
+    return () => clearTimeout(resetTimer);
+  }, [attemptCount]);
 
   const startResendTimer = () => {
-    setResendTimer(30);
+    setResendTimer(60); // Increased to 60 seconds
     const timer = setInterval(() => {
       setResendTimer((prev) => {
         if (prev <= 1) {
@@ -37,7 +50,40 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
     return `${countryCode.replace(/\s+/g, '')}${trimmed}`;
   };
 
+  const showLargeToast = (title: string, description: string, type: 'success' | 'error') => {
+    const bgColor = type === 'success' ? 'bg-blue-50' : 'bg-red-50';
+    const borderColor = type === 'success' ? 'border-blue-500' : 'border-red-500';
+    const icon = type === 'success' ? '✅' : '❌';
+
+    toast({
+      title: `${icon}  ${title}`,
+      description,
+      className: `${bgColor} border-4 ${borderColor} p-24 rounded-2xl shadow-2xl [&>div>h1]:text-5xl [&>div>h1]:font-bold [&>div>h1]:leading-normal [&>div>div]:text-4xl [&>div>div]:font-medium [&>div>div]:mt-4 [&>div>div]:leading-normal`,
+      duration: 3000,
+      style: {
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        width: 'auto',
+        maxWidth: '800px',
+        minWidth: '600px',
+        zIndex: 1000
+      }
+    });
+  };
+
   const handleSendOTP = async () => {
+    // Check attempt count
+    if (attemptCount >= MAX_ATTEMPTS) {
+      const remainingTime = Math.ceil(ATTEMPT_RESET_TIME / 60000);
+      showLargeToast(
+        "Too Many Attempts!",
+        `Try again in ${remainingTime} minutes.`,
+        'error'
+      );
+      return;
+    }
+
     setIsLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
@@ -46,16 +92,49 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
       const { data, error } = await sendVerificationCode(formattedPhone);
 
       if (error || (data && data.status === 'error')) {
-        toast.error(error?.message || 'Failed to send verification code');
+        // Check for rate limit error
+        if (error?.message?.toLowerCase().includes('too many requests')) {
+          showLargeToast(
+            "Too Many Requests!",
+            "Try again in 15 minutes.",
+            'error'
+          );
+          setAttemptCount(MAX_ATTEMPTS); // Force cooldown
+        } else {
+          showLargeToast(
+            "Failed to Send Code!",
+            "Try again.",
+            'error'
+          );
+          setAttemptCount(prev => prev + 1);
+        }
         console.error('Verification Error:', error || data);
         return;
       }
 
       setShowOTP(true);
       startResendTimer();
-      toast.success("Verification code sent successfully!");
+      showLargeToast(
+        "Code Sent!",
+        "Check your phone for the code.",
+        'success'
+      );
     } catch (error: any) {
-      toast.error("An unexpected error occurred. Please try again.");
+      if (error?.message?.toLowerCase().includes('too many requests')) {
+        showLargeToast(
+          "Too Many Requests!",
+          "Try again in 15 minutes.",
+          'error'
+        );
+        setAttemptCount(MAX_ATTEMPTS); // Force cooldown
+      } else {
+        showLargeToast(
+          "An Error Occurred!",
+          "Try again.",
+          'error'
+        );
+        setAttemptCount(prev => prev + 1);
+      }
       console.error("Error:", error);
     } finally {
       setIsLoading(false);
@@ -73,13 +152,21 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
 
       if (error || !data) {
         console.error("Twilio verification error:", error);
-        toast.error("Failed to verify code with Twilio");
+        showLargeToast(
+          "Failed to Verify Code!",
+          "Try again.",
+          'error'
+        );
         return;
       }
 
       if (!data.valid) {
         console.error("Invalid verification code. Status:", data.status);
-        toast.error("Invalid verification code. Please check and try again.");
+        showLargeToast(
+          "Invalid Code!",
+          "Try again.",
+          'error'
+        );
         return;
       }
 
@@ -87,11 +174,19 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
       localStorage.setItem('phoneNumber', formattedPhone);
       localStorage.setItem('verifiedAt', new Date().toISOString());
 
-      toast.success("Phone number verified successfully!");
+      showLargeToast(
+        "Phone Number Verified!",
+        "You can now proceed.",
+        'success'
+      );
       onSuccess();
     } catch (error: any) {
       console.error("Unexpected error:", error);
-      toast.error("An unexpected error occurred. Please try again.");
+      showLargeToast(
+        "An Error Occurred!",
+        "Try again.",
+        'error'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -107,39 +202,39 @@ export const PhoneOTPLogin = ({ onSuccess }: PhoneOTPLoginProps) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
       {!showOTP ? (
-        <div className="space-y-4">
+        <>
           <PhoneInput
             phoneNumber={phoneNumber}
             countryCode={countryCode}
-            setPhoneNumber={setPhoneNumber}
-            setCountryCode={setCountryCode}
+            onPhoneChange={setPhoneNumber}
+            onCountryCodeChange={setCountryCode}
             disabled={isLoading}
           />
           <Button
             onClick={handleSendOTP}
-            className="w-full h-12 text-lg"
-            disabled={isLoading || !phoneNumber}
+            disabled={!phoneNumber || isLoading || attemptCount >= MAX_ATTEMPTS}
+            className="w-full text-2xl h-20 mt-6"
           >
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Sending code...
+                <Loader2 className="mr-3 h-7 w-7 animate-spin" />
+                Sending Code...
               </>
             ) : (
               <>
-                <Phone className="mr-2 h-4 w-4" />
+                <Phone className="mr-3 h-7 w-7" />
                 Send Verification Code
               </>
             )}
           </Button>
-        </div>
+        </>
       ) : (
         <OTPVerification
-          isLoading={isLoading}
           onVerify={handleVerifyOTP}
           onResend={handleResendOTP}
+          isLoading={isLoading}
           resendTimer={resendTimer}
           isResending={isResending}
         />
