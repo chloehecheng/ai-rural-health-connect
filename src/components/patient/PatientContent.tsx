@@ -1,5 +1,6 @@
-
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { fetchUpcomingAppointments } from "@/api/appointments";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { AccessibilitySettings } from "./AccessibilitySettings";
@@ -37,6 +38,7 @@ export const PatientContent = ({
   patientId,
 }: PatientContentProps) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   // Function to refresh appointments after scheduling
@@ -57,21 +59,79 @@ export const PatientContent = ({
           <div className="space-y-6">
             <br />
             <DashboardCard title={t("dashboard.welcome")}>
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <DashboardCard title={t("appointments.schedule")}>
-                    <AppointmentScheduler
-                      patientId={1}
-                      onAppointmentScheduled={refreshAppointments} />
-                  </DashboardCard>
-                  <div className="space-y-4">
-                    <TelehealthOptions />
-                    <UpcomingAppointments 
-                      patientId={1}
-                      appointments={appointments}
-                     />
-                  </div>
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/schedule-appointment")}
+                >
+                  Schedule Appointment
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/virtual-visit")}
+                >
+                  Virtual Visit
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/prescription-delivery")}
+                >
+                  Prescription Delivery
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/medication-reminders")}
+                >
+                  Medication Reminders
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/health-records")}
+                >
+                  Health Records
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/family-access")}
+                >
+                  Family Access
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/transportation")}
+                >
+                  Transportation
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/health-monitoring")}
+                >
+                  Health Monitoring
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/message-care-team")}
+                >
+                  Message Care Team
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/medication-management")}
+                >
+                  Medication Management
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/care-reminders")}
+                >
+                  Care Reminders
+                </Button>
+                <Button
+                  className="text-xl p-6"
+                  onClick={() => navigate("/features/support")}
+                >
+                  Support
+                </Button>
               </div>
             </DashboardCard>
           </div>
