@@ -3,12 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthenticationModal } from "@/components/auth/AuthenticationModal";
-import { Video, Mic, MicOff, VideoOff, Phone } from "lucide-react";
+import { Video, Mic, MicOff, VideoOff, Phone, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 export const VirtualVisit = () => {
   const navigate = useNavigate();
+  const [step, setStep] = useState<"selection" | "review" | "confirmed">("selection");
   const [showAuth, setShowAuth] = useState(false);
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [audioEnabled, setAudioEnabled] = useState(true);
@@ -17,6 +18,16 @@ export const VirtualVisit = () => {
   const handleJoinCall = () => {
     setShowAuth(true);
   };
+
+  const helpText = [
+    "Click 'Connection Check' to ensure your internet is stable.",
+    "View your camera in the 'Camera Preview' section. Ensure you can see yourself clearly.",
+    "Check your microphone using the 'Audio Level Meter'. The bar should move when you speak.",
+    "Use 'Turn Off Camera' or 'Turn Off Microphone' if you wish to disable them.",
+    "Grant camera and microphone permissions if prompted by your browser.",
+    "Once ready, click 'Join Visit' to enter your virtual appointment.",
+    "Use the 'Back' button to return to the previous screen if needed."
+  ];
 
   const handleAuthSuccess = () => {
     // Here you would actually start the virtual visit
@@ -152,6 +163,15 @@ export const VirtualVisit = () => {
               <ArrowLeft className="w-6 h-6 mr-2" />
               Back
             </Button>
+          </div>
+          <div className="mt-12 p-6 border-t border-gray-300">
+            <h2 className="text-3xl font-bold mb-4 flex items-center text-purple-400">
+            <HelpCircle className="w-8 h-8 mr-2" /> Need Help?</h2>
+            <ul className="list-disc list-inside space-y-2 text-lg">
+              {helpText.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
           </div>
         </CardContent>
       </Card>
