@@ -9,146 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      appointment_types: {
-        Row: {
-          id: number
-          type: string
-        }
-        Insert: {
-          id?: number
-          type: string
-        }
-        Update: {
-          id?: number
-          type?: string
-        }
-        Relationships: []
-      }
-      appointments: {
-        Row: {
-          appointment_date: string
-          appointment_time: string
-          appointment_type_id: number | null
-          created_at: string | null
-          doctor_id: number | null
-          id: number
-          patient_id: number | null
-          status: string
-        }
-        Insert: {
-          appointment_date: string
-          appointment_time: string
-          appointment_type_id?: number | null
-          created_at?: string | null
-          doctor_id?: number | null
-          id?: number
-          patient_id?: number | null
-          status: string
-        }
-        Update: {
-          appointment_date?: string
-          appointment_time?: string
-          appointment_type_id?: number | null
-          created_at?: string | null
-          doctor_id?: number | null
-          id?: number
-          patient_id?: number | null
-          status?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "appointments_appointment_type_id_fkey"
-            columns: ["appointment_type_id"]
-            isOneToOne: false
-            referencedRelation: "appointment_types"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "appointments_doctor_id_fkey"
-            columns: ["doctor_id"]
-            isOneToOne: false
-            referencedRelation: "doctors"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "appointments_patient_id_fkey"
-            columns: ["patient_id"]
-            isOneToOne: false
-            referencedRelation: "patients"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      doctor_availability: {
-        Row: {
-          day_of_week: string
-          doctor_id: number | null
-          end_time: string
-          id: number
-          start_time: string
-        }
-        Insert: {
-          day_of_week: string
-          doctor_id?: number | null
-          end_time: string
-          id?: number
-          start_time: string
-        }
-        Update: {
-          day_of_week?: string
-          doctor_id?: number | null
-          end_time?: string
-          id?: number
-          start_time?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "doctor_availability_doctor_id_fkey"
-            columns: ["doctor_id"]
-            isOneToOne: false
-            referencedRelation: "doctors"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      doctors: {
-        Row: {
-          created_at: string | null
-          email: string
-          first_name: string
-          id: number
-          last_name: string
-          phone: string
-          specialty_id: number | null
-        }
-        Insert: {
-          created_at?: string | null
-          email: string
-          first_name: string
-          id?: number
-          last_name: string
-          phone: string
-          specialty_id?: number | null
-        }
-        Update: {
-          created_at?: string | null
-          email?: string
-          first_name?: string
-          id?: number
-          last_name?: string
-          phone?: string
-          specialty_id?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "doctors_specialty_id_fkey"
-            columns: ["specialty_id"]
-            isOneToOne: false
-            referencedRelation: "specialties"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       health_metrics: {
         Row: {
           id: string
@@ -434,36 +294,6 @@ export type Database = {
         }
         Relationships: []
       }
-      patients: {
-        Row: {
-          created_at: string | null
-          date_of_birth: string
-          email: string
-          first_name: string
-          id: number
-          last_name: string
-          phone: string
-        }
-        Insert: {
-          created_at?: string | null
-          date_of_birth: string
-          email: string
-          first_name: string
-          id?: number
-          last_name: string
-          phone: string
-        }
-        Update: {
-          created_at?: string | null
-          date_of_birth?: string
-          email?: string
-          first_name?: string
-          id?: number
-          last_name?: string
-          phone?: string
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           created_at: string
@@ -500,21 +330,6 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
-        }
-        Relationships: []
-      }
-      specialties: {
-        Row: {
-          id: number
-          name: string
-        }
-        Insert: {
-          id?: number
-          name: string
-        }
-        Update: {
-          id?: number
-          name?: string
         }
         Relationships: []
       }
