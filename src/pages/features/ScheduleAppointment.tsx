@@ -1,4 +1,5 @@
 import { useState, memo } from "react";
+import React from "react";
 import { BaseFeature } from "@/components/features/BaseFeature";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -23,10 +24,11 @@ const FormField = memo(({
   </div>
 ));
 
-export const ScheduleAppointment = () => {
+export const ScheduleAppointment = React.memo(() => {
   const navigate = useNavigate();
   const [step, setStep] = useState<"selection" | "review" | "confirmed">("selection");
   const [showAuth, setShowAuth] = useState(false);
+  const [reason, setReason] = useState("");
   const [appointment, setAppointment] = useState({
     doctor: "",
     appointmentType: "",
@@ -49,7 +51,7 @@ export const ScheduleAppointment = () => {
   ];
 
   const handleReview = () => {
-    if (!appointment.doctor || !appointment.appointmentType || !appointment.date || !appointment.time || !appointment.reason) {
+    if (!appointment.doctor || !appointment.appointmentType || !appointment.date || !appointment.time || !reason) {
       toast({
         title: "Please Fill All Required Fields",
         description: "We need all the information to schedule your appointment properly.",
@@ -57,6 +59,10 @@ export const ScheduleAppointment = () => {
       });
       return;
     }
+    setAppointment((prev) => ({
+      ...prev,
+      reason,
+    }));
     setStep("review");
   };
 
@@ -151,8 +157,8 @@ export const ScheduleAppointment = () => {
 
           <FormField label="Reason for Visit">
             <Input
-              value={appointment.reason}
-              onChange={(e) => setAppointment(prev => ({ ...prev, reason: e.target.value }))}
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
               className="text-xl p-6"
               placeholder="Briefly describe why you need to see the doctor"
             />
@@ -179,7 +185,7 @@ export const ScheduleAppointment = () => {
           <Button
             className="w-full text-2xl p-8"
             onClick={handleReview}
-            disabled={!appointment.doctor || !appointment.appointmentType || !appointment.date || !appointment.time || !appointment.reason}
+            disabled={!appointment.doctor || !appointment.appointmentType || !appointment.date || !appointment.time || !reason}
           >
             Review Appointment Details
           </Button>
@@ -339,4 +345,4 @@ export const ScheduleAppointment = () => {
       {step === "confirmed" && <ConfirmedScreen />}
     </BaseFeature>
   );
-};
+});

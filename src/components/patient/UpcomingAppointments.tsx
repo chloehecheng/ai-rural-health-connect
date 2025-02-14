@@ -23,6 +23,7 @@ export const UpcomingAppointments = ({ patientId }: {patientId: number, appointm
     loadAppointments();
   }, [patientId]);
 
+  //This needs more error handling
   const handleCancel = async (appointmentId: number) => {
     const success = await cancelAppointment(appointmentId);
     if (success) {

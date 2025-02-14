@@ -47,7 +47,7 @@ export const BaseFeature = ({
               variant="ghost"
               size="lg"
               className="text-xl"
-              onClick={() => navigate("/features")}
+              onClick={() => navigate("/auth/login?step=features")}
             >
               <Home className="w-6 h-6 mr-2" />
               Home
