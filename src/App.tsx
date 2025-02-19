@@ -10,6 +10,7 @@ import Records from "./pages/Records";
 import Alerts from "./pages/Alerts";
 import Settings from "./pages/Settings";
 import Login from "./pages/auth/Login";
+import ProviderLogin from "./pages/auth/ProviderLogin"; // Added import statement
 import PatientPortal from "./pages/patient/PatientPortal";
 import PatientDetails from "./pages/PatientDetails";
 import Messages from './pages/messages';
@@ -42,6 +43,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Navigate to="/auth/login" replace />} />
                 <Route path="/auth/login" element={<Login />} />
+                <Route path="/provider-login" element={<ProviderLogin />} />
                 <Route path="/patient-portal" element={<PatientPortal />} />
                 <Route path="/dashboard" element={<Index />} />
                 <Route path="/patients" element={<Patients />} />

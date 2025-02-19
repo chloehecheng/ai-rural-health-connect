@@ -172,6 +172,18 @@ export default function Login() {
 
   return (
     <div className="min-h-screen w-full flex items-start justify-center bg-[#e8ecf5] px-10 py-8">
+      {/* Provider Sign In Button */}
+      <div className="absolute top-6 right-6">
+        <Button
+          variant="outline"
+          className="bg-white/90 hover:bg-white text-[#2d3748] hover:text-[#1a202c] text-lg px-8 py-3 flex items-center gap-3 shadow-md hover:shadow-lg border-2 border-[#4299e1] hover:border-[#2d3748] transition-all font-semibold rounded-xl"
+          onClick={() => navigate("/provider-login")}
+        >
+          <Users className="w-6 h-6" />
+          Provider Sign In
+        </Button>
+      </div>
+
       <div className="w-full max-w-[90rem] mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-7xl md:text-8xl font-bold tracking-tight text-[#2d3748] mb-6">
