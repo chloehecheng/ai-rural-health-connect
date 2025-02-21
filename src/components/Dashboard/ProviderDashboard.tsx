@@ -32,6 +32,7 @@ interface Patient {
 
 interface Appointment {
   id: string;
+  patientId: string;
   patientName: string;
   dateTime: string;
   type: string;
@@ -82,6 +83,7 @@ export const ProviderDashboard = () => {
   const upcomingAppointments: Appointment[] = [
     {
       id: '1',
+      patientId: '1',
       patientName: 'John Doe',
       dateTime: '9:00 AM',
       type: 'Follow-up',
@@ -89,6 +91,7 @@ export const ProviderDashboard = () => {
     },
     {
       id: '2',
+      patientId: '2',
       patientName: 'Sarah Wilson',
       dateTime: '10:30 AM',
       type: 'New Patient',
@@ -96,6 +99,7 @@ export const ProviderDashboard = () => {
     },
     {
       id: '3',
+      patientId: '3',
       patientName: 'Mike Johnson',
       dateTime: '2:00 PM',
       type: 'Check-up',
@@ -242,7 +246,11 @@ export const ProviderDashboard = () => {
                       </div>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm">
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => navigate(`/patient/${appointment.patientId}`)}
+                  >
                     View
                   </Button>
                 </div>
