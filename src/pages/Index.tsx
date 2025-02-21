@@ -1,7 +1,6 @@
 import { Header } from "@/components/Layout/Header";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
-import { AIAssistant } from "@/components/Dashboard/AIAssistant";
-import { StructuredTemplates } from "@/components/Dashboard/StructuredTemplates";
+import { ProviderDashboard } from "@/components/Dashboard/ProviderDashboard";
 import { SearchBar } from "@/components/Dashboard/SearchBar";
 import {
   SidebarProvider,
@@ -21,6 +20,10 @@ import {
   Pill,
   AlertCircle,
   ClipboardList,
+  Calendar,
+  MessageSquare,
+  FolderOpen,
+  BarChart,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -74,72 +77,73 @@ const Index = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex flex-col md:flex-row w-full bg-gray-50">
-        <Sidebar className="md:w-64 w-full">
-          <SidebarHeader className="p-4">
-            <h2 className="text-lg font-semibold">Provider Dashboard</h2>
+        <Sidebar className="md:w-64 w-full bg-white border-r">
+          <SidebarHeader className="p-6 border-b">
+            <h2 className="text-3xl font-bold text-primary">Provider Dashboard</h2>
           </SidebarHeader>
-          <SidebarContent>
+          <SidebarContent className="p-3">
             <SidebarMenu>
-            <SidebarMenuItem>
+              <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="flex items-center"
+                  className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                   onClick={() => navigate("/dashboard")}
                 >
-                  <FileText className="mr-2" />
+                  <FileText className="w-7 h-7 mr-4 text-primary" />
                   <span>Dashboard</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="flex items-center"
+                  className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                   onClick={() => navigate("/patients")}
                 >
-                  <Users className="mr-2" />
+                  <Users className="w-7 h-7 mr-4 text-primary" />
                   <span>Patients</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="flex items-center"
+                  className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                   onClick={() => navigate("/messages")}
                 >
-                  <FileText className="mr-2" />
+                  <MessageSquare className="w-7 h-7 mr-4 text-primary" />
                   <span>Messages</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="flex items-center"
+                  className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                   onClick={() => navigate("/records")}
                 >
-                  <FileText className="mr-2" />
+                  <FolderOpen className="w-7 h-7 mr-4 text-primary" />
                   <span>Records</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="flex items-center"
+                  className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                   onClick={() => navigate("/alerts")}
                 >
-                  <Bell className="mr-2" />
+                  <Bell className="w-7 h-7 mr-4 text-primary" />
                   <span>Alerts</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <div className="my-4 border-t"></div>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="flex items-center"
+                  className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                   onClick={() => navigate("/settings")}
                 >
-                  <Settings className="mr-2" />
+                  <Settings className="w-7 h-7 mr-4 text-primary" />
                   <span>Settings</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="flex items-center text-red-500"
+                  className="flex items-center p-4 text-xl rounded-lg hover:bg-red-50 text-red-600 transition-colors duration-200 font-medium"
                   onClick={() => navigate("/auth/login")}
                 >
-                  <LogOut className="mr-2" />
+                  <LogOut className="w-7 h-7 mr-4" />
                   <span>Logout</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -153,125 +157,7 @@ const Index = () => {
             <div className="mb-6 w-full flex justify-center md:justify-start">
               <SearchBar />
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
-              <DashboardCard title="Recent Patients" className="min-h-[400px] overflow-y-auto">
-                <div className="space-y-3">
-                  {mockPatientData.slice(0, 3).map((patient) => (
-                    <div
-                      key={patient.id}
-                      className="p-3 md:p-4 bg-primary/5 rounded-lg cursor-pointer hover:bg-primary/10 transition-colors"
-                      onClick={() => navigate(`/patients/${patient.id}`)}
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <p className="font-medium text-sm md:text-base">{patient.name}</p>
-                        {patient.alerts.length > 0 && (
-                          <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
-                        )}
-                      </div>
-                      <p className="text-xs md:text-sm text-gray-600">
-                        Next Appointment: {patient.nextAppointment}
-                      </p>
-                      <p className="text-xs md:text-sm text-gray-600">
-                        Condition: {patient.condition}
-                      </p>
-                      <div className="mt-2 flex gap-2 flex-wrap">
-                        <button
-                          onClick={(e: { stopPropagation: () => void; }) => {
-                            e.stopPropagation();
-                            navigate(`/patients/${patient.id}/notes`);
-                          }}
-                          className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full hover:bg-blue-200 transition-colors"
-                        >
-                          <ClipboardList className="h-3 w-3 inline mr-1" />
-                          Notes
-                        </button>
-                        <button
-                          onClick={(e: { stopPropagation: () => void; }) => {
-                            e.stopPropagation();
-                            navigate(`/patients/${patient.id}/medications`);
-                          }}
-                          className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full hover:bg-green-200 transition-colors"
-                        >
-                          <Pill className="h-3 w-3 inline mr-1" />
-                          Meds ({patient.medications.length})
-                        </button>
-                        {patient.alerts.length > 0 && (
-                          <button
-                            onClick={(e: { stopPropagation: () => void; }) => {
-                              e.stopPropagation();
-                              navigate(`/patients/${patient.id}/alerts`);
-                            }}
-                            className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full hover:bg-red-200 transition-colors"
-                          >
-                            <AlertCircle className="h-3 w-3 inline mr-1" />
-                            Alerts ({patient.alerts.length})
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </DashboardCard>
-
-              <DashboardCard title="Weekly Appointments" className="min-h-[400px]">
-                <div className="h-[300px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={mockAppointmentData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis
-                        dataKey="date"
-                        tick={{ fontSize: 12 }}
-                        interval="preserveStartEnd"
-                      />
-                      <YAxis
-                        tick={{ fontSize: 12 }}
-                        width={30}
-                      />
-                      <Tooltip />
-                      <Line
-                        type="monotone"
-                        dataKey="count"
-                        stroke="#8884d8"
-                        strokeWidth={2}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              </DashboardCard>
-
-              <DashboardCard title="Quick Actions" className="min-h-[400px]">
-                <div className="space-y-3 md:space-y-4">
-                  <button
-                    onClick={() => navigate("/patients/new")}
-                    className="w-full p-3 md:p-4 text-left bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors"
-                  >
-                    Add New Patient
-                  </button>
-                  <button
-                    onClick={() => navigate("/records/new")}
-                    className="w-full p-3 md:p-4 text-left bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors"
-                  >
-                    Create Medical Record
-                  </button>
-                  <button
-                    onClick={() => navigate("/alerts")}
-                    className="w-full p-3 md:p-4 text-left bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors"
-                  >
-                    View Patient Alerts
-                  </button>
-                </div>
-              </DashboardCard>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <DashboardCard title="AI Documentation">
-                <AIAssistant />
-              </DashboardCard>
-              <DashboardCard title="Structured Templates">
-                <StructuredTemplates />
-              </DashboardCard>
-            </div>
+            <ProviderDashboard />
           </main>
         </div>
       </div>
