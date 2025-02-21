@@ -26,9 +26,9 @@ import {
 const mockPatients = {
   "1": {
     name: "John Doe",
-    age: 45,
+    age: 70,
     gender: "Male",
-    dateOfBirth: "1979-05-15",
+    dateOfBirth: "1954-05-15",
     condition: "Diabetes Type 2",
     nextAppointment: "2024-03-01",
     symptoms: [
@@ -39,7 +39,7 @@ const mockPatients = {
       "Blurred vision"
     ],
     medications: [
-      { name: "Metformin", dosage: "500mg", frequency: "twice daily" },
+    
       { name: "Lisinopril", dosage: "10mg", frequency: "once daily" },
     ],
     vitals: {
@@ -57,7 +57,6 @@ const mockPatients = {
       { name: "Tdap", date: "2022-03-10" }
     ],
     medicalHistory: [
-      "Type 2 Diabetes diagnosed 2020",
       "Hypertension diagnosed 2019",
       "Appendectomy 2010"
     ]
