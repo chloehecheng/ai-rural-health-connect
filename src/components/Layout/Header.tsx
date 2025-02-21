@@ -19,36 +19,35 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-gradient-primary border-b border-white/20 fixed w-full z-50">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <SidebarTrigger className="text-white hover:text-white/80" />
-          <h1 className="text-xl font-semibold text-white">{t("common.appName", "RuralCare AI")}</h1>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <Select
-            value={i18n.language}
-            onValueChange={handleLanguageChange}
-          >
-            <SelectTrigger className="w-[140px] bg-white/10 border-white/20 text-white">
-              <SelectValue placeholder={t("accessibility.language")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="en">{t("languages.en")}</SelectItem>
-              <SelectItem value="es">{t("languages.es")}</SelectItem>
-              <SelectItem value="ru">{t("languages.ru")}</SelectItem>
-              <SelectItem value="it">{t("languages.it")}</SelectItem>
-              <SelectItem value="ko">{t("languages.ko")}</SelectItem>
-              <SelectItem value="zh">{t("languages.zh")}</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button variant="ghost" size="icon" className="text-white hover:text-white/80">
-            <Bell className="h-5 w-5" />
-          </Button>
-          <Button variant="secondary" className="bg-white/10 hover:bg-white/20 text-white border-white/20">
-            {t("common.signIn", "Sign In")}
-          </Button>
+    <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white sticky top-0 z-50">
+      <div className="w-full py-4">
+        <div className="mx-auto max-w-[1200px] flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <SidebarTrigger className="text-white hover:text-white/90" />
+            <h1 className="text-xl font-semibold">{t("common.appName", "RuralCare AI")}</h1>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            <Select
+              value={i18n.language}
+              onValueChange={handleLanguageChange}
+            >
+              <SelectTrigger className="w-[140px] bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <SelectValue placeholder={t("accessibility.language")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">{t("languages.en")}</SelectItem>
+                <SelectItem value="es">{t("languages.es")}</SelectItem>
+                <SelectItem value="ru">{t("languages.ru")}</SelectItem>
+                <SelectItem value="it">{t("languages.it")}</SelectItem>
+                <SelectItem value="ko">{t("languages.ko")}</SelectItem>
+                <SelectItem value="zh">{t("languages.zh")}</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+              <Bell className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </div>
     </header>
