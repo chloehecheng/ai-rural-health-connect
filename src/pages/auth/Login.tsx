@@ -146,13 +146,13 @@ export default function Login() {
           icon={<MessageSquare className="w-12 h-12" />}
           title="Message Your Care Team"
           description="Communicate with your entire healthcare team"
-          onClick={() => navigate("/features/messages")}
+          onClick={() => navigate("/features/message-care-team")}
         />
         <ActionCard
           icon={<Pill className="w-12 h-12" />}
           title="Medication Management"
           description="View and manage all your prescriptions"
-          onClick={() => navigate("/features/medications")}
+          onClick={() => navigate("/features/medication-management")}
         />
         <ActionCard
           icon={<Bell className="w-12 h-12" />}

@@ -62,9 +62,29 @@ export const ScheduleAppointment = React.memo(() => {
       onAuthSuccess={handleAuthSuccess}
       actionName="Schedule Appointment"
     >
-      {step === "selection" && <SelectionScreen reason={reason} setReason={setReason} appointment={appointment} setAppointment={setAppointment} handleReview={handleReview} />}
-      {step === "review" && <ReviewScreen appointment={appointment} setStep={setStep} handleConfirm={handleConfirm} />}
-      {step === "confirmed" && <ConfirmedScreen appointment={appointment} navigate={navigate} />}
+      {step === "selection" && (
+        <SelectionScreen 
+          reason={reason} 
+          setReason={setReason} 
+          appointment={appointment} 
+          setAppointment={setAppointment} 
+          handleReview={handleReview} 
+          navigate={navigate}
+        />
+      )}
+      {step === "review" && (
+        <ReviewScreen 
+          appointment={appointment} 
+          setStep={setStep} 
+          handleConfirm={handleConfirm} 
+        />
+      )}
+      {step === "confirmed" && (
+        <ConfirmedScreen 
+          appointment={appointment} 
+          navigate={navigate} 
+        />
+      )}
     </BaseFeature>
   );
 });

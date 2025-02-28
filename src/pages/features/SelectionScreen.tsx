@@ -164,7 +164,7 @@ export const SelectionScreen = ({
           <Button
             variant="outline"
             className="text-2xl px-8 py-6"
-            onClick={() => navigate("/auth/login?step=features")}
+            onClick={() => navigate("/auth/login?step=features")} 
           >
             <ArrowLeft className="w-6 h-6 mr-2" />
             Back
