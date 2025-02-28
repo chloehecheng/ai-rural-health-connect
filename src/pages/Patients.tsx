@@ -118,72 +118,72 @@ const Patients = () => {
   return (
       <SidebarProvider>
         <div className="min-h-screen flex flex-col md:flex-row w-full bg-gray-50">
-          <Sidebar className="md:w-64 w-full">
-            <SidebarHeader className="p-4">
-              <h2 className="text-lg font-semibold">Provider Dashboard</h2>
+          <Sidebar className="md:w-64 w-full bg-white border-r">
+            <SidebarHeader className="p-6 border-b">
+              <h2 className="text-3xl font-bold text-primary">Provider Dashboard</h2>
             </SidebarHeader>
-            <SidebarContent>
+            <SidebarContent className="p-3">
               <SidebarMenu>
-              <SidebarMenuItem>
+                <SidebarMenuItem>
                   <SidebarMenuButton
-                    className="flex items-center"
+                    className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                     onClick={() => navigate("/dashboard")}
                   >
-                    <FileText className="mr-2" />
+                    <FileText className="w-7 h-7 mr-4 text-primary" />
                     <span>Dashboard</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
-                    className="flex items-center"
+                    className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                     onClick={() => navigate("/patients")}
                   >
-                    <Users className="mr-2" />
+                    <Users className="w-7 h-7 mr-4 text-primary" />
                     <span>Patients</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
-                    className="flex items-center"
+                    className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                     onClick={() => navigate("/messages")}
                   >
-                    <FileText className="mr-2" />
+                    <FileText className="w-7 h-7 mr-4 text-primary" />
                     <span>Messages</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
-                    className="flex items-center"
+                    className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                     onClick={() => navigate("/records")}
                   >
-                    <FileText className="mr-2" />
+                    <FileText className="w-7 h-7 mr-4 text-primary" />
                     <span>Records</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
-                    className="flex items-center"
+                    className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                     onClick={() => navigate("/alerts")}
                   >
-                    <Bell className="mr-2" />
+                    <Bell className="w-7 h-7 mr-4 text-primary" />
                     <span>Alerts</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
-                    className="flex items-center"
+                    className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                     onClick={() => navigate("/settings")}
                   >
-                    <Settings className="mr-2" />
+                    <Settings className="w-7 h-7 mr-4 text-primary" />
                     <span>Settings</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
-                    className="flex items-center text-red-500"
+                    className="flex items-center p-4 text-xl rounded-lg hover:bg-red-50 text-red-600 transition-colors duration-200 font-medium"
                     onClick={() => navigate("/auth/login")}
                   >
-                    <LogOut className="mr-2" />
+                    <LogOut className="w-7 h-7 mr-4" />
                     <span>Logout</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
