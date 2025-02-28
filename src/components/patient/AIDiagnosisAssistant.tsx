@@ -49,6 +49,7 @@ interface TreatmentPlan {
 interface Prescription {
   name: string;
   dosage: string;
+  availableDosages: string[];
   frequency: string;
   duration: string;
   contraindications?: string[];
@@ -199,6 +200,7 @@ const mockPrescriptions: Prescription[] = [
   {
     name: "Metformin",
     dosage: "500mg",
+    availableDosages: ["500mg", "850mg", "1000mg"],
     frequency: "Twice daily with meals",
     duration: "3 months initial prescription",
     contraindications: [
@@ -242,6 +244,7 @@ const mockPrescriptions: Prescription[] = [
   {
     name: "Lisinopril",
     dosage: "10mg",
+    availableDosages: ["5mg", "10mg", "20mg"],
     frequency: "Once daily",
     duration: "3 months initial prescription",
     contraindications: [
@@ -294,6 +297,7 @@ export const AIDiagnosisAssistant = ({
   const [selectedDiagnosis, setSelectedDiagnosis] = useState<Diagnosis | null>(null);
   const [selectedTreatment, setSelectedTreatment] = useState<TreatmentPlan | null>(null);
   const [selectedPrescription, setSelectedPrescription] = useState<Prescription | null>(null);
+  const [selectedDosages, setSelectedDosages] = useState<Record<string, string>>({});
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [diagnosesLoaded, setDiagnosesLoaded] = useState(false);
   const [showingAlternatives, setShowingAlternatives] = useState<string | null>(null);
@@ -302,6 +306,7 @@ export const AIDiagnosisAssistant = ({
 
   const analyzeDiagnosis = () => {
     setIsAnalyzing(true);
+    setTreatmentNotes({});  // Reset notes when starting new analysis
     // Simulate API call
     setTimeout(() => {
       setIsAnalyzing(false);
@@ -348,7 +353,9 @@ export const AIDiagnosisAssistant = ({
     setSelectedDiagnosis(null);
     setSelectedTreatment(null);
     setSelectedPrescription(null);
+    setSelectedDosages({});
     setDiagnosesLoaded(false);
+    setTreatmentNotes({});
   };
 
   return (
@@ -475,9 +482,6 @@ export const AIDiagnosisAssistant = ({
                 </Button>
                 <h3 className="text-lg font-medium">AI Treatment Planning</h3>
               </div>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700">
-                For: {selectedDiagnosis?.condition}
-              </Badge>
             </div>
 
             <div className="grid gap-4">
@@ -652,24 +656,46 @@ export const AIDiagnosisAssistant = ({
                     </div>
                   )}
 
-                  {showingAlternatives === prescription.name && prescription.alternatives && (
-                    <div className="mb-4 mt-2 p-4 bg-slate-50 rounded-lg border border-slate-200">
-                      <h5 className="text-sm font-medium text-slate-700 mb-3">Alternative Options</h5>
-                      <div className="space-y-3">
-                        {prescription.alternatives.map((alt, index) => (
-                          <div key={index} className="p-3 bg-white rounded-md shadow-sm">
-                            <h6 className="font-medium text-blue-600">{alt.name}</h6>
-                            <p className="text-sm text-slate-600 mt-1">{alt.reason}</p>
-                          </div>
-                        ))}
-                      </div>
+                  <div className="mb-4">
+                    <h5 className="text-sm font-medium text-slate-700 mb-2">Select Dosage</h5>
+                    <div className="flex gap-2">
+                      {prescription.availableDosages.map((dosage) => (
+                        <button
+                          key={dosage}
+                          onClick={() => setSelectedDosages(prev => ({
+                            ...prev,
+                            [prescription.name]: dosage
+                          }))}
+                          className={`px-3 py-2 rounded-md text-sm ${
+                            selectedDosages[prescription.name] === dosage
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          }`}
+                        >
+                          {dosage}
+                        </button>
+                      ))}
                     </div>
-                  )}
+                  </div>
 
                   <div className="flex gap-2 mt-4">
                     <Button
                       className="flex-1 bg-blue-600 text-white hover:bg-blue-700"
-                      onClick={() => handlePrescriptionSelect(prescription)}
+                      onClick={() => {
+                        const selectedDosage = selectedDosages[prescription.name];
+                        if (!selectedDosage) {
+                          toast({
+                            title: "Please Select Dosage",
+                            description: "You must select a dosage before prescribing the medication.",
+                            variant: "destructive"
+                          });
+                          return;
+                        }
+                        handlePrescriptionSelect({
+                          ...prescription,
+                          dosage: selectedDosage
+                        });
+                      }}
                     >
                       Prescribe Medication
                     </Button>
@@ -814,6 +840,19 @@ export const AIDiagnosisAssistant = ({
                 <p className="text-sm text-slate-600">
                   {selectedPrescription?.name} - {selectedPrescription?.dosage} {selectedPrescription?.frequency}
                 </p>
+                {selectedPrescription?.aiAnalysis && (
+                  <div className="mt-2">
+                    <Badge 
+                      variant={selectedPrescription.aiAnalysis.interactionRisk === "low" ? "outline" : "destructive"}
+                      className="mr-2"
+                    >
+                      Risk: {selectedPrescription.aiAnalysis.interactionRisk}
+                    </Badge>
+                    <Badge variant="outline">
+                      Safety: {selectedPrescription.aiAnalysis.safetyScore}
+                    </Badge>
+                  </div>
+                )}
               </div>
             </div>
 
