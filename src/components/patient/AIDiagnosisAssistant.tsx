@@ -43,6 +43,7 @@ interface TreatmentPlan {
   steps: string[];
   lifestyle_changes: string[];
   follow_up: string;
+  notes?: string;
 }
 
 interface Prescription {
@@ -296,6 +297,7 @@ export const AIDiagnosisAssistant = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [diagnosesLoaded, setDiagnosesLoaded] = useState(false);
   const [showingAlternatives, setShowingAlternatives] = useState<string | null>(null);
+  const [treatmentNotes, setTreatmentNotes] = useState<Record<string, string>>({});
   const { toast } = useToast();
 
   const analyzeDiagnosis = () => {
@@ -515,8 +517,28 @@ export const AIDiagnosisAssistant = ({
                     </div>
                   </div>
 
+                  <div className="mb-4">
+                    <h5 className="text-sm font-medium text-slate-700 mb-2">Doctor's Notes</h5>
+                    <textarea
+                      className="w-full p-2 border rounded-md text-sm text-slate-600"
+                      rows={3}
+                      placeholder="Add any additional notes about this treatment plan..."
+                      value={treatmentNotes[plan.id] || ''}
+                      onChange={(e) => setTreatmentNotes(prev => ({
+                        ...prev,
+                        [plan.id]: e.target.value
+                      }))}
+                    />
+                  </div>
+
                   <Button
-                    onClick={() => handleTreatmentSelect(plan)}
+                    onClick={() => {
+                      const updatedPlan = {
+                        ...plan,
+                        notes: treatmentNotes[plan.id] || ''
+                      };
+                      handleTreatmentSelect(updatedPlan);
+                    }}
                     className="w-full bg-blue-600 text-white hover:bg-blue-700"
                   >
                     Select Treatment Plan <ArrowRight className="ml-2 h-4 w-4" />
@@ -717,6 +739,12 @@ export const AIDiagnosisAssistant = ({
                     <Badge variant="outline" className="mr-2">Duration: {selectedTreatment.duration}</Badge>
                     <Badge variant="outline">Follow-up: {selectedTreatment.follow_up}</Badge>
                   </div>
+                  {selectedTreatment.notes && (
+                    <div className="mt-4 p-3 bg-white rounded-md">
+                      <h5 className="text-sm font-medium text-slate-700 mb-2">Doctor's Notes</h5>
+                      <p className="text-sm text-slate-600">{selectedTreatment.notes}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
