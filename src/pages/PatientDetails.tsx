@@ -207,15 +207,6 @@ const PatientDetails = () => {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
-                  onClick={() => navigate("/records")}
-                >
-                  <FileText className="w-7 h-7 mr-4 text-primary" />
-                  <span>Records</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                   onClick={() => navigate("/alerts")}
                 >
                   <Bell className="w-7 h-7 mr-4 text-primary" />

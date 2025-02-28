@@ -11,7 +11,7 @@ const Settings = () => {
       <div className="min-h-screen flex w-full bg-gray-50">
         <Sidebar className="md:w-64 w-full bg-white border-r">
           <SidebarHeader className="p-6 border-b">
-            <h2 className="text-3xl font-bold text-primary">RuralCare AI</h2>
+            <h2 className="text-3xl font-bold text-primary">Provider Dashboard</h2>
           </SidebarHeader>
           <SidebarContent className="p-3">
             <SidebarMenu>
@@ -40,15 +40,6 @@ const Settings = () => {
                 >
                   <FileText className="w-7 h-7 mr-4 text-primary" />
                   <span>Messages</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
-                  onClick={() => navigate("/records")}
-                >
-                  <FileText className="w-7 h-7 mr-4 text-primary" />
-                  <span>Records</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

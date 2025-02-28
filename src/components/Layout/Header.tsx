@@ -24,7 +24,7 @@ export const Header = () => {
         <div className="mx-auto max-w-[1200px] flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <SidebarTrigger className="text-white hover:text-white/90" />
-            <h1 className="text-xl font-semibold">{t("common.appName", "RuralCare AI")}</h1>
+            <h1 className="text-xl font-semibold">{t("common.appName", "Rural Health Connect")}</h1>
           </div>
           
           <div className="flex items-center space-x-4">

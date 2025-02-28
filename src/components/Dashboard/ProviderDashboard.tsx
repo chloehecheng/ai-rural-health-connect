@@ -123,13 +123,6 @@ export const ProviderDashboard = () => {
       color: 'bg-purple-50 text-purple-700'
     },
     { 
-      icon: <FileText className="w-5 h-5" />, 
-      label: 'Records',
-      description: 'Create medical record',
-      action: () => {},
-      color: 'bg-green-50 text-green-700'
-    },
-    { 
       icon: <Bell className="w-5 h-5" />, 
       label: 'Alerts',
       description: 'View patient alerts',
@@ -271,7 +264,8 @@ export const ProviderDashboard = () => {
             {recentPatients.map((patient) => (
               <div
                 key={patient.id}
-                className="flex items-center justify-between p-4 bg-card hover:bg-accent rounded-lg border transition-colors"
+                className="flex items-center justify-between p-4 bg-card hover:bg-accent rounded-lg border transition-colors cursor-pointer"
+                onClick={() => navigate(`/patient/${patient.id}`)}
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">

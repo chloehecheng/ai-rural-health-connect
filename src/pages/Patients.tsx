@@ -38,6 +38,8 @@ const recentRecords = [
     visitType: "Follow-up for Diabetes",
     status: "finalized",
     date: "2024-01-30",
+    lastUpdated: "2024-01-30 10:00 AM",
+    type: "Medical Record",
   },
   {
     id: 2,
@@ -46,6 +48,8 @@ const recentRecords = [
     visitType: "Routine Checkup",
     status: "pending",
     date: "2024-01-29",
+    lastUpdated: "2024-01-29 03:00 PM",
+    type: "Lab Result",
   },
   {
     id: 3,
@@ -54,6 +58,8 @@ const recentRecords = [
     visitType: "Urgent Care Visit",
     status: "urgent",
     date: "2024-01-28",
+    lastUpdated: "2024-01-28 11:00 AM",
+    type: "Imaging Report",
   },
 ];
 
@@ -154,15 +160,6 @@ const Patients = () => {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
-                    onClick={() => navigate("/records")}
-                  >
-                    <FileText className="w-7 h-7 mr-4 text-primary" />
-                    <span>Records</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    className="flex items-center p-4 text-xl rounded-lg hover:bg-primary/5 transition-colors duration-200 font-medium"
                     onClick={() => navigate("/alerts")}
                   >
                     <Bell className="w-7 h-7 mr-4 text-primary" />
@@ -213,7 +210,7 @@ const Patients = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => navigate(`/patients/${patient.id}`)}
+                          onClick={() => navigate(`/patient/${patient.id}`)}
                           className="flex items-center gap-1"
                         >
                           <Eye className="h-4 w-4" />
@@ -229,21 +226,25 @@ const Patients = () => {
               <DashboardCard title="Recent Records">
                 <div className="space-y-4">
                   {recentRecords.map((record) => (
-                    <div key={record.id} className="p-4 bg-white rounded-lg shadow-sm border">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <button
-                            onClick={() => navigate(`/patients/${record.patientId}`)}
-                            className="font-medium hover:underline"
-                          >
-                            {record.patientName}
-                          </button>
-                          <p className="text-sm text-muted-foreground">{record.visitType}</p>
-                          <p className="text-sm text-muted-foreground">{record.date}</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {getStatusIcon(record.status)}
-                        </div>
+                    <div
+                      key={record.id}
+                      className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm"
+                    >
+                      <div>
+                        <h3 
+                          className="font-medium text-primary hover:underline cursor-pointer"
+                          onClick={() => navigate(`/patient/${record.patientId}`)}
+                        >
+                          {record.patientName}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          Last Updated: {record.lastUpdated}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full">
+                          {record.type}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -282,7 +283,7 @@ const Patients = () => {
                             variant="outline"
                             size="sm"
                             className="flex-1"
-                            onClick={() => navigate(`/patients/${alert.patientId}/records`)}
+                            onClick={() => navigate(`/patient/${alert.patientId}`)}
                           >
                             Review Record
                           </Button>
