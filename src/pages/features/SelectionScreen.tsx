@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, ArrowLeft } from "lucide-react";
+import { AlertCircle, ArrowLeft, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -58,21 +58,33 @@ export const SelectionScreen = ({
     <Card className="p-6">
       <div className="space-y-6">
         {/* Select Your Doctor */}
-        <FormField label="Select Your Doctor">
-          <Select
-            value={appointment.doctor}
-            onValueChange={(value) => setAppointment(prev => ({ ...prev, doctor: value }))}
-          >
-            <SelectTrigger className="text-xl p-6">
-              <SelectValue placeholder="Choose your healthcare provider" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="dr-smith">Dr. Smith - Primary Care</SelectItem>
-              <SelectItem value="dr-jones">Dr. Jones - Cardiology</SelectItem>
-              <SelectItem value="dr-wilson">Dr. Wilson - Neurology</SelectItem>
-              <SelectItem value="dr-brown">Dr. Brown - Orthopedics</SelectItem>
-            </SelectContent>
-          </Select>
+        <FormField label="Select Doctor">
+          <div className="flex gap-4 items-start">
+            <Select
+              value={appointment.doctor}
+              onValueChange={(value) =>
+                setAppointment((prev) => ({ ...prev, doctor: value }))
+              }
+            >
+              <SelectTrigger className="text-lg">
+                <SelectValue placeholder="Choose your doctor" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="dr-smith" className="text-lg">Dr. Smith - Primary Care</SelectItem>
+                <SelectItem value="dr-jones" className="text-lg">Dr. Jones - Cardiology</SelectItem>
+                <SelectItem value="dr-wilson" className="text-lg">Dr. Wilson - Neurology</SelectItem>
+                <SelectItem value="dr-brown" className="text-lg">Dr. Brown - Orthopedics</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              variant="outline"
+              className="flex items-center gap-2"
+              onClick={() => navigate("/features/meet-our-doctors")}
+            >
+              <Users className="w-4 h-4" />
+              Meet Our Doctors
+            </Button>
+          </div>
         </FormField>
 
         {/* Type of Appointment */}

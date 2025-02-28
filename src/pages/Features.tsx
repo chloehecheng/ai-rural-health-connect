@@ -17,7 +17,7 @@ const Features = () => {
     { path: "message-care-team", name: "Message Care Team" },
     { path: "medication-management", name: "Medication Management" },
     { path: "care-reminders", name: "Care Reminders" },
-    { path: "support", name: "Support" },
+    { path: "meet-our-doctors", name: "Meet Our Doctors" },
   ];
 
   return (

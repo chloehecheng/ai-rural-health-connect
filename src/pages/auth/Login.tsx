@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Video, Clock, Phone, MessageSquare, HeartPulse, Truck, FileText, Users, Map, Pill, Bell } from "lucide-react";
+import { Calendar, Video, Clock, MessageSquare, HeartPulse, Truck, FileText, Users, Map, Pill, Bell, UserRound } from "lucide-react";
 
 // Memoize the feature card to prevent unnecessary re-renders
 const FeatureCard = memo(({ icon, title, description }: { icon: string; title: string; description: string }) => (
@@ -161,10 +161,10 @@ export default function Login() {
           onClick={() => navigate("/features/care-reminders")}
         />
         <ActionCard
-          icon={<Phone className="w-12 h-12" />}
-          title="24/7 Support"
-          description="Get help anytime you need it"
-          onClick={() => navigate("/features/support")}
+          icon={<UserRound className="w-12 h-12" />}
+          title="Meet Our Doctors"
+          description="Learn more about our experienced healthcare providers"
+          onClick={() => navigate("/features/meet-our-doctors")}
         />
       </div>
     </div>

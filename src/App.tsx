@@ -27,6 +27,7 @@ import { MessageCareTeam } from "./pages/features/MessageCareTeam";
 import { MedicationManagement } from "./pages/features/MedicationManagement";
 import { CareReminders } from "./pages/features/CareReminders";
 import { Support } from "./pages/features/Support";
+import { MeetOurDoctors } from "./pages/features/MeetOurDoctors";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import "./i18n";
@@ -66,6 +67,7 @@ const App = () => (
                 <Route path="/features/message-care-team" element={<MessageCareTeam />} />
                 <Route path="/features/medication-management" element={<MedicationManagement />} />
                 <Route path="/features/care-reminders" element={<CareReminders />} />
+                <Route path="/features/meet-our-doctors" element={<MeetOurDoctors />} />
                 <Route path="/features/support" element={<Support />} />
               </Routes>
               <Toaster />
