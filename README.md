@@ -52,17 +52,17 @@ This project is part of the Scaling Rural Healthcare with AI and LLMs initiative
 
 Install Dependencies
 
-npm install
+```npm install```
 
 Start the Development Server 
 
-npm run dev
+```npm run dev```
 
 (Optional) Build for protection 
 
-npm run build
+```npm run build```
 
-npm start
+```npm start```
 
 # User Research & Feedback
 Provider Engagement Experiment
