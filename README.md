@@ -1,99 +1,156 @@
-# 🚑 AI Rural Health Connect  
+# Virtual Rural Healthcare Clinic for Kittitas County, Washington
 
-## 📌 Table of Contents  
-- [Project Description](#project-description)  
-- [Features](#features)  
-- [Technologies Used](#technologies-used)  
-- [Getting Started](#getting-started)  
-  - [Using Lovable](#using-lovable)  
-  - [Using Your Preferred IDE](#using-your-preferred-ide)  
-  - [Editing Directly in GitHub](#editing-directly-in-github)  
-  - [Using GitHub Codespaces](#using-github-codespaces)  
-- [🚀 Deployment](#deployment)  
-- [🌍 Custom Domains](#custom-domains)  
-- [🤝 Contributing](#contributing)  
-- [📜 License](#license)  
+🚀 Empowering Rural Healthcare Through AI & LLMs
 
----
+## Table of Contents
+- Project Overview
+- Location & Healthcare Focus
+- Prototype Features
+- Tech Stack
+- How to Run
+- User Research & Feedback
+- LLM Prompt Library
+- Go-to-Market Strategy
+- Legal & Compliance Considerations
+- Security & Data Protection
+- Licensing
+- Collaboration with Local Health Jurisdictions & ACH Organizations
+- Contributors
 
-## 🏥 Project Description  
-**AI Rural Health Connect** is an AI-powered virtual clinic designed to provide accessible healthcare solutions for rural communities. The platform enhances healthcare services with AI-assisted documentation, real-time patient monitoring, and seamless appointment scheduling, bridging the gap between providers and patients.  
+## Project Overview
+This project is part of the Scaling Rural Healthcare with AI and LLMs initiative at the **University of Washington Information School**. The goal is to develop a virtual healthcare clinic leveraging AI and Large Language Models (LLMs) to improve access to **geriatric medical services** in **Kittitas County, WA**, while creating better and more impactful healthcare for both providers and patients through AI integration.
 
----
+## Location & Healthcare Focus
+- **Rural Area:** Kittitas County, Washington
+- **Target Healthcare Issue:** Geriatric Care
+- **User Groups:** Geriatric patients and healthcare providers
 
-## 🌟 Features  
-✅ **Provider Dashboard** – Manage patient records, track alerts, and oversee appointments.  
-✅ **AI Documentation Assistant** – Automates medical notes and transcription for efficiency.  
-✅ **Appointment Scheduling** – Simplifies patient appointment management.  
-✅ **Real-Time Health Monitoring** – Tracks vital metrics and issues alerts for critical changes.  
-✅ **Responsive Design** – Optimized for both desktop and mobile experiences.  
+## Prototype Features
+### **Provider-Side Features:**
+✅ AI diagnosis assistance  
+✅ AI-powered treatment planning  
+✅ AI prescription management  
 
----
+### **Patient-Side Features:**
+✅ Scheduling appointments  
+✅ Virtual visits  
+✅ Prescription delivery  
+✅ Medication reminders  
+✅ Health records access  
+✅ Family caregiver access  
+✅ Transportation assistance  
+✅ Health monitoring  
+✅ Messaging with care teams  
+✅ Medication management  
+✅ Care reminders  
+✅ Meet Our Doctors page  
 
-## 🛠️ Technologies Used  
-🚀 **Vite** – Lightning-fast build tool for modern web development.  
-📜 **TypeScript** – Ensures code quality with static typing.  
-⚛️ **React** – Component-based UI development.  
-🎨 **shadcn-ui** – Customizable UI components for rapid development.  
-💨 **Tailwind CSS** – Utility-first CSS framework for sleek designs.  
+## Tech Stack
+- **Frontend:** Vite, TypeScript, React, shadcn-ui, Tailwind CSS
+- **Backend:** Supabase, SQL
+- **AI/LLM Models:** OpenAI API
 
----
-
-## 🏁 Getting Started  
-
-### 🧡 Using Lovable  
-Visit the [Lovable Project](https://lovable.dev/projects/e59825f2-1908-4684-a09c-d8913aff2560) and start prompting. Changes made via Lovable will be committed automatically to this repository.  
-
-### 💻 Using Your Preferred IDE  
-1. Clone the repository:
-   
-   ```bash
-   git clone <YOUR_GIT_URL>
-Navigate to the project directory:
-
-bash
-
-cd <YOUR_PROJECT_NAME>
-Install dependencies:
-
-bash
+Install Dependencies
 
 npm install
-Start the development server:
 
-bash
+Start the Development Server 
 
 npm run dev
 
-✏️ Editing Directly in GitHub
-Navigate to the desired file(s).
-Click the Edit button (🖉) at the top right of the file view.
-Make your changes and commit them.
+(Optional) Build for protection 
 
-🌐 Using GitHub Codespaces
-Go to your repository’s main page.
-Click on the Code button (🔗).
-Select the Codespaces tab.
-Click New Codespace to launch a development environment.
-Edit files and commit changes directly.
+npm run build
 
-🚀 Deployment
-To deploy the project, open Lovable and click on Share → Publish.
+npm start
 
+# User Research & Feedback
+Provider Engagement Experiment
 
-🌍 Custom Domains
-Custom domains are not yet supported. If you need to deploy under your own domain, we recommend using Netlify. See our documentation for more details.
+✅ Providers found the system intuitive and efficient.
 
+✅ AI-assisted prescription management was well-received for preventing medication errors.
 
-🤝 Contributing
-We welcome contributions! To contribute:
+✅ Standardization of care and time-saving features were seen as major benefits.
 
-Fork this repository.
-Create a new branch for your feature or bugfix.
-Make your changes and commit with descriptive messages.
-Push your changes to your fork.
-Submit a Pull Request (PR) to the main repository.
+❌ Limitations: Short testing period, no long-term data collection, provider-only focus.
 
-📜 License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+Patient Engagement Experiment
 
+✅ Smooth scheduling experience, optimized for elderly users.
+
+✅ High patient engagement, exceeding initial expectations.
+
+✅ Accessibility features (text, phone, and email reminders) were highly valued.
+
+❌ Concerns Raised: Provider transparency, broadband limitations in rural areas.
+
+# LLM Prompt Library
+Includes AI-generated prompts for: 
+📌 User Research (e.g., "What are the biggest challenges geriatric healthcare providers face in Kittitas County?")
+
+📌 Prototype Development (e.g., "Generate a conversational AI prompt for elderly-friendly appointment scheduling.")
+
+📌 Hypothesis Validation (e.g., "How can AI-driven decision support improve provider efficiency?")
+
+📌 AI-Powered Decision Support (e.g., "Generate a HIPAA-compliant AI prompt for prescription safety checks.")
+
+# Go-to-Market Strategy
+
+🎯 Target Audience: Elderly patients, geriatric care providers, local health networks
+
+📈 Adoption Plan: Partnerships with local clinics, training programs for elderly users, provider onboarding.
+
+💰 Sustainability: Medicaid/Medicare partnerships, grant funding, expansion plans.
+
+# Legal & Compliance Considerations
+
+✅ HIPAA Compliance – Secure patient data handling, encryption, access control.
+
+✅ Washington State Telemedicine Laws – AI-assisted care must be provider-supervised.
+
+✅ Medical Liability – AI supports, but does not replace, licensed providers.
+
+✅ Kittitas County Health Dept. Collaboration – Ensuring local compliance.
+
+✅ ACH Partnership – Medicaid-supported telehealth integration.
+
+# Security & Data Protection
+
+✅ Encryption & Secure Storage – TLS 1.2+, HIPAA-compliant infrastructure.
+
+✅ Role-Based Access Control (RBAC) – Restricted provider data access.
+
+✅ Audit Logging – Tracks all interactions for compliance.
+
+✅ Incident Response Plan – Protocols for data breaches.
+
+# Licensing
+
+✅ MIT License – Open-source collaboration.
+
+✅ Restricted AI Use – AI assists but does not replace providers.
+
+✅ Pending Regulatory Compliance – Following FDA & Washington State guidelines.
+
+# Collaboration with Local Health Jurisdictions & ACH Organizations
+
+✅ Kittitas County Health Department Partnership – Ensuring compliance & adoption.
+
+✅ ACH Integration – Medicaid Transformation Project support.
+
+✅ Community Outreach – Training programs for patients and caregivers.
+
+✅ Hospital & Clinic Engagement – Partnering with local providers for integration.
+
+# Contributors
+
+👤 Joe Wicorek – Research, AI Integration, and Development
+
+👤 Chloe He – Frontend Development, UX Design, and Compliance Research
+
+# Acknowledgments
+
+🙏 Special thanks to the University of Washington Information School for supporting this project.
+
+🙏 Additional gratitude to Kittitas County Health Department and Washington State ACH Organizations for their guidance on regulatory and healthcare integration.
