@@ -18,7 +18,7 @@
 - Contributors
 
 ## Project Overview
-This project is part of the Scaling Rural Healthcare with AI and LLMs initiative at the **University of Washington Information School**. The goal is to develop a virtual healthcare clinic leveraging AI and Large Language Models (LLMs) to improve access to **geriatric medical services** in **Kittitas County, WA**, while creating better and more impactful healthcare for both providers and patients through AI integration.
+This project is part of the Scaling Rural Healthcare with AI and LLMs initiative at the **University of Washington Information School**. The goal is to develop a virtual healthcare clinic leveraging AI and Large Language Models (LLMs) to improve access to **geriatric medical services** in **Kittitas County, WA while creating better and more impactful healthcare for providers and patients through AI integration.
 
 ## Location & Healthcare Focus
 - **Rural Area:** Kittitas County, Washington
@@ -83,7 +83,7 @@ Patient Engagement Experiment
 
 ✅ Accessibility features (text, phone, and email reminders) were highly valued.
 
-❌ Concerns Raised: Provider transparency, broadband limitations in rural areas.
+❌ Concerns Raised: Provider transparency, and broadband limitations in rural areas.
 
 # LLM Prompt Library
 Includes AI-generated prompts for: 
@@ -99,13 +99,13 @@ Includes AI-generated prompts for:
 
 🎯 Target Audience: Elderly patients, geriatric care providers, local health networks
 
-📈 Adoption Plan: Partnerships with local clinics, training programs for elderly users, provider onboarding.
+📈 Adoption Plan: Partnerships with local clinics, training programs for elderly users, and provider onboarding.
 
 💰 Sustainability: Medicaid/Medicare partnerships, grant funding, expansion plans.
 
 # Legal & Compliance Considerations
 
-✅ HIPAA Compliance – Secure patient data handling, encryption, access control.
+✅ HIPAA Compliance – Secure patient data handling, encryption, and access control.
 
 ✅ Washington State Telemedicine Laws – AI-assisted care must be provider-supervised.
 
@@ -145,12 +145,12 @@ Includes AI-generated prompts for:
 
 # Contributors
 
-👤 Joe Wicorek – Research, AI Integration, and Development
+👤 Joe Wicorek – Research, AI Integration, Frontend and Backend Development
 
-👤 Chloe He – Frontend Development, UX Design, and Compliance Research
+👤 Chloe He – UX Design, and Compliance Research 
 
 # Acknowledgments
 
 🙏 Special thanks to the University of Washington Information School for supporting this project.
 
-🙏 Additional gratitude to Kittitas County Health Department and Washington State ACH Organizations for their guidance on regulatory and healthcare integration.
+🙏 Additional gratitude to Kittitas County Health Department and Washington State ACH Organizations for their regulatory and healthcare integration guidance.
