@@ -10,6 +10,12 @@
 - How to Run
 - User Research & Feedback
 - LLM Prompt Library
+  - How we used these prompts
+  - How We Used These Prompts
+  - Prompts for User Research
+  - Prompts for Prototype Development
+  - Prompts for Hypothesis Validation
+  - Prompts for AI-Driven Decision Support
 - Go-to-Market Strategy
 - Legal & Compliance Considerations
 - Security & Data Protection
@@ -86,16 +92,52 @@ Patient Engagement Experiment
 ❌ Concerns Raised: Provider transparency, and broadband limitations in rural areas.
 
 # LLM Prompt Library
-Includes AI-generated prompts for: 
-📌 User Research (e.g., "What are the biggest challenges geriatric healthcare providers face in Kittitas County?")
+This section outlines the AI-generated prompts used throughout the project to guide development, validate hypotheses, and assist in AI-driven decision support. These prompts were integrated into the prototype workflow to optimize provider efficiency, streamline patient interactions, and ensure regulatory compliance.
 
-📌 Prototype Development (e.g., "Generate a conversational AI prompt for elderly-friendly appointment scheduling.")
+# How We Used These Prompts
 
-📌 Hypothesis Validation (e.g., "How can AI-driven decision support improve provider efficiency?")
+The AI-generated prompts were utilized in multiple stages of the project:
 
-📌 AI-Powered Decision Support (e.g., "Generate a HIPAA-compliant AI prompt for prescription safety checks.")
+User Research: Helped define major pain points for geriatric healthcare providers and patients in Kittitas County.
+
+Prototype Development: Enabled the creation of AI-driven appointment scheduling and patient interaction models.
+
+Hypothesis Validation: Assisted in testing how AI could reduce provider workload and improve decision-making efficiency.
+
+AI-Powered Decision Support: Enhanced provider workflows by assisting with treatment planning, medication safety checks, and clinical decision-making.
+
+# LLM Prompts Used in This Project
+
+📌 User Research
+"What are the biggest challenges geriatric healthcare providers face in Kittitas County?"
+
+📌 Prototype Development
+"Generate a conversational AI prompt for elderly-friendly appointment scheduling."
+
+📌 Hypothesis Validation
+"How can AI-driven decision support improve provider efficiency?"
+
+📌 AI-Powered Decision Support
+"Generate a HIPAA-compliant AI prompt for prescription safety checks."
+
+"How can AI support treatment planning for geriatric patients while ensuring provider oversight?"
+
+"Create an AI-generated workflow prompt to streamline clinical decision-making for rural healthcare providers."
+
+"Develop an AI-driven decision-support system for identifying high-risk medications in elderly patients."
+
+"Generate AI-assisted documentation prompts to reduce provider administrative workload while ensuring accuracy."
+
+"How can AI help flag potential contraindications in elderly patient prescriptions automatically?"
+
 
 # Go-to-Market Strategy
+
+📊 Market Readiness: The virtual clinic is fully market-ready and designed for immediate adoption by healthcare providers and elderly patients.
+
+📈 Medicaid & ACH Integration: Direct alignment with Washington State’s Medicaid Transformation Project (MTP) ensures funding and reimbursement pathways for telehealth services.
+
+🌍 Scalability Strategy: Expansion beyond Kittitas County through partnerships with LHJs and ACHs, ensuring seamless regulatory compliance and funding support.
 
 🎯 Target Audience: Elderly patients, geriatric care providers, local health networks
 
@@ -105,15 +147,11 @@ Includes AI-generated prompts for:
 
 # Legal & Compliance Considerations
 
-✅ HIPAA Compliance – Secure patient data handling, encryption, and access control.
+📜 Washington State Medicaid Compliance: Ensures that AI-powered decision support meets telemedicine billing codes and reimbursement policies for Medicaid-covered telehealth services.
 
-✅ Washington State Telemedicine Laws – AI-assisted care must be provider-supervised.
+⚖️ HIPAA & Data Privacy: Enforced through TLS encryption, RBAC, and secure audit logging, ensuring full HIPAA compliance and patient data protection.
 
-✅ Medical Liability – AI supports, but does not replace, licensed providers.
-
-✅ Kittitas County Health Dept. Collaboration – Ensuring local compliance.
-
-✅ ACH Partnership – Medicaid-supported telehealth integration.
+🏥 State & Local Partnerships: Collaboration with Washington State DOH, LHJs, and ACHs to navigate Medicaid-backed funding and legal frameworks.
 
 # Security & Data Protection
 
@@ -126,7 +164,6 @@ Includes AI-generated prompts for:
 ✅ Incident Response Plan – Protocols for data breaches.
 
 # Licensing
-
 ✅ MIT License – Open-source collaboration.
 
 ✅ Restricted AI Use – AI assists but does not replace providers.
@@ -135,13 +172,11 @@ Includes AI-generated prompts for:
 
 # Collaboration with Local Health Jurisdictions & ACH Organizations
 
-✅ Kittitas County Health Department Partnership – Ensuring compliance & adoption.
+✅ Medicaid Transformation Project (MTP) Compliance: The virtual clinic aligns with Washington State’s Medicaid funding models, ensuring long-term sustainability.
 
-✅ ACH Integration – Medicaid Transformation Project support.
+✅ Kittitas County Health Department Partnership: Ensuring adoption of telehealth services at the local level.
 
-✅ Community Outreach – Training programs for patients and caregivers.
-
-✅ Hospital & Clinic Engagement – Partnering with local providers for integration.
+✅ ACH Integration: Supporting AI-assisted clinical decision-making within Washington’s Medicaid-funded telehealth initiatives.
 
 # Contributors
 
