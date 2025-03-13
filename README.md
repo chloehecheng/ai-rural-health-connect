@@ -56,6 +56,7 @@ This project is part of the Scaling Rural Healthcare with AI and LLMs initiative
 - **Backend:** Supabase, SQL
 - **AI/LLM Models:** OpenAI API
 
+## Tech Stack
 Install Dependencies
 
 ```npm install```
