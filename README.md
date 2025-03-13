@@ -3,25 +3,24 @@
 🚀 Empowering Rural Healthcare Through AI & LLMs
 
 ## Table of Contents
-- Project Overview
-- Location & Healthcare Focus
-- Prototype Features
-- Tech Stack
-- How to Run
-- User Research & Feedback
-- LLM Prompt Library
-  - How we used these prompts
-  - How We Used These Prompts
-  - Prompts for User Research
-  - Prompts for Prototype Development
-  - Prompts for Hypothesis Validation
-  - Prompts for AI-Driven Decision Support
-- Go-to-Market Strategy
-- Legal & Compliance Considerations
-- Security & Data Protection
-- Licensing
-- Collaboration with Local Health Jurisdictions & ACH Organizations
-- Contributors
+- [Project Overview](#project-overview)
+- [Location & Healthcare Focus](#location--healthcare-focus)
+- [Prototype Features](#prototype-features)
+- [Tech Stack](#tech-stack)
+- [How to Run](#how-to-run)
+- [User Research & Feedback](#user-research--feedback)
+- [LLM Prompt Library](#llm-prompt-library)
+  - [How We Used These Prompts](#how-we-used-these-prompts)
+  - [Prompts for User Research](#llm-prompts-used-in-this-project)
+  - [Prompts for Prototype Development](#llm-prompts-used-in-this-project)
+  - [Prompts for Hypothesis Validation](#llm-prompts-used-in-this-project)
+  - [Prompts for AI-Driven Decision Support](#llm-prompts-used-in-this-project)
+- [Go-to-Market Strategy](#go-to-market-strategy)
+- [Legal & Compliance Considerations](#legal--compliance-considerations)
+- [Security & Data Protection](#security--data-protection)
+- [Licensing](#licensing)
+- [Collaboration with Local Health Jurisdictions & ACH Organizations](#collaboration-with-local-health-jurisdictions--ach-organizations)
+- [Contributors](#contributors)
 
 ## Project Overview
 This project is part of the Scaling Rural Healthcare with AI and LLMs initiative at the **University of Washington Information School**. The goal is to develop a virtual healthcare clinic leveraging AI and Large Language Models (LLMs) to improve access to **geriatric medical services** in **Kittitas County, WA while creating better and more impactful healthcare for providers and patients through AI integration.
