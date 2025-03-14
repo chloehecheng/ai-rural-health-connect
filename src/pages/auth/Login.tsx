@@ -48,8 +48,31 @@ export default function Login() {
   const [searchParams] = useSearchParams();
   const [showTerms, setShowTerms] = useState(false);
   const [showPolicies, setShowPolicies] = useState<'terms' | 'hipaa' | 'telehealth' | 'ai' | null>(null);
+  const [showProviderAgreements, setShowProviderAgreements] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedHipaa, setAcceptedHipaa] = useState(false);
+  const [providerAgreements, setProviderAgreements] = useState({
+    agreement: false,
+    hipaa: false,
+    telehealth: false,
+    ai: false
+  });
+
+  const handleProviderSignIn = () => {
+    if (!sessionStorage.getItem('providerAgreementsAccepted')) {
+      setShowProviderAgreements(true);
+    } else {
+      navigate('/provider-login');
+    }
+  };
+
+  const handleProviderAgreementsAccept = () => {
+    sessionStorage.setItem('providerAgreementsAccepted', 'true');
+    setShowProviderAgreements(false);
+    navigate('/provider-login');
+  };
+
+  const allProviderAgreementsAccepted = Object.values(providerAgreements).every(value => value);
 
   useEffect(() => {
     const stepParam = searchParams.get("step");
@@ -189,7 +212,7 @@ export default function Login() {
         <Button
           variant="outline"
           className="bg-white/90 hover:bg-white text-[#2d3748] hover:text-[#1a202c] text-lg px-8 py-3 flex items-center gap-3 shadow-md hover:shadow-lg border-2 border-[#4299e1] hover:border-[#2d3748] transition-all font-semibold rounded-xl"
-          onClick={() => navigate("/provider-login")}
+          onClick={handleProviderSignIn}
         >
           <Users className="w-6 h-6" />
           Provider Sign In
@@ -435,6 +458,133 @@ export default function Login() {
                       setShowTerms(false);
                       setStep("features");
                     }}
+                  >
+                    Accept & Continue
+                  </Button>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+
+        {/* Provider Agreements Modal */}
+        <Dialog open={showProviderAgreements} onOpenChange={setShowProviderAgreements}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold mb-4">Provider Agreements</DialogTitle>
+              <DialogDescription className="text-lg space-y-6">
+                <div className="space-y-8">
+                  {/* Provider Agreement */}
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">Provider Agreement</h3>
+                    <div className="bg-gray-50 p-6 rounded-lg">
+                      <p className="mb-4">As a healthcare provider on our platform, you agree to:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li>Maintain current and valid professional licensure in your practicing jurisdiction</li>
+                        <li>Provide healthcare services in accordance with professional standards of care</li>
+                        <li>Maintain appropriate professional liability insurance</li>
+                        <li>Comply with all applicable laws and regulations</li>
+                        <li>Participate in required training and orientation programs</li>
+                      </ul>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-3">
+                      <Checkbox 
+                        id="providerAgreement"
+                        checked={providerAgreements.agreement}
+                        onCheckedChange={(checked) => setProviderAgreements(prev => ({...prev, agreement: checked as boolean}))}
+                      />
+                      <label htmlFor="providerAgreement" className="text-sm font-medium">
+                        I acknowledge and agree to the Provider Agreement
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* HIPAA Compliance */}
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">HIPAA Compliance Agreement</h3>
+                    <div className="bg-gray-50 p-6 rounded-lg">
+                      <p className="mb-4">As a covered entity under HIPAA, you agree to:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li>Protect and maintain the confidentiality of all Protected Health Information (PHI)</li>
+                        <li>Use appropriate safeguards to prevent unauthorized disclosure of PHI</li>
+                        <li>Report any unauthorized use or disclosure of PHI</li>
+                        <li>Ensure that all staff members complete HIPAA training</li>
+                        <li>Maintain detailed records of all PHI access and transfers</li>
+                      </ul>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-3">
+                      <Checkbox 
+                        id="hipaaAgreement"
+                        checked={providerAgreements.hipaa}
+                        onCheckedChange={(checked) => setProviderAgreements(prev => ({...prev, hipaa: checked as boolean}))}
+                      />
+                      <label htmlFor="hipaaAgreement" className="text-sm font-medium">
+                        I acknowledge and agree to comply with HIPAA requirements
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Telehealth Licensing */}
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">Telehealth Licensing Agreement</h3>
+                    <div className="bg-gray-50 p-6 rounded-lg">
+                      <p className="mb-4">For telehealth services, you acknowledge and agree that:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li>You hold valid licenses in all jurisdictions where you provide telehealth services</li>
+                        <li>You will comply with state-specific telehealth practice requirements</li>
+                        <li>You will maintain appropriate documentation for all telehealth encounters</li>
+                        <li>You will use only approved secure platforms for telehealth services</li>
+                        <li>You will establish appropriate emergency protocols for telehealth patients</li>
+                      </ul>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-3">
+                      <Checkbox 
+                        id="telehealthAgreement"
+                        checked={providerAgreements.telehealth}
+                        onCheckedChange={(checked) => setProviderAgreements(prev => ({...prev, telehealth: checked as boolean}))}
+                      />
+                      <label htmlFor="telehealthAgreement" className="text-sm font-medium">
+                        I acknowledge and agree to the Telehealth Licensing requirements
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* AI Transparency */}
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">AI Transparency and Liability Agreement</h3>
+                    <div className="bg-gray-50 p-6 rounded-lg">
+                      <p className="mb-4">Regarding AI-assisted features, you understand and agree that:</p>
+                      <ul className="list-disc pl-5 space-y-2">
+                        <li>AI technology is used as a support tool and does not replace professional medical judgment</li>
+                        <li>You maintain full responsibility for all medical decisions, regardless of AI suggestions</li>
+                        <li>You will inform patients about the use of AI technology when appropriate</li>
+                        <li>You will report any concerns about AI system performance</li>
+                        <li>You understand the limitations and potential biases of AI systems</li>
+                      </ul>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-3">
+                      <Checkbox 
+                        id="aiAgreement"
+                        checked={providerAgreements.ai}
+                        onCheckedChange={(checked) => setProviderAgreements(prev => ({...prev, ai: checked as boolean}))}
+                      />
+                      <label htmlFor="aiAgreement" className="text-sm font-medium">
+                        I acknowledge and agree to the AI Transparency and Liability terms
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end space-x-4 mt-6 pt-4 border-t sticky bottom-0 bg-white">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowProviderAgreements(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!allProviderAgreementsAccepted}
+                    onClick={handleProviderAgreementsAccept}
                   >
                     Accept & Continue
                   </Button>
