@@ -47,6 +47,7 @@ export default function Login() {
   const [step, setStep] = useState<"welcome" | "features">("welcome");
   const [searchParams] = useSearchParams();
   const [showTerms, setShowTerms] = useState(false);
+  const [showPolicies, setShowPolicies] = useState<'terms' | 'hipaa' | 'telehealth' | 'ai' | null>(null);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedHipaa, setAcceptedHipaa] = useState(false);
 
@@ -251,6 +252,115 @@ export default function Login() {
           <Features />
         ) : null}
 
+        {/* Footer */}
+        <footer className="mt-20 pb-8 text-center border-t pt-8">
+          <div className="text-sm text-gray-600 space-x-6">
+            <button 
+              onClick={() => setShowPolicies('terms')} 
+              className="hover:text-blue-600 hover:underline"
+            >
+              Terms & Conditions
+            </button>
+            <button 
+              onClick={() => setShowPolicies('hipaa')} 
+              className="hover:text-blue-600 hover:underline"
+            >
+              HIPAA Privacy Policy
+            </button>
+            <button 
+              onClick={() => setShowPolicies('telehealth')} 
+              className="hover:text-blue-600 hover:underline"
+            >
+              Telehealth Consent
+            </button>
+            <button 
+              onClick={() => setShowPolicies('ai')} 
+              className="hover:text-blue-600 hover:underline"
+            >
+              AI Technology Disclosure
+            </button>
+          </div>
+        </footer>
+
+        {/* Policy Modals */}
+        <Dialog open={showPolicies !== null} onOpenChange={() => setShowPolicies(null)}>
+          <DialogContent className="max-w-3xl">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold mb-4">
+                {showPolicies === 'terms' && "Terms & Conditions"}
+                {showPolicies === 'hipaa' && "HIPAA Privacy Policy"}
+                {showPolicies === 'telehealth' && "Telehealth Consent"}
+                {showPolicies === 'ai' && "AI Technology Disclosure"}
+              </DialogTitle>
+              <DialogDescription className="text-lg space-y-6">
+                {showPolicies === 'terms' && (
+                  <div className="max-h-[400px] overflow-y-auto bg-gray-50 p-6 rounded-lg">
+                    <p>Please read these terms and conditions carefully before using our services.</p>
+                    <p className="mt-4">1. By using our services, you agree to maintain the confidentiality of your medical information.</p>
+                    <p className="mt-2">2. You understand that this platform is not a substitute for emergency medical care.</p>
+                    <p className="mt-2">3. You agree to provide accurate and complete information about your health conditions.</p>
+                  </div>
+                )}
+
+                {showPolicies === 'hipaa' && (
+                  <div className="max-h-[400px] overflow-y-auto bg-gray-50 p-6 rounded-lg">
+                    <p>This HIPAA Privacy Policy describes how medical information about you may be used and disclosed.</p>
+                    <div className="mt-4">
+                      <p className="font-semibold">1. Your Rights:</p>
+                      <ul className="list-disc pl-5 mt-2 space-y-2">
+                        <li>Get a copy of your medical records</li>
+                        <li>Request corrections to your medical records</li>
+                        <li>Request confidential communication</li>
+                        <li>Ask us to limit the information we share</li>
+                      </ul>
+                    </div>
+                    <div className="mt-4">
+                      <p className="font-semibold">2. Our Responsibilities:</p>
+                      <ul className="list-disc pl-5 mt-2 space-y-2">
+                        <li>Maintain the privacy and security of your protected health information</li>
+                        <li>Notify you promptly if a breach occurs that may compromise your information</li>
+                        <li>Follow the duties and privacy practices described in this notice</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {showPolicies === 'telehealth' && (
+                  <div className="max-h-[400px] overflow-y-auto bg-gray-50 p-6 rounded-lg">
+                    <p>By using our telehealth services, you understand and agree to the following:</p>
+                    <ul className="list-disc pl-5 mt-4 space-y-3">
+                      <li>Telehealth involves the use of electronic communications to enable healthcare providers to share individual patient medical information for the purpose of improving patient care.</li>
+                      <li>The laws that protect privacy and confidentiality of medical information also apply to telehealth.</li>
+                      <li>You understand that technical difficulties may occur before or during the telehealth session and your appointment cannot be started or ended as intended.</li>
+                      <li>If you experience an emergency, you should call 911 or go to the nearest emergency room.</li>
+                    </ul>
+                  </div>
+                )}
+
+                {showPolicies === 'ai' && (
+                  <div className="max-h-[400px] overflow-y-auto bg-gray-50 p-6 rounded-lg">
+                    <p>Our platform utilizes artificial intelligence (AI) technology to enhance your healthcare experience:</p>
+                    <ul className="list-disc pl-5 mt-4 space-y-3">
+                      <li>AI may be used to assist in analyzing your health information and providing recommendations to healthcare providers.</li>
+                      <li>AI technology is used as a support tool and does not replace professional medical judgment.</li>
+                      <li>Your data is processed securely and in compliance with HIPAA regulations.</li>
+                      <li>You have the right to ask questions about how AI is used in your care.</li>
+                    </ul>
+                  </div>
+                )}
+
+                <div className="flex justify-end space-x-4 mt-6 pt-4 border-t">
+                  <Button
+                    onClick={() => setShowPolicies(null)}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+
         <Dialog open={showTerms} onOpenChange={setShowTerms}>
           <DialogContent className="max-w-3xl">
             <DialogHeader>
@@ -336,4 +446,4 @@ export default function Login() {
       </div>
     </div>
   );
-};
+}
