@@ -2,6 +2,8 @@ import { useState, useEffect, memo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Calendar, Video, Clock, MessageSquare, HeartPulse, Truck, FileText, Users, Map, Pill, Bell, UserRound } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Memoize the feature card to prevent unnecessary re-renders
 const FeatureCard = memo(({ icon, title, description }: { icon: string; title: string; description: string }) => (
@@ -42,8 +44,11 @@ const ActionCard = memo(({
 
 export default function Login() {
   const navigate = useNavigate();
-  const [step, setStep] = useState<"intro" | "features" | "role">("intro");
+  const [step, setStep] = useState<"welcome" | "features">("welcome");
   const [searchParams] = useSearchParams();
+  const [showTerms, setShowTerms] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedHipaa, setAcceptedHipaa] = useState(false);
 
   useEffect(() => {
     const stepParam = searchParams.get("step");
@@ -73,7 +78,13 @@ export default function Login() {
       </div>
       <Button 
         className="text-2xl px-12 py-8 bg-[#4299e1] hover:bg-[#3182ce] text-white rounded-full transition-colors duration-200 focus:outline-none"
-        onClick={() => setStep("features")}
+        onClick={() => {
+          if (!sessionStorage.getItem('termsAccepted') || !sessionStorage.getItem('hipaaAccepted')) {
+            setShowTerms(true);
+          } else {
+            setStep("features");
+          }
+        }}
       >
         See What We Offer →
       </Button>
@@ -85,7 +96,7 @@ export default function Login() {
       <div className="flex justify-between items-center mb-12">
         <Button 
           className="text-2xl px-8 py-6 bg-white shadow-md border-4 border-transparent hover:border-[#2d3748] text-[#2d3748] rounded-2xl transition-colors duration-100 focus:outline-none focus:ring-0 hover:bg-white active:bg-white"
-          onClick={() => setStep("intro")}
+          onClick={() => setStep("welcome")}
         >
           <span className="flex items-center">
             <span className="text-3xl mr-2">←</span>
@@ -195,7 +206,7 @@ export default function Login() {
           </p>
         </div>
 
-        {step === "intro" ? (
+        {step === "welcome" ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
               <div className="p-12 rounded-3xl bg-white shadow-lg border-3 border-[#e2e8f0] hover:border-[#4299e1] transition-colors">
@@ -223,7 +234,13 @@ export default function Login() {
             <div className="text-center space-y-8">
               <Button 
                 className="text-3xl px-16 py-10 bg-[#4299e1] hover:bg-[#3182ce] text-white rounded-2xl transition-colors duration-100 font-semibold border-4 border-transparent hover:border-[#2d3748] focus:outline-none"
-                onClick={() => setStep("features")}
+                onClick={() => {
+                  if (!sessionStorage.getItem('termsAccepted') || !sessionStorage.getItem('hipaaAccepted')) {
+                    setShowTerms(true);
+                  } else {
+                    setStep("features");
+                  }
+                }}
               >
                 Explore Our Services
               </Button>
@@ -233,6 +250,89 @@ export default function Login() {
         ) : step === "features" ? (
           <Features />
         ) : null}
+
+        <Dialog open={showTerms} onOpenChange={setShowTerms}>
+          <DialogContent className="max-w-3xl">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold mb-4">Terms & Conditions and HIPAA Privacy Policy</DialogTitle>
+              <DialogDescription className="text-lg space-y-6">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Terms and Conditions</h3>
+                    <div className="max-h-[200px] overflow-y-auto bg-gray-50 p-4 rounded-lg">
+                      {/* Replace this with your actual terms and conditions */}
+                      <p>Please read these terms and conditions carefully before using our services.</p>
+                      <p>1. By using our services, you agree to maintain the confidentiality of your medical information.</p>
+                      <p>2. You understand that this platform is not a substitute for emergency medical care.</p>
+                      <p>3. You agree to provide accurate and complete information about your health conditions.</p>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-3">
+                      <Checkbox 
+                        id="terms" 
+                        checked={acceptedTerms}
+                        onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
+                      />
+                      <label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        I acknowledge that I have read and agree to the Terms and Conditions
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">HIPAA Privacy Policy</h3>
+                    <div className="max-h-[200px] overflow-y-auto bg-gray-50 p-4 rounded-lg">
+                      {/* Replace this with your actual HIPAA policy */}
+                      <p>This HIPAA Privacy Policy describes how medical information about you may be used and disclosed.</p>
+                      <p>1. Your Rights: You have the right to:</p>
+                      <ul className="list-disc pl-5">
+                        <li>Get a copy of your medical records</li>
+                        <li>Request corrections to your medical records</li>
+                        <li>Request confidential communication</li>
+                        <li>Ask us to limit the information we share</li>
+                      </ul>
+                      <p>2. Our Responsibilities:</p>
+                      <ul className="list-disc pl-5">
+                        <li>Maintain the privacy and security of your protected health information</li>
+                        <li>Notify you promptly if a breach occurs that may compromise your information</li>
+                        <li>Follow the duties and privacy practices described in this notice</li>
+                      </ul>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-3">
+                      <Checkbox 
+                        id="hipaa" 
+                        checked={acceptedHipaa}
+                        onCheckedChange={(checked) => setAcceptedHipaa(checked as boolean)}
+                      />
+                      <label htmlFor="hipaa" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        I acknowledge that I have read and understand the HIPAA Privacy Policy
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end space-x-4 mt-6 pt-4 border-t">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowTerms(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!acceptedTerms || !acceptedHipaa}
+                    onClick={() => {
+                      sessionStorage.setItem('termsAccepted', 'true');
+                      sessionStorage.setItem('hipaaAccepted', 'true');
+                      setShowTerms(false);
+                      setStep("features");
+                    }}
+                  >
+                    Accept & Continue
+                  </Button>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
