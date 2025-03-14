@@ -1,4 +1,5 @@
 import { Header } from "@/components/Layout/Header";
+import { Footer } from "@/components/Layout/Footer";
 import { DashboardCard } from "@/components/Dashboard/DashboardCard";
 import { ProviderDashboard } from "@/components/Dashboard/ProviderDashboard";
 import { SearchBar } from "@/components/Dashboard/SearchBar";
@@ -141,14 +142,17 @@ const Index = () => {
           </SidebarContent>
         </Sidebar>
 
-        <div className="flex-1 min-h-screen">
+        <div className="flex-1 flex flex-col">
           <Header />
-          <main className="container mx-auto px-4 pt-20 pb-8">
-            <div className="mb-6 w-full flex justify-center md:justify-start">
+          <main className="flex-1">
+            <div className="px-8 pt-8 pb-2">
               <SearchBar />
             </div>
-            <ProviderDashboard />
+            <div className="px-8">
+              <ProviderDashboard />
+            </div>
           </main>
+          <Footer />
         </div>
       </div>
     </SidebarProvider>
